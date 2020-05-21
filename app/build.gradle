@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.apollographql.apollo'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -21,11 +23,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+apollo {
+    generateKotlinModels.set(true)
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines_version"
+
+    // Apollo GraphQL
+    implementation "com.apollographql.apollo:apollo-runtime:$versions.apollo_version"
+    implementation "com.apollographql.apollo:apollo-coroutines-support:$versions.apollo_version"
+    compileOnly "org.jetbrains:annotations:13.0"
+    testCompileOnly "org.jetbrains:annotations:13.0"
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
