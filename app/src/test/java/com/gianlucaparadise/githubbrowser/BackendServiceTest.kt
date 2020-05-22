@@ -69,4 +69,13 @@ class BackendServiceTest {
 
         assertNotNull("Users list shouldn't be null", users)
     }
+
+    @Test
+    fun searchRepositories() {
+        val repositories = runBlocking {
+            BackendService.searchRepositories("android", 1)
+        }
+
+        assertNotNull("Repositories list shouldn't be null", repositories)
+    }
 }

@@ -1,6 +1,7 @@
 package com.gianlucaparadise.githubbrowser.data
 
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserRepositoriesQuery
+import com.gianlucaparadise.githubbrowser.SearchRepositoriesQuery
 import com.gianlucaparadise.githubbrowser.fragment.RepositoryFragment
 
 data class Repository(
@@ -56,7 +57,19 @@ data class Repository(
             )
         }
 
-        fun fromRepositoriesReponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories?): PaginatedResponse<Repository>? {
+        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): Array<Repository?>? {
+            if (searchRepositoriesNodes == null) return null
+
+            val repositories = arrayOfNulls<Repository>(searchRepositoriesNodes.count())
+
+            searchRepositoriesNodes.forEachIndexed { index, node ->
+                repositories[index] = Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+            }
+
+            return repositories
+        }
+
+        fun fromRepositoriesResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories?): PaginatedResponse<Repository>? {
             if (repositories == null) return null
 
             return PaginatedResponse(
@@ -64,6 +77,17 @@ data class Repository(
                 hasNextPage = repositories.pageInfo.hasNextPage,
                 totalCount = repositories.totalCount,
                 nodes = Repository.fromRepositoryNodeList(repositories.nodes)
+            )
+        }
+
+        fun fromSearchRepositoriesResponse(repositories: SearchRepositoriesQuery.Search?): PaginatedResponse<Repository>? {
+            if (repositories == null) return null
+
+            return PaginatedResponse(
+                endCursor = repositories.pageInfo.endCursor,
+                hasNextPage = repositories.pageInfo.hasNextPage,
+                totalCount = repositories.repositoryCount,
+                nodes = Repository.fromSearchRepositoriesNodeList(repositories.nodes)
             )
         }
     }

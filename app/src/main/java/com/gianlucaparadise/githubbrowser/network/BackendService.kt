@@ -4,10 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
-import com.gianlucaparadise.githubbrowser.AuthenticatedUserQuery
-import com.gianlucaparadise.githubbrowser.AuthenticatedUserRepositoriesQuery
-import com.gianlucaparadise.githubbrowser.BuildConfig
-import com.gianlucaparadise.githubbrowser.SearchUsersQuery
+import com.gianlucaparadise.githubbrowser.*
 import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.data.User
@@ -68,7 +65,7 @@ object BackendService {
                 .await()
 
             val repositoriesResponse = repositories.data?.viewer?.repositories
-            return Repository.fromRepositoriesReponse(repositoriesResponse)
+            return Repository.fromRepositoriesResponse(repositoriesResponse)
 
         } catch (apolloEx: ApolloException) {
             throw Exception("Error while retrieving Authenticated User's Repositories")
@@ -93,10 +90,35 @@ object BackendService {
                 .await()
 
             val usersResponse = users.data?.search
-            return User.fromSearchUsersReponse(usersResponse)
+            return User.fromSearchUsersResponse(usersResponse)
 
         } catch (apolloEx: ApolloException) {
             throw Exception("Error while searching for Users")
+        }
+    }
+
+    suspend fun searchRepositories(
+        query: String,
+        first: Int,
+        startCursor: String? = null
+    ): PaginatedResponse<Repository>? {
+        try {
+            val repositories = client
+                .query(
+                    SearchRepositoriesQuery(
+                        query,
+                        Input.fromNullable(first),
+                        Input.optional(startCursor)
+                    )
+                )
+                .toDeferred()
+                .await()
+
+            val repositoriesResponse = repositories.data?.search
+            return Repository.fromSearchRepositoriesResponse(repositoriesResponse)
+
+        } catch (apolloEx: ApolloException) {
+            throw Exception("Error while searching for Repositories")
         }
     }
 }

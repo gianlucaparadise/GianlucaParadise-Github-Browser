@@ -55,7 +55,7 @@ data class User(
             return users
         }
 
-        fun fromSearchUsersReponse(users: SearchUsersQuery.Search?): PaginatedResponse<User>? {
+        fun fromSearchUsersResponse(users: SearchUsersQuery.Search?): PaginatedResponse<User>? {
             if (users == null) return null
 
             return PaginatedResponse(
