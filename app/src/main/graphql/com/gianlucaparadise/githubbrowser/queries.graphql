@@ -1,0 +1,74 @@
+query AuthenticatedUserQuery {
+  viewer { 
+		...UserFragment
+  }
+}
+
+query AuthenticatedUserRepositoriesQuery($first: Int, $startCursor: String) {
+  viewer {
+    repositories(first: $first, after: $startCursor) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      totalCount
+      nodes {
+        ...RepositoryFragment
+      }
+    }
+  }
+}
+
+query SearchUsersQuery($query: String!, $first: Int, $startCursor: String) {
+  search(type: USER, query: $query, first: $first, after: $startCursor) {
+    userCount
+    nodes {
+      ...UserFragment
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+
+query SearchRepositoriesQuery($query: String!, $first: Int, $startCursor: String) {
+  search(type: REPOSITORY, query: $query, first: $first, after: $startCursor) {
+    repositoryCount
+    nodes {
+      ...RepositoryFragment
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+
+fragment UserFragment on User {
+    login
+    bio
+    name
+    avatarUrl
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+}
+
+fragment RepositoryFragment on Repository {
+    name
+    description
+    shortDescriptionHTML
+    primaryLanguage {
+      name
+    }
+    stargazers {
+      totalCount
+    }
+    owner {
+      ...UserFragment
+    }
+}

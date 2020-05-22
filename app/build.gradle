@@ -6,6 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.apollographql.apollo'
 
+def clientSecretsFile = rootProject.file("clientsecrets.properties")
+def clientSecrets = new Properties()
+clientSecrets.load(new FileInputStream(clientSecretsFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -16,6 +20,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Client secrets. Read docs in `clientsecrets.example.properties` file
+        buildConfigField("String", "PERSONAL_ACCESS_TOKEN", clientSecrets['PERSONAL_ACCESS_TOKEN'])
     }
     buildTypes {
         release {
