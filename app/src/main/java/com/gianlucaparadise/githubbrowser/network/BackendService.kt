@@ -7,6 +7,7 @@ import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserQuery
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserRepositoriesQuery
 import com.gianlucaparadise.githubbrowser.BuildConfig
+import com.gianlucaparadise.githubbrowser.SearchUsersQuery
 import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.data.User
@@ -71,6 +72,31 @@ object BackendService {
 
         } catch (apolloEx: ApolloException) {
             throw Exception("Error while retrieving Authenticated User's Repositories")
+        }
+    }
+
+    suspend fun searchUsers(
+        query: String,
+        first: Int,
+        startCursor: String? = null
+    ): PaginatedResponse<User>? {
+        try {
+            val users = client
+                .query(
+                    SearchUsersQuery(
+                        query,
+                        Input.fromNullable(first),
+                        Input.optional(startCursor)
+                    )
+                )
+                .toDeferred()
+                .await()
+
+            val usersResponse = users.data?.search
+            return User.fromSearchUsersReponse(usersResponse)
+
+        } catch (apolloEx: ApolloException) {
+            throw Exception("Error while searching for Users")
         }
     }
 }

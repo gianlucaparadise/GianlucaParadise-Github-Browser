@@ -1,5 +1,6 @@
 package com.gianlucaparadise.githubbrowser.data
 
+import com.gianlucaparadise.githubbrowser.SearchUsersQuery
 import com.gianlucaparadise.githubbrowser.fragment.UserFragment
 
 data class User(
@@ -39,6 +40,29 @@ data class User(
                 avatarUrl = userFragment.avatarUrl,
                 followersCount = userFragment.followers.totalCount,
                 followingCount = userFragment.following.totalCount
+            )
+        }
+
+        private fun fromSearchUsersNodeList(searchUserNodes: List<SearchUsersQuery.Node?>?): Array<User?>? {
+            if (searchUserNodes == null) return null
+
+            val users = arrayOfNulls<User>(searchUserNodes.count())
+
+            searchUserNodes.forEachIndexed { index, node ->
+                users[index] = User.fromUserFragment(node?.fragments?.userFragment)
+            }
+
+            return users
+        }
+
+        fun fromSearchUsersReponse(users: SearchUsersQuery.Search?): PaginatedResponse<User>? {
+            if (users == null) return null
+
+            return PaginatedResponse(
+                endCursor = users.pageInfo.endCursor,
+                hasNextPage = users.pageInfo.hasNextPage,
+                totalCount = users.userCount,
+                nodes = User.fromSearchUsersNodeList(users.nodes)
             )
         }
     }

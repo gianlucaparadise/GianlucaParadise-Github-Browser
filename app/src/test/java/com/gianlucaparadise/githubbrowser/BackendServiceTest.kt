@@ -60,4 +60,13 @@ class BackendServiceTest {
         assertEquals("Names for index 0 are not matching", getNameByIndex(firstTwoRepositories, 0),  getNameByIndex(firstRepository, 0))
         assertEquals("Names for index 1 are not matching", getNameByIndex(firstTwoRepositories, 1),  getNameByIndex(secondRepository, 0))
     }
+
+    @Test
+    fun searchUsers() {
+        val users = runBlocking {
+            BackendService.searchUsers("jake", 1)
+        }
+
+        assertNotNull("Users list shouldn't be null", users)
+    }
 }
