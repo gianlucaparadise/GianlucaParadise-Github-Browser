@@ -5,7 +5,7 @@ import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserQuery
 import com.gianlucaparadise.githubbrowser.BuildConfig
-import com.gianlucaparadise.githubbrowser.fragment.UserFragment
+import com.gianlucaparadise.githubbrowser.data.User
 import okhttp3.*
 import java.lang.Exception
 
@@ -32,16 +32,17 @@ object BackendService {
             .build()
     }
 
-    suspend fun retrieveAuthenticatedUser(): UserFragment? {
+    suspend fun retrieveAuthenticatedUser(): User? {
         try {
             val user = client
                 .query(AuthenticatedUserQuery())
                 .toDeferred()
                 .await()
 
-            return user.data?.viewer?.fragments?.userFragment
-        }
-        catch (apolloEx: ApolloException) {
+            val userFragment = user.data?.viewer?.fragments?.userFragment
+            return User.fromUserFragment(userFragment)
+
+        } catch (apolloEx: ApolloException) {
             throw Exception("Error while retrieving Authenticated User")
         }
     }
