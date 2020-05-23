@@ -29,6 +29,9 @@ data class User(
      */
     val followingCount: Int
 ) {
+    val displayName: String
+        get() = name ?: login
+
     companion object {
         fun fromUserFragment(userFragment: UserFragment?): User? {
             if (userFragment == null) return null
