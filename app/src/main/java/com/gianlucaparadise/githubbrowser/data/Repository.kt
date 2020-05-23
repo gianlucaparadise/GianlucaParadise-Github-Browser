@@ -32,13 +32,18 @@ data class Repository(
 ) {
     companion object {
 
-        private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): Array<Repository?>? {
+        private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repository>? {
             if (repositoryNodes == null) return null
 
-            val repositories = arrayOfNulls<Repository>(repositoryNodes.count())
+            val repositories = mutableListOf<Repository>()
 
-            repositoryNodes.forEachIndexed { index, node ->
-                repositories[index] = Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+            repositoryNodes.forEach { node ->
+                val repository =
+                    Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+
+                if (repository != null) {
+                    repositories.add(repository)
+                }
             }
 
             return repositories
@@ -57,13 +62,16 @@ data class Repository(
             )
         }
 
-        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): Array<Repository?>? {
+        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repository>? {
             if (searchRepositoriesNodes == null) return null
 
-            val repositories = arrayOfNulls<Repository>(searchRepositoriesNodes.count())
+            val repositories = mutableListOf<Repository>()
 
-            searchRepositoriesNodes.forEachIndexed { index, node ->
-                repositories[index] = Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+            searchRepositoriesNodes.forEach { node ->
+                val repository = Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+                if (repository != null) {
+                    repositories.add(repository)
+                }
             }
 
             return repositories

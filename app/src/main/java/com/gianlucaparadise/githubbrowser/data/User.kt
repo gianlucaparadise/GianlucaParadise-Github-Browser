@@ -46,13 +46,16 @@ data class User(
             )
         }
 
-        private fun fromSearchUsersNodeList(searchUserNodes: List<SearchUsersQuery.Node?>?): Array<User?>? {
+        private fun fromSearchUsersNodeList(searchUserNodes: List<SearchUsersQuery.Node?>?): List<User>? {
             if (searchUserNodes == null) return null
 
-            val users = arrayOfNulls<User>(searchUserNodes.count())
+            val users = mutableListOf<User>()
 
-            searchUserNodes.forEachIndexed { index, node ->
-                users[index] = User.fromUserFragment(node?.fragments?.userFragment)
+            searchUserNodes.forEach { node ->
+                val user = User.fromUserFragment(node?.fragments?.userFragment)
+                if (user != null) {
+                    users.add(user)
+                }
             }
 
             return users
