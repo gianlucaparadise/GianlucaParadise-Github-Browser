@@ -16,5 +16,5 @@ data class PaginatedResponse<T>(
     /**
      * A list of nodes.
      */
-    val nodes: List<T>?
+    val nodes: List<T>
 )

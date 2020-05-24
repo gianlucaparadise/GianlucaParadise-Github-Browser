@@ -32,8 +32,8 @@ data class Repository(
 ) {
     companion object {
 
-        private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repository>? {
-            if (repositoryNodes == null) return null
+        private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repository> {
+            if (repositoryNodes == null) return emptyList()
 
             val repositories = mutableListOf<Repository>()
 
@@ -62,8 +62,8 @@ data class Repository(
             )
         }
 
-        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repository>? {
-            if (searchRepositoriesNodes == null) return null
+        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repository> {
+            if (searchRepositoriesNodes == null) return emptyList()
 
             val repositories = mutableListOf<Repository>()
 
@@ -77,9 +77,7 @@ data class Repository(
             return repositories
         }
 
-        fun fromRepositoriesResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories?): PaginatedResponse<Repository>? {
-            if (repositories == null) return null
-
+        fun fromRepositoriesResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories): PaginatedResponse<Repository> {
             return PaginatedResponse(
                 endCursor = repositories.pageInfo.endCursor,
                 hasNextPage = repositories.pageInfo.hasNextPage,
@@ -88,9 +86,7 @@ data class Repository(
             )
         }
 
-        fun fromSearchRepositoriesResponse(repositories: SearchRepositoriesQuery.Search?): PaginatedResponse<Repository>? {
-            if (repositories == null) return null
-
+        fun fromSearchRepositoriesResponse(repositories: SearchRepositoriesQuery.Search): PaginatedResponse<Repository> {
             return PaginatedResponse(
                 endCursor = repositories.pageInfo.endCursor,
                 hasNextPage = repositories.pageInfo.hasNextPage,

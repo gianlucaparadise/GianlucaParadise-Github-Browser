@@ -42,6 +42,8 @@ object BackendService {
                 .await()
 
             val userFragment = user.data?.viewer?.fragments?.userFragment
+                ?: throw Exception("Empty Response")
+
             return User.fromUserFragment(userFragment)
 
         } catch (apolloEx: ApolloException) {
@@ -52,7 +54,7 @@ object BackendService {
     suspend fun retrieveAuthenticatedUserRepositories(
         first: Int,
         startCursor: String? = null
-    ): PaginatedResponse<Repository>? {
+    ): PaginatedResponse<Repository> {
         try {
             val repositories = client
                 .query(
@@ -65,6 +67,8 @@ object BackendService {
                 .await()
 
             val repositoriesResponse = repositories.data?.viewer?.repositories
+                ?: throw Exception("Empty Response")
+
             return Repository.fromRepositoriesResponse(repositoriesResponse)
 
         } catch (apolloEx: ApolloException) {
@@ -76,7 +80,7 @@ object BackendService {
         query: String,
         first: Int,
         startCursor: String? = null
-    ): PaginatedResponse<User>? {
+    ): PaginatedResponse<User> {
         try {
             val users = client
                 .query(
@@ -90,6 +94,8 @@ object BackendService {
                 .await()
 
             val usersResponse = users.data?.search
+                ?: throw Exception("Empty Response")
+
             return User.fromSearchUsersResponse(usersResponse)
 
         } catch (apolloEx: ApolloException) {
@@ -101,7 +107,7 @@ object BackendService {
         query: String,
         first: Int,
         startCursor: String? = null
-    ): PaginatedResponse<Repository>? {
+    ): PaginatedResponse<Repository> {
         try {
             val repositories = client
                 .query(
@@ -115,6 +121,8 @@ object BackendService {
                 .await()
 
             val repositoriesResponse = repositories.data?.search
+                ?: throw Exception("Empty Response")
+
             return Repository.fromSearchRepositoriesResponse(repositoriesResponse)
 
         } catch (apolloEx: ApolloException) {

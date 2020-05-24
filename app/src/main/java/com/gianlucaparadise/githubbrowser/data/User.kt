@@ -46,8 +46,8 @@ data class User(
             )
         }
 
-        private fun fromSearchUsersNodeList(searchUserNodes: List<SearchUsersQuery.Node?>?): List<User>? {
-            if (searchUserNodes == null) return null
+        private fun fromSearchUsersNodeList(searchUserNodes: List<SearchUsersQuery.Node?>?): List<User> {
+            if (searchUserNodes == null) return emptyList()
 
             val users = mutableListOf<User>()
 
@@ -61,9 +61,7 @@ data class User(
             return users
         }
 
-        fun fromSearchUsersResponse(users: SearchUsersQuery.Search?): PaginatedResponse<User>? {
-            if (users == null) return null
-
+        fun fromSearchUsersResponse(users: SearchUsersQuery.Search): PaginatedResponse<User> {
             return PaginatedResponse(
                 endCursor = users.pageInfo.endCursor,
                 hasNextPage = users.pageInfo.hasNextPage,
