@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        viewModel.getRepositories().observe(viewLifecycleOwner, Observer { result ->
+        viewModel.repositories.observe(viewLifecycleOwner, Observer { result ->
             val adapter = binding.repositoryList.adapter
             if (adapter is RepositoryListAdapter) {
                 adapter.submitList(result)

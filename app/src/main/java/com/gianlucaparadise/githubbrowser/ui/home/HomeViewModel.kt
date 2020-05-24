@@ -3,32 +3,30 @@ package com.gianlucaparadise.githubbrowser.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.DataSource
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.gianlucaparadise.githubbrowser.data.Repository
-import com.gianlucaparadise.githubbrowser.network.BackendService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.gianlucaparadise.githubbrowser.data.RepositoryDataSource
 
 class HomeViewModel : ViewModel() {
-    private val repositories: MutableLiveData<List<Repository>> by lazy {
-        MutableLiveData<List<Repository>>().also {
-            loadRepositories()
+
+    private val pagingConfig = PagedList.Config.Builder()
+        .setPageSize(15)
+        .setInitialLoadSizeHint(15)
+        .setEnablePlaceholders(false)
+        .build()
+
+    private val sourceLiveData = MutableLiveData<RepositoryDataSource>()
+    private val repoDataSourceFactory = object : DataSource.Factory<String, Repository>() {
+        override fun create(): DataSource<String, Repository> {
+            val source = RepositoryDataSource(viewModelScope)
+            sourceLiveData.postValue(source)
+            return source
         }
     }
 
-    fun getRepositories(): LiveData<List<Repository>> {
-        return repositories
-    }
-
-    private fun loadRepositories() {
-        GlobalScope.launch {
-            withContext(Dispatchers.IO) {
-                val repositories = BackendService.retrieveAuthenticatedUserRepositories(10)
-                if (repositories?.nodes != null) {
-                    this@HomeViewModel.repositories.postValue(repositories.nodes)
-                }
-            }
-        }
-    }
+    val repositories: LiveData<PagedList<Repository>> =
+        repoDataSourceFactory.toLiveData(pagingConfig)
 }

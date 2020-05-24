@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,7 @@ import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.databinding.RepositoryListItemBinding
 
 class RepositoryListAdapter :
-    ListAdapter<Repository, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
+    PagedListAdapter<Repository, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -26,7 +27,9 @@ class RepositoryListAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { repository ->
+            holder.bind(repository)
+        }
     }
 
     class ViewHolder(
