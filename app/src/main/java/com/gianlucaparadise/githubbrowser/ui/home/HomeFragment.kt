@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.gianlucaparadise.githubbrowser.R
+import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
+import com.gianlucaparadise.githubbrowser.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment() {
 
@@ -16,18 +19,29 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var binding: HomeFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
+
+        val adapter = RepositoryListAdapter()
+        binding.repositoryList.adapter = adapter
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
+        viewModel.getRepositories().observe(viewLifecycleOwner, Observer { result ->
+            val adapter = binding.repositoryList.adapter
+            if (adapter is RepositoryListAdapter) {
+                adapter.submitList(result)
+            }
+        })
+    }
 }
