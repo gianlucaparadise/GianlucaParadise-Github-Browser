@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="repository"
+            type="com.gianlucaparadise.githubbrowser.data.Repository" />
+    </data>
+
+
+    <com.gianlucaparadise.githubbrowser.views.RepositoryCardView
+        android:id="@+id/repository_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        app:owner="@{repository.owner.displayName}"
+        app:primaryLanguage="@{repository.primaryLanguageName}"
+        app:shortDescription="@{repository.shortDescriptionHTML}"
+        app:title="@{repository.name}"
+        app:totalStars="@{repository.stargazersCount}"
+
+        tools:owner="Jake"
+        tools:primaryLanguage="Cobol"
+        tools:shortDescription="This is a cool modern project"
+        tools:title="MyBank"
+        tools:totalStars="42" />
+</layout>
