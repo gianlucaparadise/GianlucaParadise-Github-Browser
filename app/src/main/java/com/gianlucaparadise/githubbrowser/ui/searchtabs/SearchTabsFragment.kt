@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.ui.search
+package com.gianlucaparadise.githubbrowser.ui.searchtabs
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,23 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
-import com.gianlucaparadise.githubbrowser.databinding.SearchFragmentBinding
+import com.gianlucaparadise.githubbrowser.databinding.SearchTabsFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class SearchFragment : Fragment() {
+class SearchTabsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SearchFragment()
+        fun newInstance() = SearchTabsFragment()
     }
 
-    private lateinit var binding: SearchFragmentBinding
-    private lateinit var viewModel: SearchViewModel
+    private lateinit var binding: SearchTabsFragmentBinding
+    private lateinit var viewModel: SearchTabsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SearchFragmentBinding.inflate(inflater, container, false)
+        binding = SearchTabsFragmentBinding.inflate(inflater, container, false)
 
         val adapter = SearchTabsAdapter(this)
         binding.pager.adapter = adapter
@@ -39,7 +39,7 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(SearchTabsViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
