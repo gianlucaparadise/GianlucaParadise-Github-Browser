@@ -2,4 +2,6 @@
     <string name="app_name">Github Browser</string>
     <string name="home_tab_title">Home</string>
     <string name="search_tab_title">Search</string>
+    <string name="search_people_tab_title">People</string>
+    <string name="search_repositories_tab_title">Repositories</string>
 </resources>
