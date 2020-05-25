@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.gianlucaparadise.githubbrowser.ui.searchtabs.SearchTabsViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -8,10 +16,17 @@
         android:orientation="vertical"
         tools:context=".ui.searchtabs.SearchTabsFragment">
 
-        <SearchView
+        <EditText
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_search_black_24dp"
+            android:singleLine="true"
+            android:hint="@string/search_bar_hint"
+            android:text="@={viewmodel.searchQuery}" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/pager_tabs"
@@ -22,7 +37,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
     </LinearLayout>
 </layout>

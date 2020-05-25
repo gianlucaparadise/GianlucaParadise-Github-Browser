@@ -4,4 +4,5 @@
     <string name="search_tab_title">Search</string>
     <string name="search_people_tab_title">People</string>
     <string name="search_repositories_tab_title">Repositories</string>
+    <string name="search_bar_hint">Search...</string>
 </resources>
