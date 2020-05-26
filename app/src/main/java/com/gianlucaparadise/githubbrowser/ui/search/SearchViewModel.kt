@@ -7,6 +7,8 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.data.SearchRepositoryResultsDataSource
+import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
+import com.gianlucaparadise.githubbrowser.data.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -44,6 +46,20 @@ class SearchViewModel : ViewModel() {
     private fun updateRepositoriesDataSource(query: String) = repositoriesSourceLiveData.value?.updateSearchQuery(query)
     //endregion
 
+    //region Users handling
+    private val usersSourceLiveData = MutableLiveData<SearchUserResultsDataSource>()
+    private val userDataSourceFactory = object : DataSource.Factory<String, User>() {
+        override fun create(): DataSource<String, User> {
+            val source = SearchUserResultsDataSource(viewModelScope, searchQuery.value)
+            usersSourceLiveData.postValue(source)
+            return source
+        }
+    }
+
+    val users: LiveData<PagedList<User>> = userDataSourceFactory.toLiveData(pagingConfig)
+    private fun updateUsersDataSource(query: String) = usersSourceLiveData.value?.updateSearchQuery(query)
+    //endregion
+
     init {
         searchQuery.observeForever(this.onSearchQueryChanged)
     }
@@ -55,6 +71,7 @@ class SearchViewModel : ViewModel() {
         if (query.isBlank()) {
             // When query is empty, I don't want to wait because probably results are cached
             updateRepositoriesDataSource("")
+            updateUsersDataSource("")
             return
         }
 
@@ -64,6 +81,7 @@ class SearchViewModel : ViewModel() {
             delay(500)
             Log.d(tag, "Requesting: $query")
             updateRepositoriesDataSource(query)
+            updateUsersDataSource(query)
         }
     }
 
