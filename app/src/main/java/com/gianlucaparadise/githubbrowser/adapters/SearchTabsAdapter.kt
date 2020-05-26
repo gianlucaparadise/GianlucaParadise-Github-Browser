@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.gianlucaparadise.githubbrowser.R
-import com.gianlucaparadise.githubbrowser.ui.searchresults.SearchResultsFragment
+import com.gianlucaparadise.githubbrowser.ui.search.SearchRepositoryResultsFragment
 
 class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     companion object {
@@ -14,7 +14,11 @@ class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = tabs.size
 
     override fun createFragment(position: Int): Fragment {
-        return SearchResultsFragment.newInstance()
+        val currentTab = tabs[position]
+        return when(currentTab) {
+            TabType.PEOPLE -> SearchRepositoryResultsFragment.newInstance()
+            TabType.REPOSITORIES -> SearchRepositoryResultsFragment.newInstance()
+        }
     }
 
     enum class TabType(@StringRes val title: Int) {

@@ -4,13 +4,20 @@ import android.util.Log
 import androidx.paging.PageKeyedDataSource
 import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-abstract class SearchableDataSource<T>(private val scope: CoroutineScope) :
+abstract class SearchableDataSource<T>(
+    private val scope: CoroutineScope,
+    var searchQuery: String? = null
+) :
     PageKeyedDataSource<String, T>() {
     companion object {
         const val tag = "SearchableDataSource"
     }
+
+    private val searchQueryNullable
+        get() = if (searchQuery.isNullOrBlank()) null else searchQuery
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -20,15 +27,20 @@ abstract class SearchableDataSource<T>(private val scope: CoroutineScope) :
             try {
                 Log.d(
                     tag, "Loading initial, start - " +
-                            "pagesize: ${params.requestedLoadSize} "
+                            "pagesize: ${params.requestedLoadSize} " +
+                            "query: $searchQueryNullable"
                 )
 
-                val response = load(first = params.requestedLoadSize, startCursor = null)
+                val response = load(
+                    first = params.requestedLoadSize,
+                    startCursor = null,
+                    query = searchQueryNullable
+                )
 
                 Log.d(
                     tag, "Loading initial, response - " +
                             "size: ${response.nodes.size} " +
-                            "first: ${response.nodes.first()}"
+                            "first: ${response.nodes.firstOrNull()}"
                 )
 
                 callback.onResult(response.nodes, null, response.endCursor)
@@ -46,10 +58,15 @@ abstract class SearchableDataSource<T>(private val scope: CoroutineScope) :
                 Log.d(
                     tag, "Loading after, start - " +
                             "page: ${params.key} " +
-                            "pagesize: ${params.requestedLoadSize} "
+                            "pagesize: ${params.requestedLoadSize} " +
+                            "query: $searchQueryNullable"
                 )
 
-                val response = load(first = params.requestedLoadSize, startCursor = params.key)
+                val response = load(
+                    first = params.requestedLoadSize,
+                    startCursor = params.key,
+                    query = searchQueryNullable
+                )
 
                 // When I reach the last page, I set key to null to stop paging
                 val nextKey = if (response.hasNextPage) response.endCursor else null
@@ -77,5 +94,22 @@ abstract class SearchableDataSource<T>(private val scope: CoroutineScope) :
         Log.d(tag, "Load Before") // Not needed
     }
 
-    abstract suspend fun load(first: Int, startCursor: String?): PaginatedResponse<T>
+    fun updateSearchQuery(query: String) {
+        if (query == searchQuery) return // Nothing changed, nothing to do
+
+        Log.d(tag, "Changed Query: $query")
+        searchQuery = query
+        super.invalidate()
+    }
+
+    override fun invalidate() {
+        super.invalidate()
+        scope.cancel()
+    }
+
+    abstract suspend fun load(
+        first: Int,
+        startCursor: String?,
+        query: String?
+    ): PaginatedResponse<T>
 }
