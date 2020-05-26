@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter()
+        val adapter = RepositoryListAdapter(showOwner = false)
         binding.repositoryList.adapter = adapter
 
         return binding.root

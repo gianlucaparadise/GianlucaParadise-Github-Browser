@@ -1,18 +1,16 @@
 package com.gianlucaparadise.githubbrowser.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.databinding.RepositoryListItemBinding
 
-class RepositoryListAdapter :
+class RepositoryListAdapter(val showOwner: Boolean) :
     PagedListAdapter<Repository, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,16 +26,17 @@ class RepositoryListAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { repository ->
-            holder.bind(repository)
+            holder.bind(repository, showOwner)
         }
     }
 
     class ViewHolder(
         private val binding: RepositoryListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentRepository: Repository) {
+        fun bind(currentRepository: Repository, currentShowOwner: Boolean) {
             with(binding) {
                 repository = currentRepository
+                showOwner = currentShowOwner
                 executePendingBindings()
             }
         }

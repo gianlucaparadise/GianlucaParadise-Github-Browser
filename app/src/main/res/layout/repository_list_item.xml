@@ -8,6 +8,10 @@
         <variable
             name="repository"
             type="com.gianlucaparadise.githubbrowser.data.Repository" />
+
+        <variable
+            name="showOwner"
+            type="Boolean" />
     </data>
 
 
@@ -22,10 +26,12 @@
         app:shortDescription="@{repository.shortDescriptionHTML}"
         app:title="@{repository.name}"
         app:totalStars="@{repository.stargazersCount}"
+        app:ownerVisible="@{showOwner}"
 
         tools:owner="Jake"
         tools:primaryLanguage="Cobol"
         tools:shortDescription="This is a cool modern project"
         tools:title="MyBank"
-        tools:totalStars="42" />
+        tools:totalStars="42"
+        tools:ownerVisible="false" />
 </layout>

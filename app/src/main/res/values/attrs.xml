@@ -8,6 +8,7 @@
         <attr name="shortDescription" format="string" />
         <attr name="primaryLanguage" format="string" />
         <attr name="totalStars" format="integer" />
+        <attr name="ownerVisible" format="boolean" />
     </declare-styleable>
     <declare-styleable name="UserCardView">
         <attr name="title" />

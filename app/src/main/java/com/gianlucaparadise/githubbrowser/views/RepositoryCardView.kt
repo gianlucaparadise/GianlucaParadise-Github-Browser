@@ -27,7 +27,7 @@ class RepositoryCardView @JvmOverloads constructor(
         }
         set(value) {
             repo_owner.text = value
-            repo_owner.isVisible = !value.isNullOrBlank()
+            repo_owner.isVisible = ownerVisible && !value.isNullOrBlank()
         }
 
     var shortDescription: String?
@@ -56,11 +56,20 @@ class RepositoryCardView @JvmOverloads constructor(
             repo_total_stars.text = value.toString()
         }
 
+    private var _ownerVisible: Boolean = true
+    var ownerVisible: Boolean
+        get() = _ownerVisible
+        set(value) {
+            _ownerVisible = value
+            repo_owner.isVisible = _ownerVisible
+        }
+
     init {
         inflate(context, R.layout.repository_card_view, this)
 
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.RepositoryCardView)
 
+        this.ownerVisible = attributes.getBoolean(R.styleable.RepositoryCardView_ownerVisible, true)
         this.title = attributes.getString(R.styleable.RepositoryCardView_title) ?: ""
         this.owner = attributes.getString(R.styleable.RepositoryCardView_owner) ?: ""
         this.shortDescription =
