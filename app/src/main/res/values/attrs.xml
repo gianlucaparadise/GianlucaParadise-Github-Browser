@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="title" format="string" />
+
     <declare-styleable name="RepositoryCardView">
-        <attr name="title" format="string" />
+        <attr name="title" />
         <attr name="owner" format="string" />
         <attr name="shortDescription" format="string" />
         <attr name="primaryLanguage" format="string" />
         <attr name="totalStars" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="UserCardView">
+        <attr name="title" />
+        <attr name="loginId" format="string" />
+        <attr name="bio" format="string" />
     </declare-styleable>
 </resources>
