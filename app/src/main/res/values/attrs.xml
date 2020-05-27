@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="title" format="string" />
+    <attr name="ownerVisible" format="boolean" />
 
     <declare-styleable name="RepositoryCardView">
         <attr name="title" />
@@ -8,11 +9,18 @@
         <attr name="shortDescription" format="string" />
         <attr name="primaryLanguage" format="string" />
         <attr name="totalStars" format="integer" />
-        <attr name="ownerVisible" format="boolean" />
+        <attr name="ownerVisible" />
     </declare-styleable>
     <declare-styleable name="UserCardView">
         <attr name="title" />
         <attr name="loginId" format="string" />
         <attr name="bio" format="string" />
+    </declare-styleable>
+    <declare-styleable name="CardHeaderView">
+        <attr name="title" />
+        <attr name="subtitle" format="string" />
+        <attr name="avatarUrl" format="string" />
+        <attr name="subtitleVisible" format="boolean" />
+        <attr name="avatarVisible" format="boolean" />
     </declare-styleable>
 </resources>

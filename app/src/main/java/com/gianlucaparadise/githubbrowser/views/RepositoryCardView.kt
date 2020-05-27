@@ -15,19 +15,18 @@ class RepositoryCardView @JvmOverloads constructor(
 
     var title: String
         get() {
-            return repo_title.text.toString()
+            return card_header.title
         }
         set(value) {
-            repo_title.text = value
+            card_header.title = value
         }
 
     var owner: String?
         get() {
-            return repo_owner.text.toString()
+            return card_header.subtitle
         }
         set(value) {
-            repo_owner.text = value
-            repo_owner.isVisible = ownerVisible && !value.isNullOrBlank()
+            card_header.subtitle = value
         }
 
     var shortDescription: String?
@@ -56,12 +55,13 @@ class RepositoryCardView @JvmOverloads constructor(
             repo_total_stars.text = value.toString()
         }
 
-    private var _ownerVisible: Boolean = true
+    private var _ownerVisible = true
     var ownerVisible: Boolean
         get() = _ownerVisible
         set(value) {
             _ownerVisible = value
-            repo_owner.isVisible = _ownerVisible
+            card_header.subtitleVisible = _ownerVisible
+            card_header.avatarVisible = _ownerVisible
         }
 
     init {
