@@ -5,10 +5,10 @@ This is a quick summary from the Requirements pdf document.
 ## UI requirements
 
 - [ ] Login Page
-- [ ] Home tab
-    - [ ] List of Authenticated User's repos as [cards](https://material.io/components/cards​)
-- [ ] Search tab
-    - [ ] Search for either repositories or users
+- [x] Home tab
+    - [x] List of Authenticated User's repos as [cards](https://material.io/components/cards​)
+- [x] Search tab
+    - [x] Search for either repositories or users
 - [ ] Repository detail
     - [ ] Detailed view of repository
     - [ ] Button to "star" the repo
@@ -48,17 +48,17 @@ Models:
 ## Guidelines
 
 - [ ] Public Github Repository
-- [ ] Kotlin
-- [ ] Coroutines or Rx
+- [x] Kotlin
+- [x] Coroutines or Rx
 - [ ] Dagger2
-- [ ] `minSdkVersion 21`
-- [ ] No outdated libraries
-- [ ] No hardcoded strings
-- [ ] Meaningful commits
+- [x] `minSdkVersion 21`
+- [x] No outdated libraries
+- [x] No hardcoded strings
+- [x] Meaningful commits
 - [ ] Junit+Dagger for testing
 - [ ] At least one Espresso integration test
-- [ ] Use:
+- [x] Use:
     - [x] networking: OkHttp, Retrofit, Rx or Coroutines
-        - Apollo has been chosen because it's the best client for GraphQL backend
-    - [ ] view binding: View Binding
-    - [ ] image loading: Picasso, Android Universal Image Loader, Fresco, Glide
+        - Apollo has been chosen because it's the best client for a GraphQL backend
+    - [x] view binding: View Binding
+    - [x] image loading: Picasso, Android Universal Image Loader, Fresco, Glide
