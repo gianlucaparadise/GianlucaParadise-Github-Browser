@@ -55,6 +55,12 @@ class RepositoryCardView @JvmOverloads constructor(
             repo_total_stars.text = value.toString()
         }
 
+    var avatarUrl: String?
+        get() = card_header.avatarUrl
+        set(value) {
+            card_header.avatarUrl = value
+        }
+
     private var _ownerVisible = true
     var ownerVisible: Boolean
         get() = _ownerVisible
@@ -77,6 +83,7 @@ class RepositoryCardView @JvmOverloads constructor(
         this.primaryLanguage =
             attributes.getString(R.styleable.RepositoryCardView_primaryLanguage) ?: ""
         this.totalStars = attributes.getInteger(R.styleable.RepositoryCardView_totalStars, 0)
+        this.avatarUrl = attributes.getString(R.styleable.RepositoryCardView_avatarUrl)
 
         attributes.recycle()
     }

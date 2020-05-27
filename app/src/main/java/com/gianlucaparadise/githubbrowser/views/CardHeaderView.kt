@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.gianlucaparadise.githubbrowser.R
 import kotlinx.android.synthetic.main.card_header_view.view.*
 
@@ -60,6 +62,13 @@ class CardHeaderView @JvmOverloads constructor(
 
     private fun updateAvatar(url: String?) {
         header_avatar.isVisible = avatarVisible && !url.isNullOrBlank()
+        if (!header_avatar.isVisible) return
+
+        Glide.with(header_avatar.context)
+            .load(url)
+            .circleCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(header_avatar)
     }
 
     init {

@@ -27,6 +27,7 @@
         app:title="@{repository.name}"
         app:totalStars="@{repository.stargazersCount}"
         app:ownerVisible="@{showOwner}"
+        app:avatarUrl="@{repository.owner.avatarUrl}"
 
         tools:owner="Jake"
         tools:primaryLanguage="Cobol"

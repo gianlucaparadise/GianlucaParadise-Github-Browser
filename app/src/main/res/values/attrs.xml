@@ -2,6 +2,7 @@
 <resources>
     <attr name="title" format="string" />
     <attr name="ownerVisible" format="boolean" />
+    <attr name="avatarUrl" format="string" />
 
     <declare-styleable name="RepositoryCardView">
         <attr name="title" />
@@ -10,6 +11,7 @@
         <attr name="primaryLanguage" format="string" />
         <attr name="totalStars" format="integer" />
         <attr name="ownerVisible" />
+        <attr name="avatarUrl" />
     </declare-styleable>
     <declare-styleable name="UserCardView">
         <attr name="title" />
@@ -19,7 +21,7 @@
     <declare-styleable name="CardHeaderView">
         <attr name="title" />
         <attr name="subtitle" format="string" />
-        <attr name="avatarUrl" format="string" />
+        <attr name="avatarUrl" />
         <attr name="subtitleVisible" format="boolean" />
         <attr name="avatarVisible" format="boolean" />
     </declare-styleable>
