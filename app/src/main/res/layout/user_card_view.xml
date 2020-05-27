@@ -10,21 +10,12 @@
         android:padding="16dp">
 
         <!-- User Title, LoginId and Biography -->
-        <TextView
-            android:id="@+id/user_title"
-            android:layout_width="wrap_content"
+        <com.gianlucaparadise.githubbrowser.views.CardHeaderView
+            android:id="@+id/card_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            tools:text="User Name" />
-
-        <TextView
-            android:id="@+id/user_login_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
-            tools:text="loginid" />
+            tools:title="User Name"
+            tools:subtitle="loginid" />
 
         <TextView
             android:id="@+id/user_bio"

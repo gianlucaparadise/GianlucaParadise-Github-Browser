@@ -15,19 +15,18 @@ class UserCardView @JvmOverloads constructor(
 
     var title: String
         get() {
-            return user_title.text.toString()
+            return card_header.title
         }
         set(value) {
-            user_title.text = value
+            card_header.title = value
         }
 
     var loginId: String?
         get() {
-            return user_login_id.text.toString()
+            return card_header.subtitle
         }
         set(value) {
-            user_login_id.text = value
-            user_login_id.isVisible = !value.isNullOrBlank()
+            card_header.subtitle = value
         }
 
     var bio: String?
@@ -37,6 +36,12 @@ class UserCardView @JvmOverloads constructor(
         set(value) {
             user_bio.text = value
             user_bio.isVisible = !value.isNullOrBlank()
+        }
+
+    var avatarUrl: String?
+        get() = card_header.avatarUrl
+        set(value) {
+            card_header.avatarUrl = value
         }
 
     init {

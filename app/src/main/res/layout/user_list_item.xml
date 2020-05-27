@@ -16,12 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
 
-        app:title="@{user.displayName}"
-        app:loginId="@{user.name == null ? null : user.login}"
+        app:avatarUrl="@{user.avatarUrl}"
         app:bio="@{user.bio}"
+        app:loginId="@{user.name == null ? null : user.login}"
+        app:title="@{user.displayName}"
 
-        tools:title="Finn Mertens"
+        tools:bio="I'm an adventurous coder"
         tools:loginId="codingtime"
-        tools:bio="I'm an adventurous coder" />
+        tools:title="Finn Mertens" />
 
 </layout>

@@ -17,6 +17,7 @@
         <attr name="title" />
         <attr name="loginId" format="string" />
         <attr name="bio" format="string" />
+        <attr name="avatarUrl" />
     </declare-styleable>
     <declare-styleable name="CardHeaderView">
         <attr name="title" />
