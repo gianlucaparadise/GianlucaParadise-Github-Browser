@@ -22,7 +22,16 @@
         android:id="@+id/searchFragment"
         android:name="com.gianlucaparadise.githubbrowser.ui.search.SearchTabsFragment"
         android:label="@string/search_tab_title"
-        tools:layout="@layout/search_tabs_fragment" />
+        tools:layout="@layout/search_tabs_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_repositoryDetailFragment"
+            app:destination="@id/repositoryDetailFragment">
+
+            <argument
+                android:name="repository"
+                app:argType="com.gianlucaparadise.githubbrowser.data.Repository" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/loginBenefitsFragment"
         android:name="com.gianlucaparadise.githubbrowser.ui.loginbenefits.LoginBenefitsFragment"
@@ -46,7 +55,8 @@
     <fragment
         android:id="@+id/repositoryDetailFragment"
         android:name="com.gianlucaparadise.githubbrowser.ui.repositorydetail.RepositoryDetailFragment"
-        android:label="">
+        android:label=""
+        tools:layout="@layout/repository_detail_fragment">
         <argument
             android:name="repository"
             app:argType="com.gianlucaparadise.githubbrowser.data.Repository" />

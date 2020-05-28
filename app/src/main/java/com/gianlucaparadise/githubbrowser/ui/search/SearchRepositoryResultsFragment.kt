@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.gianlucaparadise.githubbrowser.adapters.RepositoryClickHandler
 
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
 import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
@@ -29,7 +31,7 @@ class SearchRepositoryResultsFragment : Fragment() {
     ): View? {
         binding = SearchResultsFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter(showOwner = true, onRepositoryClicked = null)
+        val adapter = RepositoryListAdapter(showOwner = true, onRepositoryClicked = onRepositoryClicked)
 
         binding.searchResultsList.adapter = adapter
 
@@ -50,5 +52,10 @@ class SearchRepositoryResultsFragment : Fragment() {
                 adapter.submitList(result)
             }
         })
+    }
+
+    private val onRepositoryClicked: RepositoryClickHandler = { repository ->
+        val action = SearchTabsFragmentDirections.actionSearchFragmentToRepositoryDetailFragment(repository)
+        findNavController().navigate(action)
     }
 }
