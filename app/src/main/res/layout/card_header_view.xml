@@ -4,7 +4,7 @@
     tools:layout_height="wrap_content"
     tools:layout_width="match_parent"
     tools:orientation="horizontal"
-    tools:parentTag="android.widget.LinearLayout">
+    tools:parentTag="com.gianlucaparadise.githubbrowser.views.CardHeaderView">
 
     <ImageView
         android:id="@+id/header_avatar"
@@ -23,6 +23,8 @@
             android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceHeadline6"
             tools:text="Header Title" />
 
@@ -31,8 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
             tools:text="This is a subtitle" />
     </LinearLayout>
 

@@ -6,8 +6,10 @@ import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.gianlucaparadise.githubbrowser.R
 import kotlinx.android.synthetic.main.card_header_view.view.*
+import androidx.annotation.ColorInt
+import android.util.TypedValue
+import com.gianlucaparadise.githubbrowser.R
 
 class CardHeaderView @JvmOverloads constructor(
     context: Context,
@@ -55,6 +57,18 @@ class CardHeaderView @JvmOverloads constructor(
             updateAvatar(avatarUrl)
         }
 
+    /**
+     * When not specified, this uses colorOnSurface from theme.
+     * Background color of the view is colorSurface from theme.
+     */
+    @get:ColorInt
+    var textColor: Int
+        get() = header_title.currentTextColor
+        set(value) {
+            header_title.setTextColor(value)
+            header_subtitle.setTextColor(value)
+        }
+
     private fun updateSubtitle(subtitle: String?) {
         header_subtitle.text = subtitle
         header_subtitle.isVisible = subtitleVisible && !subtitle.isNullOrBlank()
@@ -74,13 +88,28 @@ class CardHeaderView @JvmOverloads constructor(
     init {
         inflate(context, R.layout.card_header_view, this)
 
+        this.orientation = HORIZONTAL
+
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.CardHeaderView)
 
-        this.subtitleVisible = attributes.getBoolean(R.styleable.CardHeaderView_subtitleVisible, true)
+        this.subtitleVisible =
+            attributes.getBoolean(R.styleable.CardHeaderView_subtitleVisible, true)
         this.avatarVisible = attributes.getBoolean(R.styleable.CardHeaderView_avatarVisible, true)
         this.title = attributes.getString(R.styleable.CardHeaderView_title) ?: ""
         this.subtitle = attributes.getString(R.styleable.CardHeaderView_subtitle) ?: ""
         this.avatarUrl = attributes.getString(R.styleable.CardHeaderView_avatarUrl)
+
+        // Text color
+        val theme = context.theme
+
+        val themeTextColorTypedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorOnSurface, themeTextColorTypedValue, true)
+        this.textColor = attributes.getColor(R.styleable.CardHeaderView_textColor, themeTextColorTypedValue.data)
+
+        // Background color
+        val themeBackgroundColorTypedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorSurface, themeBackgroundColorTypedValue, true)
+        this.setBackgroundColor(themeBackgroundColorTypedValue.data)
 
         attributes.recycle()
     }

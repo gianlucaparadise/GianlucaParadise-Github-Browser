@@ -8,5 +8,5 @@
     <item
         android:id="@+id/searchFragment"
         android:title="@string/search_tab_title"
-        android:icon="@drawable/ic_search_black_24dp" />
+        android:icon="@drawable/ic_search_white_24dp" />
 </menu>

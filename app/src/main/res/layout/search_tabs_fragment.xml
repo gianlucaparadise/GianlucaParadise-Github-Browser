@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,18 +20,26 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
+            android:drawableStart="@drawable/ic_search_white_24dp"
             android:drawablePadding="8dp"
-            android:drawableStart="@drawable/ic_search_black_24dp"
-            android:singleLine="true"
             android:hint="@string/search_bar_hint"
-            android:text="@={viewmodel.searchQuery}" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:text="@={viewmodel.searchQuery}"
+            android:background="?attr/colorSurface"
+            android:textColor="?attr/colorOnSurface"
+            android:textColorHint="?attr/colorOnPrimarySurface"
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/pager_tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="?attr/colorOnSurface"
+            app:tabIndicatorHeight="4dp"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
