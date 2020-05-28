@@ -2,17 +2,17 @@ package com.gianlucaparadise.githubbrowser.ui.search
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchTabsFragmentBinding
+import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import java.lang.Exception
 
-class SearchTabsFragment : Fragment() {
+class SearchTabsFragment : BaseMainFragment() {
 
     companion object {
         fun newInstance() = SearchTabsFragment()

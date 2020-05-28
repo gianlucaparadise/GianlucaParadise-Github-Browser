@@ -2,17 +2,14 @@ package com.gianlucaparadise.githubbrowser.ui.home
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.Observer
 
-import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.HomeFragmentBinding
+import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseMainFragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
