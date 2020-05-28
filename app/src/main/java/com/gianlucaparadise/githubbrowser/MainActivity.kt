@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
 
         setupNav()
-        }
+    }
 
     private fun setupNav() {
         val navController = findNavController(R.id.nav_host_fragment)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setting Up ActionBar with Navigation Controller
         val appBarConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf (
+            topLevelDestinationIds = setOf(
                 R.id.homeFragment,
                 R.id.searchFragment,
                 R.id.loginBenefitsFragment

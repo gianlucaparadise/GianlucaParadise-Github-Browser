@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gianlucaparadise.githubbrowser.data.SharedPreferencesManager
 import com.gianlucaparadise.githubbrowser.network.LoginHelper
 import kotlinx.coroutines.launch
 
@@ -38,8 +39,10 @@ class LoginWebViewViewModel : ViewModel() {
             ?: throw IllegalStateException("The app is not authorized")
 
         viewModelScope.launch {
-            val accessToken = LoginHelper.retrieveAccessToken(loginDescriptor)
-            Log.d(TAG, "AccessToken: $accessToken")
+            val accessTokenModel = LoginHelper.retrieveAccessToken(loginDescriptor)
+            Log.d(TAG, "AccessToken: $accessTokenModel")
+
+            SharedPreferencesManager.accessToken = accessTokenModel.accessToken
         }
     }
 }
