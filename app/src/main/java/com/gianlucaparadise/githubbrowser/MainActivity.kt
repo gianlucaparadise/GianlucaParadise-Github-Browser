@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gianlucaparadise.githubbrowser.network.LoginHelper
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNav() {
         val navController = findNavController(R.id.nav_host_fragment)
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
+        if (LoginHelper.isLoggedIn) {
+            navGraph.startDestination = R.id.homeFragment
+        } else {
+            navGraph.startDestination = R.id.loginBenefitsFragment
+        }
+        navController.graph = navGraph
 
         // Setting Up TabBar with Navigation Controller
         tabBar.setupWithNavController(navController)

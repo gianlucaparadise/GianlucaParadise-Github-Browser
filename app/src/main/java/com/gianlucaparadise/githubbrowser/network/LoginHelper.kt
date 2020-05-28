@@ -107,6 +107,11 @@ object LoginHelper {
         SharedPreferencesManager.accessToken = null
     }
 
+    val isLoggedIn: Boolean
+        get() {
+            return SharedPreferencesManager.accessToken != null
+        }
+
     data class AuthDescriptor(
         /**
          * Authorization Url to start Login Flow in webview

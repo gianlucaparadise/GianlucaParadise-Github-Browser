@@ -13,10 +13,8 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph" />
+        android:layout_weight="1" />
+    <!-- Navigation graph is handled programmatically in MainActivity -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/tabBar"
