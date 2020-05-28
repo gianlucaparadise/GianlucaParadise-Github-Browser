@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 
 import com.gianlucaparadise.githubbrowser.R
+import com.gianlucaparadise.githubbrowser.databinding.RepositoryDetailFragmentBinding
 
 class RepositoryDetailFragment : Fragment() {
 
@@ -18,13 +19,15 @@ class RepositoryDetailFragment : Fragment() {
 
     private val args: RepositoryDetailFragmentArgs by navArgs()
 
+    private lateinit var binding: RepositoryDetailFragmentBinding
     private lateinit var viewModel: RepositoryDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.repository_detail_fragment, container, false)
+        binding = RepositoryDetailFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -32,8 +35,7 @@ class RepositoryDetailFragment : Fragment() {
 
         val factory = RepositoryDetailViewModel.Factory(args.repository)
         viewModel = ViewModelProviders.of(this, factory).get(RepositoryDetailViewModel::class.java)
-
-        // TODO: Use the ViewModel
+        binding.viewmodel = viewModel
     }
 
 }
