@@ -29,4 +29,17 @@ class LoginWebViewViewModel : ViewModel() {
     fun isAppAuthorized(url: Uri?): Boolean {
         return LoginHelper.isAppAuthorized(url, authDescriptor)
     }
+
+    /**
+     * After the app has been authorized, this method retrieves the access token, saves it and closes the login flow
+     */
+    fun completeLogin(url: Uri?) {
+        val loginDescriptor = LoginHelper.buildLoginDescriptor(url, authDescriptor)
+            ?: throw IllegalStateException("The app is not authorized")
+
+        viewModelScope.launch {
+            val accessToken = LoginHelper.retrieveAccessToken(loginDescriptor)
+            Log.d(TAG, "AccessToken: $accessToken")
+        }
+    }
 }

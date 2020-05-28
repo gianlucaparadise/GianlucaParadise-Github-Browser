@@ -54,6 +54,7 @@ class LoginWebViewFragment : Fragment() {
 
             if (viewModel.isAppAuthorized(request?.url)) {
                 Log.d(TAG, "LoginFlow: WebView app authorized")
+                viewModel.completeLogin(request?.url)
                 return true
             }
             return super.shouldOverrideUrlLoading(view, request)

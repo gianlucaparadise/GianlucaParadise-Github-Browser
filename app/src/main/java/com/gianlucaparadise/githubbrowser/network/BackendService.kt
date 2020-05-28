@@ -5,17 +5,26 @@ import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.*
+import com.gianlucaparadise.githubbrowser.data.AccessTokenModel
 import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.data.User
 import okhttp3.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
-private const val GITHUB_ENDPOINT: String = "https://api.github.com/graphql"
+private const val GITHUB_API_ENDPOINT = "https://api.github.com/graphql"
+private const val GITHUB_WEBSITE_ENDPOINT = "https://github.com"
 
 object BackendService {
 
-    private val client: ApolloClient
+    /**
+     * This is the client used to interact with Github's GraphQL Backend
+     */
+    private val graphQlClient: ApolloClient
+
+    private val restClient: GithubService
 
     init {
         val authHeader = "Bearer ${BuildConfig.PERSONAL_ACCESS_TOKEN}"
@@ -28,15 +37,22 @@ object BackendService {
             })
             .build()
 
-        client = ApolloClient.builder()
+        graphQlClient = ApolloClient.builder()
             .okHttpClient(okHttpClient)
-            .serverUrl(GITHUB_ENDPOINT)
+            .serverUrl(GITHUB_API_ENDPOINT)
             .build()
+
+        val retrofitClient = Retrofit.Builder()
+            .baseUrl(GITHUB_WEBSITE_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        restClient = retrofitClient.create(GithubService::class.java)
     }
 
     suspend fun retrieveAuthenticatedUser(): User? {
         try {
-            val user = client
+            val user = graphQlClient
                 .query(AuthenticatedUserQuery())
                 .toDeferred()
                 .await()
@@ -56,7 +72,7 @@ object BackendService {
         startCursor: String? = null
     ): PaginatedResponse<Repository> {
         try {
-            val repositories = client
+            val repositories = graphQlClient
                 .query(
                     AuthenticatedUserRepositoriesQuery(
                         Input.fromNullable(first),
@@ -82,7 +98,7 @@ object BackendService {
         startCursor: String? = null
     ): PaginatedResponse<User> {
         try {
-            val users = client
+            val users = graphQlClient
                 .query(
                     SearchUsersQuery(
                         query,
@@ -109,7 +125,7 @@ object BackendService {
         startCursor: String? = null
     ): PaginatedResponse<Repository> {
         try {
-            val repositories = client
+            val repositories = graphQlClient
                 .query(
                     SearchRepositoriesQuery(
                         query,
@@ -128,5 +144,11 @@ object BackendService {
         } catch (apolloEx: ApolloException) {
             throw Exception("Error while searching for Repositories")
         }
+    }
+
+    suspend fun retrieveAccessToken(code: String, state: String): AccessTokenModel {
+        val clientId = BuildConfig.CLIENT_ID
+        val clientSecret = BuildConfig.CLIENT_SECRET
+        return this.restClient.postAccessToken(clientId, clientSecret, code, state)
     }
 }

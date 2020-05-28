@@ -26,6 +26,7 @@ android {
         // Client secrets. Read docs in `clientsecrets.example.properties` file for further information
         buildConfigField("String", "PERSONAL_ACCESS_TOKEN", clientSecrets['PERSONAL_ACCESS_TOKEN'])
         buildConfigField("String", "CLIENT_ID", clientSecrets['CLIENT_ID'])
+        buildConfigField("String", "CLIENT_SECRET", clientSecrets['CLIENT_SECRET'])
     }
     buildTypes {
         release {
@@ -59,6 +60,10 @@ dependencies {
     implementation "com.apollographql.apollo:apollo-coroutines-support:$versions.apollo_version"
     compileOnly "org.jetbrains:annotations:13.0"
     testCompileOnly "org.jetbrains:annotations:13.0"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
