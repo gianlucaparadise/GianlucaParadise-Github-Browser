@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.gianlucaparadise.githubbrowser.R
+import com.gianlucaparadise.githubbrowser.adapters.RepositoryClickHandler
 
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.HomeFragmentBinding
@@ -24,7 +27,10 @@ class HomeFragment : BaseMainFragment() {
     ): View? {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter(showOwner = false)
+        val adapter = RepositoryListAdapter(
+            showOwner = false,
+            onRepositoryClicked = onRepositoryClicked
+        )
         binding.repositoryList.adapter = adapter
 
         return binding.root
@@ -41,4 +47,9 @@ class HomeFragment : BaseMainFragment() {
             }
         })
     }
+
+    private val onRepositoryClicked: RepositoryClickHandler = { repository ->
+        findNavController().navigate(R.id.action_homeFragment_to_repositoryDetailFragment)
+    }
+
 }

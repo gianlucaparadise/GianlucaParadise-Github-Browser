@@ -29,7 +29,7 @@ class SearchRepositoryResultsFragment : Fragment() {
     ): View? {
         binding = SearchResultsFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter(showOwner = true)
+        val adapter = RepositoryListAdapter(showOwner = true, onRepositoryClicked = null)
 
         binding.searchResultsList.adapter = adapter
 

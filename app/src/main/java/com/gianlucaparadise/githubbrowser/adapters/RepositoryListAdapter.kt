@@ -1,6 +1,7 @@
 package com.gianlucaparadise.githubbrowser.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
@@ -10,7 +11,12 @@ import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.data.Repository
 import com.gianlucaparadise.githubbrowser.databinding.RepositoryListItemBinding
 
-class RepositoryListAdapter(val showOwner: Boolean) :
+typealias RepositoryClickHandler = (Repository) -> Unit
+
+class RepositoryListAdapter(
+    val showOwner: Boolean,
+    private val onRepositoryClicked: RepositoryClickHandler?
+) :
     PagedListAdapter<Repository, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,17 +32,28 @@ class RepositoryListAdapter(val showOwner: Boolean) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { repository ->
-            holder.bind(repository, showOwner)
+            holder.bind(repository, showOwner, createOnClickListener(repository))
+        }
+    }
+
+    private fun createOnClickListener(repository: Repository): View.OnClickListener {
+        return View.OnClickListener {
+            onRepositoryClicked?.invoke(repository)
         }
     }
 
     class ViewHolder(
         private val binding: RepositoryListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentRepository: Repository, currentShowOwner: Boolean) {
+        fun bind(
+            currentRepository: Repository,
+            currentShowOwner: Boolean,
+            listener: View.OnClickListener
+        ) {
             with(binding) {
                 repository = currentRepository
                 showOwner = currentShowOwner
+                clickListener = listener
                 executePendingBindings()
             }
         }

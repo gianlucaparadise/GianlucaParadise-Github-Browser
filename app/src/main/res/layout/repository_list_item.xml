@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="repository"
             type="com.gianlucaparadise.githubbrowser.data.Repository" />
 
@@ -21,18 +25,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
 
+        android:onClick="@{clickListener}"
+
+        app:avatarUrl="@{repository.owner.avatarUrl}"
         app:owner="@{repository.owner.displayName}"
+        app:ownerVisible="@{showOwner}"
         app:primaryLanguage="@{repository.primaryLanguageName}"
         app:shortDescription="@{repository.shortDescriptionHTML}"
         app:title="@{repository.name}"
         app:totalStars="@{repository.stargazersCount}"
-        app:ownerVisible="@{showOwner}"
-        app:avatarUrl="@{repository.owner.avatarUrl}"
 
         tools:owner="Jake"
+        tools:ownerVisible="false"
         tools:primaryLanguage="Cobol"
         tools:shortDescription="This is a cool modern project"
         tools:title="MyBank"
-        tools:totalStars="42"
-        tools:ownerVisible="false" />
+        tools:totalStars="42" />
 </layout>
