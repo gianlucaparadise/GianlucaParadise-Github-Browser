@@ -23,8 +23,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // Client secrets. Read docs in `clientsecrets.example.properties` file
+        // Client secrets. Read docs in `clientsecrets.example.properties` file for further information
         buildConfigField("String", "PERSONAL_ACCESS_TOKEN", clientSecrets['PERSONAL_ACCESS_TOKEN'])
+        buildConfigField("String", "CLIENT_ID", clientSecrets['CLIENT_ID'])
     }
     buildTypes {
         release {

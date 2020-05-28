@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 
 import com.gianlucaparadise.githubbrowser.R
+import com.gianlucaparadise.githubbrowser.ui.loginwebview.LoginWebViewFragment
 import kotlinx.android.synthetic.main.login_benefits_fragment.*
 
 class LoginBenefitsFragment : Fragment() {
@@ -29,7 +31,7 @@ class LoginBenefitsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_login.setOnClickListener {
-            // TODO
+            it.findNavController().navigate(R.id.loginWebViewFragment)
         }
     }
 

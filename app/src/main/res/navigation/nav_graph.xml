@@ -19,5 +19,14 @@
         android:id="@+id/loginBenefitsFragment"
         android:name="com.gianlucaparadise.githubbrowser.ui.loginbenefits.LoginBenefitsFragment"
         android:label="@string/login_page_title"
-        tools:layout="@layout/login_benefits_fragment" />
+        tools:layout="@layout/login_benefits_fragment" >
+        <action
+            android:id="@+id/action_loginBenefitsFragment_to_loginWebViewFragment"
+            app:destination="@id/loginWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginWebViewFragment"
+        android:name="com.gianlucaparadise.githubbrowser.ui.loginwebview.LoginWebViewFragment"
+        android:label="@string/login_page_title"
+        tools:layout="@layout/login_web_view_fragment" />
 </navigation>
