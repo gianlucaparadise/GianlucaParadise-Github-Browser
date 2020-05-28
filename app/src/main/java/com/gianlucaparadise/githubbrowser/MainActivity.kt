@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.view.isVisible
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -27,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
 
+        navController.addOnDestinationChangedListener(onDestinationChanged)
+
+        // Depending on login state, I choose the start fragment
         if (LoginHelper.isLoggedIn) {
             navGraph.startDestination = R.id.homeFragment
         } else {
@@ -47,6 +53,18 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
+
+    private val onDestinationChanged =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginBenefitsFragment, R.id.loginWebViewFragment -> {
+                    tabBar.isVisible = false // TODO: animate nicely
+                }
+                else -> {
+                    tabBar.isVisible = true // TODO: animate nicely
+                }
+            }
+        }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {

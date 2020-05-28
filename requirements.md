@@ -4,7 +4,7 @@ This is a quick summary from the Requirements pdf document.
 
 ## UI requirements
 
-- [ ] Login Page
+- [x] Login Page
 - [x] Home tab
     - [x] List of Authenticated User's repos as [cards](https://material.io/components/cards​)
 - [x] Search tab
@@ -15,13 +15,14 @@ This is a quick summary from the Requirements pdf document.
 - [ ] User detail
     - [ ] Detailed view of user
     - [ ] Number of followers and following
+- [ ] Nice UI with animations
 
 ## API and Data requirements
 
 Github API to be integrated:
 
 - [x] [Github API V4](​https://developer.github.com/v4/​)
-- [ ] Github Login
+- [x] Github Login
 - [x] Repo for logged user
     - [ ] Cached in a DB for offline check
 - [x] Search repo
