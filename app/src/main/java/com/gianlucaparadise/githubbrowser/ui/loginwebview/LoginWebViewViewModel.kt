@@ -43,6 +43,17 @@ class LoginWebViewViewModel : ViewModel() {
             Log.d(TAG, "AccessToken: $accessTokenModel")
 
             SharedPreferencesManager.accessToken = accessTokenModel.accessToken
+            onLoginCompleted?.invoke()
         }
     }
+
+    /**
+     * This callback is called once the login has been completed and the token has been stored
+     */
+    var onLoginCompleted: (() -> Unit)? = null
+
+    /**
+     * I can't find documentation about login error
+     */
+    var onLoginError: (() -> Unit)? = null
 }

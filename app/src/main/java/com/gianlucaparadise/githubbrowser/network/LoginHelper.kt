@@ -63,6 +63,7 @@ object LoginHelper {
         // state must be the same as previous to protect against cross-site request forgery attacks
         if (state != authDescriptor.state) return false
 
+        // This should also recognize and throw login errors, but I can't find documentation about login error
         return true
     }
 

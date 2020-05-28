@@ -28,5 +28,11 @@
         android:id="@+id/loginWebViewFragment"
         android:name="com.gianlucaparadise.githubbrowser.ui.loginwebview.LoginWebViewFragment"
         android:label="@string/login_page_title"
-        tools:layout="@layout/login_web_view_fragment" />
+        tools:layout="@layout/login_web_view_fragment" >
+        <action
+            android:id="@+id/action_loginWebViewFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/loginBenefitsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

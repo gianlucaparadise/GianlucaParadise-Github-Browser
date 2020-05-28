@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 
 import com.gianlucaparadise.githubbrowser.R
 import kotlinx.android.synthetic.main.login_web_view_fragment.*
@@ -42,7 +43,12 @@ class LoginWebViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(LoginWebViewViewModel::class.java)
 
+        viewModel.onLoginCompleted = onLoginCompleted
         login_webview.loadUrl(viewModel.authUrl)
+    }
+
+    private val onLoginCompleted = {
+        findNavController().navigate(R.id.action_loginWebViewFragment_to_homeFragment)
     }
 
     inner class GithubLoginWebViewClient : WebViewClient() {
