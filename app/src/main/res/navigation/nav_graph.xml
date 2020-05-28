@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginBenefitsFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -15,4 +15,9 @@
         android:name="com.gianlucaparadise.githubbrowser.ui.search.SearchTabsFragment"
         android:label="@string/search_tab_title"
         tools:layout="@layout/search_tabs_fragment" />
+    <fragment
+        android:id="@+id/loginBenefitsFragment"
+        android:name="com.gianlucaparadise.githubbrowser.ui.loginbenefits.LoginBenefitsFragment"
+        android:label="@string/login_page_title"
+        tools:layout="@layout/login_benefits_fragment" />
 </navigation>

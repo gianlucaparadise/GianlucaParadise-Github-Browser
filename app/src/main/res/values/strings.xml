@@ -5,4 +5,7 @@
     <string name="search_people_tab_title">People</string>
     <string name="search_repositories_tab_title">Repositories</string>
     <string name="search_bar_hint">Search...</string>
+    <string name="login_with_github">Login with Github</string>
+    <string name="login_page_title">Login</string>
+    <string name="login_benefits">You need to login to Github in order to use this app</string>
 </resources>

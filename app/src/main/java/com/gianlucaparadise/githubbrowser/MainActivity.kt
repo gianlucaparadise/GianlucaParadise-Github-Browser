@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             topLevelDestinationIds = setOf (
                 R.id.homeFragment,
-                R.id.searchFragment
+                R.id.searchFragment,
+                R.id.loginBenefitsFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
