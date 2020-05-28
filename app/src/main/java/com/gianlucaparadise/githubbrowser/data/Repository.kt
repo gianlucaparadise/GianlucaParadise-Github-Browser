@@ -6,6 +6,7 @@ import com.gianlucaparadise.githubbrowser.fragment.RepositoryFragment
 import java.io.Serializable
 
 data class Repository(
+    val id: String,
     /**
      * The name of the repository.
      */
@@ -29,7 +30,11 @@ data class Repository(
     /**
      * The User owner of the repository.
      */
-    val owner: User?
+    val owner: User?,
+    /**
+     * Returns a boolean indicating whether the viewing user has starred this starrable.
+     */
+    val viewerHasStarred: Boolean
 ) : Serializable {
     companion object {
 
@@ -54,12 +59,14 @@ data class Repository(
             if (repositoryFragment == null) return null
 
             return Repository(
+                id = repositoryFragment.id,
                 name = repositoryFragment.name,
                 description = repositoryFragment.description,
                 shortDescriptionHTML = repositoryFragment.shortDescriptionHTML,
                 primaryLanguageName = repositoryFragment.primaryLanguage?.name,
                 stargazersCount = repositoryFragment.stargazers.totalCount,
-                owner = User.fromUserFragment(repositoryFragment.owner.fragments.userFragment)
+                owner = User.fromUserFragment(repositoryFragment.owner.fragments.userFragment),
+                viewerHasStarred = repositoryFragment.viewerHasStarred
             )
         }
 

@@ -27,6 +27,7 @@ class RepositoryDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = RepositoryDetailFragmentBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 

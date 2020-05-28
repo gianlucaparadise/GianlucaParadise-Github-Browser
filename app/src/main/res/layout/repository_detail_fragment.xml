@@ -90,16 +90,17 @@
             tools:text="primary-language"
             tools:visibility="visible" />
 
-        <TextView
+        <Button
             android:id="@+id/repo_total_stars"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:drawableStart="@drawable/ic_star_black_24dp"
             android:gravity="center_vertical"
-            android:padding="8dp"
+            android:minWidth="0dp"
+            android:onClick="@{() -> viewmodel.onClickStar()}"
             android:text="@{String.valueOf(viewmodel.repository.stargazersCount)}"
-            android:textAppearance="?attr/textAppearanceBody2"
+            app:icon="@drawable/ic_star_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/owner_bottom_barrier"
             tools:text="100" />

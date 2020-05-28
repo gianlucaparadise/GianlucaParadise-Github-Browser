@@ -5,6 +5,7 @@ import com.gianlucaparadise.githubbrowser.fragment.UserFragment
 import java.io.Serializable
 
 data class User(
+    val id: String,
     /**
      * The username used to login.
      */
@@ -38,6 +39,7 @@ data class User(
             if (userFragment == null) return null
 
             return User(
+                id = userFragment.id,
                 login = userFragment.login,
                 bio = userFragment.bio,
                 name = userFragment.name,

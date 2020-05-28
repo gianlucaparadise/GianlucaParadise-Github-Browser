@@ -1,5 +1,6 @@
 package com.gianlucaparadise.githubbrowser.network
 
+import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.api.Operation
@@ -11,6 +12,8 @@ import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.*
 import com.gianlucaparadise.githubbrowser.data.*
+import com.gianlucaparadise.githubbrowser.type.AddStarInput
+import com.gianlucaparadise.githubbrowser.type.RemoveStarInput
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -173,6 +176,67 @@ object BackendService {
 
         } catch (apolloEx: ApolloException) {
             throw Exception("Error while searching for Repositories")
+        }
+    }
+
+    /**
+     * Add or remove a star to the input repository
+     * @return new Stargazers Count
+     */
+    suspend fun toggleStar(repository: Repository): Starrable? {
+        return if (repository.viewerHasStarred) {
+            removeStar(repository)
+        } else {
+            addStar(repository)
+        }
+    }
+
+    /**
+     * Add a star to the input repository
+     * @return new Stargazers Count
+     */
+    private suspend fun addStar(repository: Repository): Starrable? {
+        try {
+            val input = AddStarInput(repository.id)
+            val response = graphQlClient
+                .mutate(AddStarMutation(input))
+                .toDeferred()
+                .await()
+
+            Log.d("Backend", "AddStar response: $response")
+
+            val starrableFragment = response.data?.addStar?.starrable?.fragments?.starrableFragment
+                ?: throw Exception("Empty Response")
+
+            return Starrable.fromStarrableFragment(starrableFragment)
+
+        } catch (apolloEx: ApolloException) {
+            throw Exception("Error while adding star to Repository")
+        }
+    }
+
+    /**
+     * Remove a star from the input repository
+     * @return new Stargazers Count
+     */
+    private suspend fun removeStar(repository: Repository): Starrable? {
+        try {
+            val input = RemoveStarInput(repository.id)
+            val response = graphQlClient
+                .mutate(RemoveStarMutation(input))
+                .toDeferred()
+                .await()
+
+            Log.d("Backend", "RemoveStar response: $response")
+
+            val starrableFragment =
+                response.data?.removeStar?.starrable?.fragments?.starrableFragment
+                    ?: throw Exception("Empty Response")
+
+            return Starrable.fromStarrableFragment(starrableFragment)
+
+        } catch (apolloEx: ApolloException) {
+            throw Exception("Error while removing star from Repository")
         }
     }
 

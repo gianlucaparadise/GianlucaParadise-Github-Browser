@@ -1,6 +1,6 @@
 query AuthenticatedUserQuery {
-  viewer { 
-		...UserFragment
+  viewer {
+    ...UserFragment
   }
 }
 
@@ -45,30 +45,57 @@ query SearchRepositoriesQuery($query: String!, $first: Int, $startCursor: String
   }
 }
 
+mutation AddStar($input: AddStarInput!) {
+  addStar(input: $input) {
+    starrable {
+      ...StarrableFragment
+    }
+  }
+}
+
+mutation RemoveStar($input: RemoveStarInput!) {
+  removeStar(input: $input) {
+    starrable {
+      ...StarrableFragment
+    }
+  }
+}
+
 fragment UserFragment on User {
-    login
-    bio
-    name
-    avatarUrl
-    followers {
-      totalCount
-    }
-    following {
-      totalCount
-    }
+  id
+  login
+  bio
+  name
+  avatarUrl
+  followers {
+    totalCount
+  }
+  following {
+    totalCount
+  }
 }
 
 fragment RepositoryFragment on Repository {
+  name
+  id
+  description
+  shortDescriptionHTML
+  primaryLanguage {
     name
-    description
-    shortDescriptionHTML
-    primaryLanguage {
-      name
-    }
-    stargazers {
-      totalCount
-    }
-    owner {
-      ...UserFragment
-    }
+  }
+  stargazers {
+    totalCount
+  }
+  owner {
+    ...UserFragment
+  }
+  viewerHasStarred
+}
+
+fragment StarrableFragment on Starrable {
+  id
+  stargazers {
+    totalCount
+  }
+  viewerHasStarred
 }
