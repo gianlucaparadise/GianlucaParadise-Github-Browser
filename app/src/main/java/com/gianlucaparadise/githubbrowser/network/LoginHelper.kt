@@ -3,10 +3,12 @@ package com.gianlucaparadise.githubbrowser.network
 import android.net.Uri
 import com.gianlucaparadise.githubbrowser.BuildConfig
 import com.gianlucaparadise.githubbrowser.data.AccessTokenModel
+import com.gianlucaparadise.githubbrowser.data.SharedPreferencesManager
 import java.util.*
 
 private const val GITHUB_AUTHORIZATION_ENDPOINT = "https://github.com/login/oauth/authorize"
-private const val GITHUB_AUTHORIZATION_CALLBACK_URL = "https://githubbrowser.gianlucaparadise.com/callbackUrl"
+private const val GITHUB_AUTHORIZATION_CALLBACK_URL =
+    "https://githubbrowser.gianlucaparadise.com/callbackUrl"
 private const val STATE_QUERY_PARAM_NAME = "state"
 
 /**
@@ -16,7 +18,7 @@ private const val STATE_QUERY_PARAM_NAME = "state"
  * 3. Everytime the URL changes, try to get a `LoginDescriptor` using the method `buildLoginDescriptor`.
  * 4. Once you get a `LoginDescriptor` from Step#3, you can stop the WebView
  * 5. Using the `LoginDescriptor` received from Step#4, get the access token using the method `retrieveAccessToken`
- * 6. Now you can save the access token and use it for your API calls
+ * 6. Now you can save the access token with the method `completeLogin` and use it for your API calls
  */
 object LoginHelper {
 
@@ -84,8 +86,25 @@ object LoginHelper {
         return LoginDescriptor(state, code)
     }
 
+    /**
+     * Gets the access token with the API
+     */
     suspend fun retrieveAccessToken(loginDescriptor: LoginDescriptor): AccessTokenModel {
         return BackendService.retrieveAccessToken(loginDescriptor.code, loginDescriptor.state)
+    }
+
+    /**
+     * Saves the access token
+     */
+    fun completeLogin(accessTokenModel: AccessTokenModel) {
+        SharedPreferencesManager.accessToken = accessTokenModel.accessToken
+    }
+
+    /**
+     * Deletes the access token
+     */
+    fun logout() {
+        SharedPreferencesManager.accessToken = null
     }
 
     data class AuthDescriptor(

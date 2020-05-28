@@ -31,7 +31,7 @@ class LoginBenefitsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_login.setOnClickListener {
-            it.findNavController().navigate(R.id.loginWebViewFragment)
+            it.findNavController().navigate(R.id.action_loginBenefitsFragment_to_loginWebViewFragment)
         }
     }
 

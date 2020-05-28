@@ -1,18 +1,12 @@
 package com.gianlucaparadise.githubbrowser.ui.loginwebview
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gianlucaparadise.githubbrowser.data.SharedPreferencesManager
 import com.gianlucaparadise.githubbrowser.network.LoginHelper
 import kotlinx.coroutines.launch
 
 class LoginWebViewViewModel : ViewModel() {
-
-    companion object {
-        const val TAG = "LoginWebViewViewModel"
-    }
 
     private val authDescriptor: LoginHelper.AuthDescriptor =
         LoginHelper.buildAuthorizationDescriptor()
@@ -40,9 +34,7 @@ class LoginWebViewViewModel : ViewModel() {
 
         viewModelScope.launch {
             val accessTokenModel = LoginHelper.retrieveAccessToken(loginDescriptor)
-            Log.d(TAG, "AccessToken: $accessTokenModel")
-
-            SharedPreferencesManager.accessToken = accessTokenModel.accessToken
+            LoginHelper.completeLogin(accessTokenModel)
             onLoginCompleted?.invoke()
         }
     }
