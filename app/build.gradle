@@ -60,6 +60,7 @@ dependencies {
     // Apollo GraphQL
     implementation "com.apollographql.apollo:apollo-runtime:$versions.apollo_version"
     implementation "com.apollographql.apollo:apollo-coroutines-support:$versions.apollo_version"
+    implementation "com.apollographql.apollo:apollo-normalized-cache-sqlite:$versions.apollo_version"
     compileOnly "org.jetbrains:annotations:13.0"
     testCompileOnly "org.jetbrains:annotations:13.0"
 

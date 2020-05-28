@@ -9,8 +9,8 @@ This is a quick summary from the Requirements pdf document.
     - [x] List of Authenticated User's repos as [cards](https://material.io/components/cards​)
 - [x] Search tab
     - [x] Search for either repositories or users
-- [ ] Repository detail
-    - [ ] Detailed view of repository
+- [x] Repository detail
+    - [x] Detailed view of repository
     - [ ] Button to "star" the repo
 - [ ] User detail
     - [ ] Detailed view of user
@@ -24,7 +24,7 @@ Github API to be integrated:
 - [x] [Github API V4](​https://developer.github.com/v4/​)
 - [x] Github Login
 - [x] Repo for logged user
-    - [ ] Cached in a DB for offline check
+    - [x] Cached in a DB for offline check
 - [x] Search repo
 - [x] Search users
 - [ ] "Star" a repository
