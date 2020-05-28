@@ -7,6 +7,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 
+/**
+ * These tests work only if PersonalAccessToken is used in place of regular access token
+ * TODO: Mock SharedPreferencesManager class and use PersonalAccessToken
+ */
 class BackendServiceTest {
     @Test
     fun authenticatedUserTest() {

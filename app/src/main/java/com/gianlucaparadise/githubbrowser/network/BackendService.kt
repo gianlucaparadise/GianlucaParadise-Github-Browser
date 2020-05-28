@@ -5,10 +5,7 @@ import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.*
-import com.gianlucaparadise.githubbrowser.data.AccessTokenModel
-import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
-import com.gianlucaparadise.githubbrowser.data.Repository
-import com.gianlucaparadise.githubbrowser.data.User
+import com.gianlucaparadise.githubbrowser.data.*
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,10 +24,10 @@ object BackendService {
     private val restClient: GithubService
 
     init {
-        val authHeader = "Bearer ${BuildConfig.PERSONAL_ACCESS_TOKEN}"
         val okHttpClient = OkHttpClient.Builder()
             .authenticator(object : Authenticator {
                 override fun authenticate(route: Route?, response: Response): Request? {
+                    val authHeader = "Bearer ${SharedPreferencesManager.accessToken}"
                     return response.request.newBuilder().header("Authorization", authHeader)
                         .build()
                 }
