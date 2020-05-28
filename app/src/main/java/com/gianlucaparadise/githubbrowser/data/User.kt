@@ -2,6 +2,7 @@ package com.gianlucaparadise.githubbrowser.data
 
 import com.gianlucaparadise.githubbrowser.SearchUsersQuery
 import com.gianlucaparadise.githubbrowser.fragment.UserFragment
+import java.io.Serializable
 
 data class User(
     /**
@@ -28,7 +29,7 @@ data class User(
      * The total count of users the given user is following.
      */
     val followingCount: Int
-) {
+) : Serializable {
     val displayName: String
         get() = name ?: login
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 
 import com.gianlucaparadise.githubbrowser.R
 
@@ -14,6 +15,8 @@ class RepositoryDetailFragment : Fragment() {
     companion object {
         fun newInstance() = RepositoryDetailFragment()
     }
+
+    private val args: RepositoryDetailFragmentArgs by navArgs()
 
     private lateinit var viewModel: RepositoryDetailViewModel
 
@@ -26,7 +29,10 @@ class RepositoryDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(RepositoryDetailViewModel::class.java)
+
+        val factory = RepositoryDetailViewModel.Factory(args.repository)
+        viewModel = ViewModelProviders.of(this, factory).get(RepositoryDetailViewModel::class.java)
+
         // TODO: Use the ViewModel
     }
 

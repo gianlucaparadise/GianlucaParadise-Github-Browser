@@ -3,6 +3,7 @@ package com.gianlucaparadise.githubbrowser.data
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserRepositoriesQuery
 import com.gianlucaparadise.githubbrowser.SearchRepositoriesQuery
 import com.gianlucaparadise.githubbrowser.fragment.RepositoryFragment
+import java.io.Serializable
 
 data class Repository(
     /**
@@ -29,7 +30,7 @@ data class Repository(
      * The User owner of the repository.
      */
     val owner: User?
-) {
+) : Serializable {
     companion object {
 
         private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repository> {
@@ -68,7 +69,8 @@ data class Repository(
             val repositories = mutableListOf<Repository>()
 
             searchRepositoriesNodes.forEach { node ->
-                val repository = Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+                val repository =
+                    Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
                 if (repository != null) {
                     repositories.add(repository)
                 }

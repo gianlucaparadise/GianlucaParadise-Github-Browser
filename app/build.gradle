@@ -8,6 +8,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.apollographql.apollo'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 def clientSecretsFile = rootProject.file("clientsecrets.properties")
 def clientSecrets = new Properties()
 clientSecrets.load(new FileInputStream(clientSecretsFile))

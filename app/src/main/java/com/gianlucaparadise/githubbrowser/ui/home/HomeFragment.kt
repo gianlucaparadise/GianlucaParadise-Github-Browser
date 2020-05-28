@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryClickHandler
 
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
@@ -49,7 +48,8 @@ class HomeFragment : BaseMainFragment() {
     }
 
     private val onRepositoryClicked: RepositoryClickHandler = { repository ->
-        findNavController().navigate(R.id.action_homeFragment_to_repositoryDetailFragment)
+        val action = HomeFragmentDirections.actionHomeFragmentToRepositoryDetailFragment(repository)
+        findNavController().navigate(action)
     }
 
 }
