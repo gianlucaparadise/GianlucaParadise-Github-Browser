@@ -10,4 +10,6 @@
     <string name="login_benefits">You need to login to Github in order to use this app</string>
     <string name="logout">Logout</string>
     <string name="owner_name_extended">Crafted with ❤️ by</string>
+    <string name="followers">Followers: %s</string>
+    <string name="following">Following: %s</string>
 </resources>

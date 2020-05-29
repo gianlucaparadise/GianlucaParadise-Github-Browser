@@ -12,9 +12,9 @@ This is a quick summary from the Requirements pdf document.
 - [x] Repository detail
     - [x] Detailed view of repository
     - [x] Button to "star" the repo
-- [ ] User detail
-    - [ ] Detailed view of user
-    - [ ] Number of followers and following
+- [x] User detail
+    - [x] Detailed view of user
+    - [x] Number of followers and following
 - [ ] Nice UI with animations
 
 ## API and Data requirements
