@@ -1,6 +1,7 @@
 package com.gianlucaparadise.githubbrowser.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
@@ -10,7 +11,9 @@ import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.data.User
 import com.gianlucaparadise.githubbrowser.databinding.UserListItemBinding
 
-class UserListAdapter :
+typealias UserClickHandler = (User) -> Unit
+
+class UserListAdapter(private val onUserClicked: UserClickHandler?) :
     PagedListAdapter<User, UserListAdapter.ViewHolder>(UserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,16 +29,26 @@ class UserListAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { user ->
-            holder.bind(user)
+            holder.bind(user, createOnClickListener(user))
+        }
+    }
+
+    private fun createOnClickListener(user: User): View.OnClickListener {
+        return View.OnClickListener {
+            onUserClicked?.invoke(user)
         }
     }
 
     class ViewHolder(
         private val binding: UserListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentUser: User) {
+        fun bind(
+            currentUser: User,
+            listener: View.OnClickListener
+        ) {
             with(binding) {
                 user = currentUser
+                clickListener = listener
                 executePendingBindings()
             }
         }
