@@ -100,9 +100,10 @@
             android:minWidth="0dp"
             android:onClick="@{() -> viewmodel.onClickStar()}"
             android:text="@{String.valueOf(viewmodel.repository.stargazersCount)}"
-            app:icon="@drawable/ic_star_black_24dp"
+            app:icon="@{viewmodel.repository.viewerHasStarred ? @drawable/ic_star_black_24dp : @drawable/ic_star_border_black_24dp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/owner_bottom_barrier"
+            tools:icon="@drawable/ic_star_black_24dp"
             tools:text="100" />
 
         <TextView
