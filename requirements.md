@@ -11,7 +11,7 @@ This is a quick summary from the Requirements pdf document.
     - [x] Search for either repositories or users
 - [x] Repository detail
     - [x] Detailed view of repository
-    - [ ] Button to "star" the repo
+    - [x] Button to "star" the repo
 - [ ] User detail
     - [ ] Detailed view of user
     - [ ] Number of followers and following
@@ -27,7 +27,7 @@ Github API to be integrated:
     - [x] Cached in a DB for offline check
 - [x] Search repo
 - [x] Search users
-- [ ] "Star" a repository
+- [x] "Star" a repository
 
 Models:
 

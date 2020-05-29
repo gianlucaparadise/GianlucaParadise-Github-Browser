@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     private val onDestinationChanged =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

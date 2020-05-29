@@ -10,8 +10,9 @@ import androidx.navigation.fragment.navArgs
 
 import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.databinding.RepositoryDetailFragmentBinding
+import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
 
-class RepositoryDetailFragment : Fragment() {
+class RepositoryDetailFragment : BaseMainFragment() {
 
     companion object {
         fun newInstance() = RepositoryDetailFragment()
