@@ -54,6 +54,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+    override fun onBackPressed() {
+        if (onSupportNavigateUp()) return
+
+        // If I can't navigate back using navigation component I call base implementation
+        super.onBackPressed()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
