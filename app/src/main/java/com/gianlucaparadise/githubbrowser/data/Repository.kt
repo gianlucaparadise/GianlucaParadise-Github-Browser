@@ -16,10 +16,6 @@ data class Repository(
      */
     val description: String?,
     /**
-     * A description of the repository, rendered to HTML without any links in it.
-     */
-    val shortDescriptionHTML: Any,
-    /**
      * The primary language name of the repository's code.
      */
     val primaryLanguageName: String?,
@@ -62,7 +58,6 @@ data class Repository(
                 id = repositoryFragment.id,
                 name = repositoryFragment.name,
                 description = repositoryFragment.description,
-                shortDescriptionHTML = repositoryFragment.shortDescriptionHTML,
                 primaryLanguageName = repositoryFragment.primaryLanguage?.name,
                 stargazersCount = repositoryFragment.stargazers.totalCount,
                 owner = User.fromUserFragment(repositoryFragment.owner.fragments.userFragment),

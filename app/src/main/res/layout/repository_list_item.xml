@@ -31,7 +31,7 @@
         app:owner="@{repository.owner.displayName}"
         app:ownerVisible="@{showOwner}"
         app:primaryLanguage="@{repository.primaryLanguageName}"
-        app:shortDescription="@{repository.shortDescriptionHTML}"
+        app:shortDescription="@{repository.description}"
         app:title="@{repository.name}"
         app:totalStars="@{repository.stargazersCount}"
 
