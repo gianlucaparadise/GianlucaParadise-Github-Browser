@@ -45,6 +45,10 @@ abstract class BaseMainFragment : Fragment() {
 
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.homeFragment, true)
+            .setEnterAnim(R.anim.fragment_open_enter)
+            .setExitAnim(R.anim.fragment_open_exit)
+            .setPopEnterAnim(R.anim.fragment_close_enter)
+            .setPopExitAnim(R.anim.fragment_close_exit)
             .build()
         findNavController().navigate(R.id.loginBenefitsFragment, null, navOptions)
 

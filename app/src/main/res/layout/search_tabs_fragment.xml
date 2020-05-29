@@ -38,6 +38,7 @@
             android:id="@+id/pager_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabSelectedTextColor="?attr/colorOnSurface"
             app:tabIndicatorColor="?attr/colorOnSurface"
             app:tabIndicatorHeight="4dp"/>
 
