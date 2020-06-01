@@ -18,7 +18,7 @@
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit">
             <argument
-                android:name="repository"
+                android:name="repo"
                 app:argType="com.gianlucaparadise.githubbrowser.data.Repository" />
         </action>
     </fragment>
@@ -36,7 +36,7 @@
             app:popExitAnim="@anim/fragment_close_exit">
 
             <argument
-                android:name="repository"
+                android:name="repo"
                 app:argType="com.gianlucaparadise.githubbrowser.data.Repository" />
         </action>
         <action
@@ -86,7 +86,7 @@
         android:name="com.gianlucaparadise.githubbrowser.ui.repositorydetail.RepositoryDetailFragment"
         tools:layout="@layout/repository_detail_fragment">
         <argument
-            android:name="repository"
+            android:name="repo"
             app:argType="com.gianlucaparadise.githubbrowser.data.Repository" />
     </fragment>
     <fragment

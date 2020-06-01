@@ -5,18 +5,18 @@ import com.gianlucaparadise.githubbrowser.SearchRepositoriesQuery
 import com.gianlucaparadise.githubbrowser.fragment.RepositoryFragment
 import java.io.Serializable
 
-data class Repository(
+data class Repo(
     val id: String,
     /**
-     * The name of the repository.
+     * The name of the repo.
      */
     val name: String,
     /**
-     * The description of the repository.
+     * The description of the repo.
      */
     val description: String?,
     /**
-     * The primary language name of the repository's code.
+     * The primary language name of the repo's code.
      */
     val primaryLanguageName: String?,
     /**
@@ -24,7 +24,7 @@ data class Repository(
      */
     val stargazersCount: Int,
     /**
-     * The User owner of the repository.
+     * The User owner of the repo.
      */
     val owner: User?,
     /**
@@ -34,14 +34,14 @@ data class Repository(
 ) : Serializable {
     companion object {
 
-        private fun fromRepositoryNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repository> {
+        private fun fromRepoNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repo> {
             if (repositoryNodes == null) return emptyList()
 
-            val repositories = mutableListOf<Repository>()
+            val repositories = mutableListOf<Repo>()
 
             repositoryNodes.forEach { node ->
                 val repository =
-                    Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+                    Repo.fromRepoFragment(node?.fragments?.repositoryFragment)
 
                 if (repository != null) {
                     repositories.add(repository)
@@ -51,10 +51,10 @@ data class Repository(
             return repositories
         }
 
-        private fun fromRepositoryFragment(repositoryFragment: RepositoryFragment?): Repository? {
+        private fun fromRepoFragment(repositoryFragment: RepositoryFragment?): Repo? {
             if (repositoryFragment == null) return null
 
-            return Repository(
+            return Repo(
                 id = repositoryFragment.id,
                 name = repositoryFragment.name,
                 description = repositoryFragment.description,
@@ -65,14 +65,14 @@ data class Repository(
             )
         }
 
-        private fun fromSearchRepositoriesNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repository> {
+        private fun fromSearchReposNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repo> {
             if (searchRepositoriesNodes == null) return emptyList()
 
-            val repositories = mutableListOf<Repository>()
+            val repositories = mutableListOf<Repo>()
 
             searchRepositoriesNodes.forEach { node ->
                 val repository =
-                    Repository.fromRepositoryFragment(node?.fragments?.repositoryFragment)
+                    Repo.fromRepoFragment(node?.fragments?.repositoryFragment)
                 if (repository != null) {
                     repositories.add(repository)
                 }
@@ -81,21 +81,21 @@ data class Repository(
             return repositories
         }
 
-        fun fromRepositoriesResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories): PaginatedResponse<Repository> {
+        fun fromReposResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories): PaginatedResponse<Repo> {
             return PaginatedResponse(
                 endCursor = repositories.pageInfo.endCursor,
                 hasNextPage = repositories.pageInfo.hasNextPage,
                 totalCount = repositories.totalCount,
-                nodes = Repository.fromRepositoryNodeList(repositories.nodes)
+                nodes = Repo.fromRepoNodeList(repositories.nodes)
             )
         }
 
-        fun fromSearchRepositoriesResponse(repositories: SearchRepositoriesQuery.Search): PaginatedResponse<Repository> {
+        fun fromSearchReposResponse(repositories: SearchRepositoriesQuery.Search): PaginatedResponse<Repo> {
             return PaginatedResponse(
                 endCursor = repositories.pageInfo.endCursor,
                 hasNextPage = repositories.pageInfo.hasNextPage,
                 totalCount = repositories.repositoryCount,
-                nodes = Repository.fromSearchRepositoriesNodeList(repositories.nodes)
+                nodes = Repo.fromSearchReposNodeList(repositories.nodes)
             )
         }
     }

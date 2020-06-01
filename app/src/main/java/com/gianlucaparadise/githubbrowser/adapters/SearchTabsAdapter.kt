@@ -9,7 +9,7 @@ import com.gianlucaparadise.githubbrowser.ui.search.SearchUserResultsFragment
 
 class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     companion object {
-        val tabs = arrayOf(TabType.PEOPLE, TabType.REPOSITORIES)
+        val tabs = arrayOf(TabType.PEOPLE, TabType.REPOS)
     }
 
     override fun getItemCount(): Int = tabs.size
@@ -18,12 +18,12 @@ class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
         val currentTab = tabs[position]
         return when(currentTab) {
             TabType.PEOPLE -> SearchUserResultsFragment.newInstance()
-            TabType.REPOSITORIES -> SearchRepositoryResultsFragment.newInstance()
+            TabType.REPOS -> SearchRepositoryResultsFragment.newInstance()
         }
     }
 
     enum class TabType(@StringRes val title: Int) {
         PEOPLE(R.string.search_people_tab_title),
-        REPOSITORIES(R.string.search_repositories_tab_title)
+        REPOS(R.string.search_repos_tab_title)
     }
 }

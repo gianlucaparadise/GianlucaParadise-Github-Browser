@@ -35,7 +35,7 @@ class RepositoryDetailFragment : BaseMainFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory = RepositoryDetailViewModel.Factory(args.repository)
+        val factory = RepositoryDetailViewModel.Factory(args.repo)
         viewModel = ViewModelProviders.of(this, factory).get(RepositoryDetailViewModel::class.java)
         binding.viewmodel = viewModel
     }

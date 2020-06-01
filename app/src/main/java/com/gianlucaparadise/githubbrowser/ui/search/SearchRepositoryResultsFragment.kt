@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.gianlucaparadise.githubbrowser.adapters.RepositoryClickHandler
+import com.gianlucaparadise.githubbrowser.adapters.RepoClickHandler
 
 import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
-import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding
 import java.lang.Exception
 
@@ -31,7 +29,7 @@ class SearchRepositoryResultsFragment : Fragment() {
     ): View? {
         binding = SearchResultsFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter(showOwner = true, onRepositoryClicked = onRepositoryClicked)
+        val adapter = RepositoryListAdapter(showOwner = true, onRepoClicked = onRepoClicked)
 
         binding.searchResultsList.adapter = adapter
 
@@ -46,7 +44,7 @@ class SearchRepositoryResultsFragment : Fragment() {
             ViewModelProviders.of(this).get(SearchViewModel::class.java)
         } ?: throw Exception("Activity is null, can't get ViewModel")
 
-        viewModel.repositories.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.repos.observe(viewLifecycleOwner, Observer { result ->
             val adapter = binding.searchResultsList.adapter
             if (adapter is RepositoryListAdapter) {
                 adapter.submitList(result)
@@ -54,8 +52,8 @@ class SearchRepositoryResultsFragment : Fragment() {
         })
     }
 
-    private val onRepositoryClicked: RepositoryClickHandler = { repository ->
-        val action = SearchTabsFragmentDirections.actionSearchFragmentToRepositoryDetailFragment(repository)
+    private val onRepoClicked: RepoClickHandler = { repo ->
+        val action = SearchTabsFragmentDirections.actionSearchFragmentToRepositoryDetailFragment(repo)
         findNavController().navigate(action)
     }
 }

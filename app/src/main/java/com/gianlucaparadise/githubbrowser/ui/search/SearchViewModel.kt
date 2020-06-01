@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.gianlucaparadise.githubbrowser.data.Repository
+import com.gianlucaparadise.githubbrowser.data.Repo
 import com.gianlucaparadise.githubbrowser.data.SearchRepositoryResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.User
@@ -32,18 +32,18 @@ class SearchViewModel : ViewModel() {
         .setEnablePlaceholders(false)
         .build()
 
-    //region Repositories handling
-    private val repositoriesSourceLiveData = MutableLiveData<SearchRepositoryResultsDataSource>()
-    private val repositoryDataSourceFactory = object : DataSource.Factory<String, Repository>() {
-        override fun create(): DataSource<String, Repository> {
+    //region Repos handling
+    private val reposSourceLiveData = MutableLiveData<SearchRepositoryResultsDataSource>()
+    private val reposDataSourceFactory = object : DataSource.Factory<String, Repo>() {
+        override fun create(): DataSource<String, Repo> {
             val source = SearchRepositoryResultsDataSource(viewModelScope, searchQuery.value)
-            repositoriesSourceLiveData.postValue(source)
+            reposSourceLiveData.postValue(source)
             return source
         }
     }
 
-    val repositories: LiveData<PagedList<Repository>> = repositoryDataSourceFactory.toLiveData(pagingConfig)
-    private fun updateRepositoriesDataSource(query: String) = repositoriesSourceLiveData.value?.updateSearchQuery(query)
+    val repos: LiveData<PagedList<Repo>> = reposDataSourceFactory.toLiveData(pagingConfig)
+    private fun updateReposDataSource(query: String) = reposSourceLiveData.value?.updateSearchQuery(query)
     //endregion
 
     //region Users handling
@@ -70,7 +70,7 @@ class SearchViewModel : ViewModel() {
 
         if (query.isBlank()) {
             // When query is empty, I don't want to wait because probably results are cached
-            updateRepositoriesDataSource("")
+            updateReposDataSource("")
             updateUsersDataSource("")
             return
         }
@@ -80,7 +80,7 @@ class SearchViewModel : ViewModel() {
             Log.d(tag, "Waiting to request: $query")
             delay(500)
             Log.d(tag, "Requesting: $query")
-            updateRepositoriesDataSource(query)
+            updateReposDataSource(query)
             updateUsersDataSource(query)
         }
     }

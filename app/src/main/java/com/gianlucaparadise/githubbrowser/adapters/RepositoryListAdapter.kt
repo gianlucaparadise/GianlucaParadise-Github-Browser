@@ -8,16 +8,16 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gianlucaparadise.githubbrowser.R
-import com.gianlucaparadise.githubbrowser.data.Repository
+import com.gianlucaparadise.githubbrowser.data.Repo
 import com.gianlucaparadise.githubbrowser.databinding.RepositoryListItemBinding
 
-typealias RepositoryClickHandler = (Repository) -> Unit
+typealias RepoClickHandler = (Repo) -> Unit
 
 class RepositoryListAdapter(
     val showOwner: Boolean,
-    private val onRepositoryClicked: RepositoryClickHandler?
+    private val onRepoClicked: RepoClickHandler?
 ) :
-    PagedListAdapter<Repository, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
+    PagedListAdapter<Repo, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -31,14 +31,14 @@ class RepositoryListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { repository ->
-            holder.bind(repository, showOwner, createOnClickListener(repository))
+        getItem(position)?.let { repo ->
+            holder.bind(repo, showOwner, createOnClickListener(repo))
         }
     }
 
-    private fun createOnClickListener(repository: Repository): View.OnClickListener {
+    private fun createOnClickListener(repo: Repo): View.OnClickListener {
         return View.OnClickListener {
-            onRepositoryClicked?.invoke(repository)
+            onRepoClicked?.invoke(repo)
         }
     }
 
@@ -46,12 +46,12 @@ class RepositoryListAdapter(
         private val binding: RepositoryListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            currentRepository: Repository,
+            currentRepo: Repo,
             currentShowOwner: Boolean,
             listener: View.OnClickListener
         ) {
             with(binding) {
-                repository = currentRepository
+                repo = currentRepo
                 showOwner = currentShowOwner
                 clickListener = listener
                 executePendingBindings()
@@ -60,18 +60,18 @@ class RepositoryListAdapter(
     }
 }
 
-private class RepositoryDiffCallback : DiffUtil.ItemCallback<Repository>() {
+private class RepositoryDiffCallback : DiffUtil.ItemCallback<Repo>() {
 
     override fun areItemsTheSame(
-        oldItem: Repository,
-        newItem: Repository
+        oldItem: Repo,
+        newItem: Repo
     ): Boolean {
         return oldItem.name == newItem.name && oldItem.owner?.login == newItem.owner?.login
     }
 
     override fun areContentsTheSame(
-        oldItem: Repository,
-        newItem: Repository
+        oldItem: Repo,
+        newItem: Repo
     ): Boolean {
         return oldItem == newItem
     }

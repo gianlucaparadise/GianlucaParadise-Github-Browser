@@ -1,56 +1,56 @@
 package com.gianlucaparadise.githubbrowser.ui.repositorydetail
 
 import androidx.lifecycle.*
-import com.gianlucaparadise.githubbrowser.data.Repository
+import com.gianlucaparadise.githubbrowser.data.Repo
 import com.gianlucaparadise.githubbrowser.network.BackendService
 import kotlinx.coroutines.launch
 
 
-class RepositoryDetailViewModel(inputRepository: Repository) : ViewModel() {
+class RepositoryDetailViewModel(inputRepo: Repo) : ViewModel() {
 
-    private val _repository = MutableLiveData<Repository>()
-    val repository: LiveData<Repository> = _repository
+    private val _repo = MutableLiveData<Repo>()
+    val repo: LiveData<Repo> = _repo
 
     private val _ownerNameAndLoginid = MutableLiveData<String>()
     val ownerNameAndLoginid: LiveData<String> = _ownerNameAndLoginid
 
     init {
-        updateRepository(inputRepository)
+        updateRepo(inputRepo)
     }
 
-    private fun updateRepository(repository: Repository) {
-        _repository.value = repository
-        _ownerNameAndLoginid.value = if (repository.owner?.name != null) {
-            "${repository.owner.name} (${repository.owner.login})"
+    private fun updateRepo(repo: Repo) {
+        _repo.value = repo
+        _ownerNameAndLoginid.value = if (repo.owner?.name != null) {
+            "${repo.owner.name} (${repo.owner.login})"
         } else {
-            repository.owner?.login
+            repo.owner?.login
         }
     }
 
     fun onClickStar() {
         viewModelScope.launch {
-            val repository = _repository.value
+            val repo = _repo.value
 
-            if (repository != null) {
-                val starrable = BackendService.toggleStar(repository)
+            if (repo != null) {
+                val starrable = BackendService.toggleStar(repo)
                 if (starrable != null) {
-                    val newRepo = repository.copy(
+                    val newRepo = repo.copy(
                         stargazersCount = starrable.stargazersCount,
                         viewerHasStarred = starrable.viewerHasStarred
                     )
-                    updateRepository(newRepo)
+                    updateRepo(newRepo)
                 }
             }
         }
     }
 
     class Factory(
-        private val repository: Repository
+        private val repo: Repo
     ) : ViewModelProvider.Factory {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RepositoryDetailViewModel(repository) as T
+            return RepositoryDetailViewModel(repo) as T
         }
     }
 }

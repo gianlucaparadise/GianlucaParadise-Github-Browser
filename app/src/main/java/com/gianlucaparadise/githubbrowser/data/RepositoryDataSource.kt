@@ -5,14 +5,14 @@ import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import kotlinx.coroutines.CoroutineScope
 
 class RepositoryDataSource(scope: CoroutineScope, searchQuery: String? = null) :
-    SearchableDataSource<Repository>(scope, searchQuery) {
+    SearchableDataSource<Repo>(scope, searchQuery) {
 
     override suspend fun load(
         first: Int,
         startCursor: String?,
         query: String?
-    ): PaginatedResponse<Repository> {
-        return BackendService.retrieveAuthenticatedUserRepositories(first, startCursor)
+    ): PaginatedResponse<Repo> {
+        return BackendService.retrieveAuthenticatedUserRepos(first, startCursor)
     }
 
 }

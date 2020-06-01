@@ -3,11 +3,6 @@ package com.gianlucaparadise.githubbrowser.network
 import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
-import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.api.ResponseField
-import com.apollographql.apollo.cache.normalized.CacheKey
-import com.apollographql.apollo.cache.normalized.CacheKeyResolver
-import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.*
@@ -73,12 +68,12 @@ object BackendService {
         }
     }
 
-    suspend fun retrieveAuthenticatedUserRepositories(
+    suspend fun retrieveAuthenticatedUserRepos(
         first: Int,
         startCursor: String? = null
-    ): PaginatedResponse<Repository> {
+    ): PaginatedResponse<Repo> {
         try {
-            val repositories = graphQlClient
+            val repos = graphQlClient
                 .query(
                     AuthenticatedUserRepositoriesQuery(
                         Input.fromNullable(first),
@@ -88,13 +83,13 @@ object BackendService {
                 .toDeferred()
                 .await()
 
-            val repositoriesResponse = repositories.data?.viewer?.repositories
+            val reposResponse = repos.data?.viewer?.repositories
                 ?: throw Exception("Empty Response")
 
-            return Repository.fromRepositoriesResponse(repositoriesResponse)
+            return Repo.fromReposResponse(reposResponse)
 
         } catch (apolloEx: ApolloException) {
-            throw Exception("Error while retrieving Authenticated User's Repositories")
+            throw Exception("Error while retrieving Authenticated User's Repos")
         }
     }
 
@@ -125,13 +120,13 @@ object BackendService {
         }
     }
 
-    suspend fun searchRepositories(
+    suspend fun searchRepos(
         query: String,
         first: Int,
         startCursor: String? = null
-    ): PaginatedResponse<Repository> {
+    ): PaginatedResponse<Repo> {
         try {
-            val repositories = graphQlClient
+            val repos = graphQlClient
                 .query(
                     SearchRepositoriesQuery(
                         query,
@@ -142,35 +137,35 @@ object BackendService {
                 .toDeferred()
                 .await()
 
-            val repositoriesResponse = repositories.data?.search
+            val reposResponse = repos.data?.search
                 ?: throw Exception("Empty Response")
 
-            return Repository.fromSearchRepositoriesResponse(repositoriesResponse)
+            return Repo.fromSearchReposResponse(reposResponse)
 
         } catch (apolloEx: ApolloException) {
-            throw Exception("Error while searching for Repositories")
+            throw Exception("Error while searching for Repos")
         }
     }
 
     /**
-     * Add or remove a star to the input repository
+     * Add or remove a star to the input repo
      * @return new Stargazers Count
      */
-    suspend fun toggleStar(repository: Repository): Starrable? {
-        return if (repository.viewerHasStarred) {
-            removeStar(repository)
+    suspend fun toggleStar(repo: Repo): Starrable? {
+        return if (repo.viewerHasStarred) {
+            removeStar(repo)
         } else {
-            addStar(repository)
+            addStar(repo)
         }
     }
 
     /**
-     * Add a star to the input repository
+     * Add a star to the input repo
      * @return new Stargazers Count
      */
-    private suspend fun addStar(repository: Repository): Starrable? {
+    private suspend fun addStar(repo: Repo): Starrable? {
         try {
-            val input = AddStarInput(repository.id)
+            val input = AddStarInput(repo.id)
             val response = graphQlClient
                 .mutate(AddStarMutation(input))
                 .toDeferred()
@@ -184,17 +179,17 @@ object BackendService {
             return Starrable.fromStarrableFragment(starrableFragment)
 
         } catch (apolloEx: ApolloException) {
-            throw Exception("Error while adding star to Repository")
+            throw Exception("Error while adding star to Repo")
         }
     }
 
     /**
-     * Remove a star from the input repository
+     * Remove a star from the input repo
      * @return new Stargazers Count
      */
-    private suspend fun removeStar(repository: Repository): Starrable? {
+    private suspend fun removeStar(repo: Repo): Starrable? {
         try {
-            val input = RemoveStarInput(repository.id)
+            val input = RemoveStarInput(repo.id)
             val response = graphQlClient
                 .mutate(RemoveStarMutation(input))
                 .toDeferred()
@@ -209,7 +204,7 @@ object BackendService {
             return Starrable.fromStarrableFragment(starrableFragment)
 
         } catch (apolloEx: ApolloException) {
-            throw Exception("Error while removing star from Repository")
+            throw Exception("Error while removing star from Repo")
         }
     }
 

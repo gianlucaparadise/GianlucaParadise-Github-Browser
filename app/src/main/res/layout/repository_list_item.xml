@@ -10,8 +10,8 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="repository"
-            type="com.gianlucaparadise.githubbrowser.data.Repository" />
+            name="repo"
+            type="com.gianlucaparadise.githubbrowser.data.Repo" />
 
         <variable
             name="showOwner"
@@ -20,20 +20,20 @@
 
 
     <com.gianlucaparadise.githubbrowser.views.RepositoryCardView
-        android:id="@+id/repository_card"
+        android:id="@+id/repo_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
 
         android:onClick="@{clickListener}"
 
-        app:avatarUrl="@{repository.owner.avatarUrl}"
-        app:owner="@{repository.owner.displayName}"
+        app:avatarUrl="@{repo.owner.avatarUrl}"
+        app:owner="@{repo.owner.displayName}"
         app:ownerVisible="@{showOwner}"
-        app:primaryLanguage="@{repository.primaryLanguageName}"
-        app:shortDescription="@{repository.description}"
-        app:title="@{repository.name}"
-        app:totalStars="@{repository.stargazersCount}"
+        app:primaryLanguage="@{repo.primaryLanguageName}"
+        app:shortDescription="@{repo.description}"
+        app:title="@{repo.name}"
+        app:totalStars="@{repo.stargazersCount}"
 
         tools:owner="Jake"
         tools:ownerVisible="false"

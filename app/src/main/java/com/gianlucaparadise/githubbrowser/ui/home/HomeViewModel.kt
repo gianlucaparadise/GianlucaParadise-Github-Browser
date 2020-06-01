@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.gianlucaparadise.githubbrowser.data.Repository
+import com.gianlucaparadise.githubbrowser.data.Repo
 import com.gianlucaparadise.githubbrowser.data.RepositoryDataSource
 
 class HomeViewModel : ViewModel() {
@@ -19,14 +19,14 @@ class HomeViewModel : ViewModel() {
         .build()
 
     private val sourceLiveData = MutableLiveData<RepositoryDataSource>()
-    private val repoDataSourceFactory = object : DataSource.Factory<String, Repository>() {
-        override fun create(): DataSource<String, Repository> {
+    private val repoDataSourceFactory = object : DataSource.Factory<String, Repo>() {
+        override fun create(): DataSource<String, Repo> {
             val source = RepositoryDataSource(viewModelScope)
             sourceLiveData.postValue(source)
             return source
         }
     }
 
-    val repositories: LiveData<PagedList<Repository>> =
+    val repos: LiveData<PagedList<Repo>> =
         repoDataSourceFactory.toLiveData(pagingConfig)
 }
