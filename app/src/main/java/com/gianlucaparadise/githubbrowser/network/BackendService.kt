@@ -33,32 +33,6 @@ object BackendService {
 
     init {
 
-        //region NormalizedCacheFactory
-        // Offline cache is handled automatically by Apollo client
-        val cacheFactory =
-            SqlNormalizedCacheFactory(MainApplication.applicationContext, "github_cache")
-        val resolver: CacheKeyResolver = object : CacheKeyResolver() {
-            override fun fromFieldRecordSet(
-                field: ResponseField,
-                recordSet: Map<String, Any>
-            ): CacheKey {
-                return formatCacheKey(recordSet["id"] as String?)
-            }
-
-            override fun fromFieldArguments(
-                field: ResponseField,
-                variables: Operation.Variables
-            ): CacheKey {
-                return formatCacheKey(field.resolveArgument("id", variables) as String?)
-            }
-
-            private fun formatCacheKey(id: String?) = when {
-                id.isNullOrEmpty() -> CacheKey.NO_KEY
-                else -> CacheKey.from(id)
-            }
-        }
-        //endregion
-
         val okHttpClient = OkHttpClient.Builder()
             .authenticator(object : Authenticator {
                 override fun authenticate(route: Route?, response: Response): Request? {
@@ -72,7 +46,6 @@ object BackendService {
         graphQlClient = ApolloClient.builder()
             .okHttpClient(okHttpClient)
             .serverUrl(GITHUB_API_ENDPOINT)
-            .normalizedCache(cacheFactory, resolver)
             .build()
 
         val retrofitClient = Retrofit.Builder()
