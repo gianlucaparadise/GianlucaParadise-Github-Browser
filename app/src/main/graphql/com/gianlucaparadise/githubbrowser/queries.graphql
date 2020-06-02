@@ -4,7 +4,7 @@ query AuthenticatedUserQuery {
   }
 }
 
-query AuthenticatedUserRepositoriesQuery($first: Int, $startCursor: String) {
+query AuthenticatedUserReposQuery($first: Int, $startCursor: String) {
   viewer {
     repositories(first: $first, after: $startCursor) {
       pageInfo {
@@ -13,7 +13,7 @@ query AuthenticatedUserRepositoriesQuery($first: Int, $startCursor: String) {
       }
       totalCount
       nodes {
-        ...RepositoryFragment
+        ...RepoFragment
       }
     }
   }
@@ -32,11 +32,11 @@ query SearchUsersQuery($query: String!, $first: Int, $startCursor: String) {
   }
 }
 
-query SearchRepositoriesQuery($query: String!, $first: Int, $startCursor: String) {
+query SearchReposQuery($query: String!, $first: Int, $startCursor: String) {
   search(type: REPOSITORY, query: $query, first: $first, after: $startCursor) {
     repositoryCount
     nodes {
-      ...RepositoryFragment
+      ...RepoFragment
     }
     pageInfo {
       endCursor
@@ -75,7 +75,7 @@ fragment UserFragment on User {
   }
 }
 
-fragment RepositoryFragment on Repository {
+fragment RepoFragment on Repository {
   name
   id
   description

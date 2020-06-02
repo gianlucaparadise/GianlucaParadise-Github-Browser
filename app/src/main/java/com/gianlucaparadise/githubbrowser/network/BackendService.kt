@@ -75,7 +75,7 @@ object BackendService {
         try {
             val repos = graphQlClient
                 .query(
-                    AuthenticatedUserRepositoriesQuery(
+                    AuthenticatedUserReposQuery(
                         Input.fromNullable(first),
                         Input.optional(startCursor)
                     )
@@ -128,7 +128,7 @@ object BackendService {
         try {
             val repos = graphQlClient
                 .query(
-                    SearchRepositoriesQuery(
+                    SearchReposQuery(
                         query,
                         Input.fromNullable(first),
                         Input.optional(startCursor)

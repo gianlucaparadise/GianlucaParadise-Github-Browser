@@ -9,21 +9,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.data.Repo
-import com.gianlucaparadise.githubbrowser.databinding.RepositoryListItemBinding
+import com.gianlucaparadise.githubbrowser.databinding.RepoListItemBinding
 
 typealias RepoClickHandler = (Repo) -> Unit
 
-class RepositoryListAdapter(
+class RepoListAdapter(
     val showOwner: Boolean,
     private val onRepoClicked: RepoClickHandler?
 ) :
-    PagedListAdapter<Repo, RepositoryListAdapter.ViewHolder>(RepositoryDiffCallback()) {
+    PagedListAdapter<Repo, RepoListAdapter.ViewHolder>(RepoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.repository_list_item,
+                R.layout.repo_list_item,
                 parent,
                 false
             )
@@ -43,7 +43,7 @@ class RepositoryListAdapter(
     }
 
     class ViewHolder(
-        private val binding: RepositoryListItemBinding
+        private val binding: RepoListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             currentRepo: Repo,
@@ -60,7 +60,7 @@ class RepositoryListAdapter(
     }
 }
 
-private class RepositoryDiffCallback : DiffUtil.ItemCallback<Repo>() {
+private class RepoDiffCallback : DiffUtil.ItemCallback<Repo>() {
 
     override fun areItemsTheSame(
         oldItem: Repo,

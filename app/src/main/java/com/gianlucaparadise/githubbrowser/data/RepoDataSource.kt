@@ -4,7 +4,7 @@ import com.gianlucaparadise.githubbrowser.network.BackendService
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import kotlinx.coroutines.CoroutineScope
 
-class RepositoryDataSource(scope: CoroutineScope, searchQuery: String? = null) :
+class RepoDataSource(scope: CoroutineScope, searchQuery: String? = null) :
     SearchableDataSource<Repo>(scope, searchQuery) {
 
     override suspend fun load(

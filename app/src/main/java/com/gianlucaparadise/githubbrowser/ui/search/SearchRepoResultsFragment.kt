@@ -10,14 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.gianlucaparadise.githubbrowser.adapters.RepoClickHandler
 
-import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
+import com.gianlucaparadise.githubbrowser.adapters.RepoListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding
 import java.lang.Exception
 
-class SearchRepositoryResultsFragment : Fragment() {
+class SearchRepoResultsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SearchRepositoryResultsFragment()
+        fun newInstance() = SearchRepoResultsFragment()
     }
 
     private lateinit var viewModel: SearchViewModel
@@ -29,7 +29,7 @@ class SearchRepositoryResultsFragment : Fragment() {
     ): View? {
         binding = SearchResultsFragmentBinding.inflate(inflater, container, false)
 
-        val adapter = RepositoryListAdapter(showOwner = true, onRepoClicked = onRepoClicked)
+        val adapter = RepoListAdapter(showOwner = true, onRepoClicked = onRepoClicked)
 
         binding.searchResultsList.adapter = adapter
 
@@ -46,14 +46,14 @@ class SearchRepositoryResultsFragment : Fragment() {
 
         viewModel.repos.observe(viewLifecycleOwner, Observer { result ->
             val adapter = binding.searchResultsList.adapter
-            if (adapter is RepositoryListAdapter) {
+            if (adapter is RepoListAdapter) {
                 adapter.submitList(result)
             }
         })
     }
 
     private val onRepoClicked: RepoClickHandler = { repo ->
-        val action = SearchTabsFragmentDirections.actionSearchFragmentToRepositoryDetailFragment(repo)
+        val action = SearchTabsFragmentDirections.actionSearchFragmentToRepoDetailFragment(repo)
         findNavController().navigate(action)
     }
 }

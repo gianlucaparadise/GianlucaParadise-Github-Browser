@@ -6,12 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 
-import com.gianlucaparadise.githubbrowser.adapters.RepositoryListAdapter
-import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
 import com.gianlucaparadise.githubbrowser.adapters.UserClickHandler
 import com.gianlucaparadise.githubbrowser.adapters.UserListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding

@@ -19,7 +19,7 @@
     </data>
 
 
-    <com.gianlucaparadise.githubbrowser.views.RepositoryCardView
+    <com.gianlucaparadise.githubbrowser.views.RepoCardView
         android:id="@+id/repo_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

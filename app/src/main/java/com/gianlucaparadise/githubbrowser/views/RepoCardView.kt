@@ -7,9 +7,9 @@ import androidx.annotation.ColorInt
 import androidx.core.view.isVisible
 import com.gianlucaparadise.githubbrowser.R
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.repository_card_view.view.*
+import kotlinx.android.synthetic.main.repo_card_view.view.*
 
-class RepositoryCardView @JvmOverloads constructor(
+class RepoCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = R.attr.materialCardViewStyle
@@ -86,19 +86,19 @@ class RepositoryCardView @JvmOverloads constructor(
         }
 
     init {
-        inflate(context, R.layout.repository_card_view, this)
+        inflate(context, R.layout.repo_card_view, this)
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.RepositoryCardView)
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.RepoCardView)
 
-        this.ownerVisible = attributes.getBoolean(R.styleable.RepositoryCardView_ownerVisible, true)
-        this.title = attributes.getString(R.styleable.RepositoryCardView_title) ?: ""
-        this.owner = attributes.getString(R.styleable.RepositoryCardView_owner) ?: ""
+        this.ownerVisible = attributes.getBoolean(R.styleable.RepoCardView_ownerVisible, true)
+        this.title = attributes.getString(R.styleable.RepoCardView_title) ?: ""
+        this.owner = attributes.getString(R.styleable.RepoCardView_owner) ?: ""
         this.shortDescription =
-            attributes.getString(R.styleable.RepositoryCardView_shortDescription) ?: ""
+            attributes.getString(R.styleable.RepoCardView_shortDescription) ?: ""
         this.primaryLanguage =
-            attributes.getString(R.styleable.RepositoryCardView_primaryLanguage) ?: ""
-        this.totalStars = attributes.getInteger(R.styleable.RepositoryCardView_totalStars, 0)
-        this.avatarUrl = attributes.getString(R.styleable.RepositoryCardView_avatarUrl)
+            attributes.getString(R.styleable.RepoCardView_primaryLanguage) ?: ""
+        this.totalStars = attributes.getInteger(R.styleable.RepoCardView_totalStars, 0)
+        this.avatarUrl = attributes.getString(R.styleable.RepoCardView_avatarUrl)
 
         // Text color
         val theme = context.theme
@@ -106,7 +106,7 @@ class RepositoryCardView @JvmOverloads constructor(
         val themeTextColorTypedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorOnSurface, themeTextColorTypedValue, true)
         this.textColor =
-            attributes.getColor(R.styleable.RepositoryCardView_textColor, themeTextColorTypedValue.data)
+            attributes.getColor(R.styleable.RepoCardView_textColor, themeTextColorTypedValue.data)
 
         // Background color
         val themeBackgroundColorTypedValue = TypedValue()

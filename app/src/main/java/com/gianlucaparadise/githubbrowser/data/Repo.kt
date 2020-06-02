@@ -1,8 +1,8 @@
 package com.gianlucaparadise.githubbrowser.data
 
-import com.gianlucaparadise.githubbrowser.AuthenticatedUserRepositoriesQuery
-import com.gianlucaparadise.githubbrowser.SearchRepositoriesQuery
-import com.gianlucaparadise.githubbrowser.fragment.RepositoryFragment
+import com.gianlucaparadise.githubbrowser.AuthenticatedUserReposQuery
+import com.gianlucaparadise.githubbrowser.SearchReposQuery
+import com.gianlucaparadise.githubbrowser.fragment.RepoFragment
 import java.io.Serializable
 
 data class Repo(
@@ -34,68 +34,68 @@ data class Repo(
 ) : Serializable {
     companion object {
 
-        private fun fromRepoNodeList(repositoryNodes: List<AuthenticatedUserRepositoriesQuery.Node?>?): List<Repo> {
-            if (repositoryNodes == null) return emptyList()
+        private fun fromRepoNodeList(repoNodes: List<AuthenticatedUserReposQuery.Node?>?): List<Repo> {
+            if (repoNodes == null) return emptyList()
 
-            val repositories = mutableListOf<Repo>()
+            val repos = mutableListOf<Repo>()
 
-            repositoryNodes.forEach { node ->
-                val repository =
-                    Repo.fromRepoFragment(node?.fragments?.repositoryFragment)
+            repoNodes.forEach { node ->
+                val repo =
+                    Repo.fromRepoFragment(node?.fragments?.repoFragment)
 
-                if (repository != null) {
-                    repositories.add(repository)
+                if (repo != null) {
+                    repos.add(repo)
                 }
             }
 
-            return repositories
+            return repos
         }
 
-        private fun fromRepoFragment(repositoryFragment: RepositoryFragment?): Repo? {
-            if (repositoryFragment == null) return null
+        private fun fromRepoFragment(repoFragment: RepoFragment?): Repo? {
+            if (repoFragment == null) return null
 
             return Repo(
-                id = repositoryFragment.id,
-                name = repositoryFragment.name,
-                description = repositoryFragment.description,
-                primaryLanguageName = repositoryFragment.primaryLanguage?.name,
-                stargazersCount = repositoryFragment.stargazers.totalCount,
-                owner = User.fromUserFragment(repositoryFragment.owner.fragments.userFragment),
-                viewerHasStarred = repositoryFragment.viewerHasStarred
+                id = repoFragment.id,
+                name = repoFragment.name,
+                description = repoFragment.description,
+                primaryLanguageName = repoFragment.primaryLanguage?.name,
+                stargazersCount = repoFragment.stargazers.totalCount,
+                owner = User.fromUserFragment(repoFragment.owner.fragments.userFragment),
+                viewerHasStarred = repoFragment.viewerHasStarred
             )
         }
 
-        private fun fromSearchReposNodeList(searchRepositoriesNodes: List<SearchRepositoriesQuery.Node?>?): List<Repo> {
-            if (searchRepositoriesNodes == null) return emptyList()
+        private fun fromSearchReposNodeList(searchReposNodes: List<SearchReposQuery.Node?>?): List<Repo> {
+            if (searchReposNodes == null) return emptyList()
 
-            val repositories = mutableListOf<Repo>()
+            val repos = mutableListOf<Repo>()
 
-            searchRepositoriesNodes.forEach { node ->
-                val repository =
-                    Repo.fromRepoFragment(node?.fragments?.repositoryFragment)
-                if (repository != null) {
-                    repositories.add(repository)
+            searchReposNodes.forEach { node ->
+                val repo =
+                    Repo.fromRepoFragment(node?.fragments?.repoFragment)
+                if (repo != null) {
+                    repos.add(repo)
                 }
             }
 
-            return repositories
+            return repos
         }
 
-        fun fromReposResponse(repositories: AuthenticatedUserRepositoriesQuery.Repositories): PaginatedResponse<Repo> {
+        fun fromReposResponse(repos: AuthenticatedUserReposQuery.Repositories): PaginatedResponse<Repo> {
             return PaginatedResponse(
-                endCursor = repositories.pageInfo.endCursor,
-                hasNextPage = repositories.pageInfo.hasNextPage,
-                totalCount = repositories.totalCount,
-                nodes = Repo.fromRepoNodeList(repositories.nodes)
+                endCursor = repos.pageInfo.endCursor,
+                hasNextPage = repos.pageInfo.hasNextPage,
+                totalCount = repos.totalCount,
+                nodes = Repo.fromRepoNodeList(repos.nodes)
             )
         }
 
-        fun fromSearchReposResponse(repositories: SearchRepositoriesQuery.Search): PaginatedResponse<Repo> {
+        fun fromSearchReposResponse(repos: SearchReposQuery.Search): PaginatedResponse<Repo> {
             return PaginatedResponse(
-                endCursor = repositories.pageInfo.endCursor,
-                hasNextPage = repositories.pageInfo.hasNextPage,
-                totalCount = repositories.repositoryCount,
-                nodes = Repo.fromSearchReposNodeList(repositories.nodes)
+                endCursor = repos.pageInfo.endCursor,
+                hasNextPage = repos.pageInfo.hasNextPage,
+                totalCount = repos.repositoryCount,
+                nodes = Repo.fromSearchReposNodeList(repos.nodes)
             )
         }
     }

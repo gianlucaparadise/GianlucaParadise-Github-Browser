@@ -6,7 +6,7 @@ import com.gianlucaparadise.githubbrowser.network.BackendService
 import kotlinx.coroutines.launch
 
 
-class RepositoryDetailViewModel(inputRepo: Repo) : ViewModel() {
+class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
 
     private val _repo = MutableLiveData<Repo>()
     val repo: LiveData<Repo> = _repo
@@ -50,7 +50,7 @@ class RepositoryDetailViewModel(inputRepo: Repo) : ViewModel() {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RepositoryDetailViewModel(repo) as T
+            return RepoDetailViewModel(repo) as T
         }
     }
 }

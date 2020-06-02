@@ -5,7 +5,7 @@
     <attr name="avatarUrl" format="string" />
     <attr name="textColor" format="color" />
 
-    <declare-styleable name="RepositoryCardView">
+    <declare-styleable name="RepoCardView">
         <attr name="title" />
         <attr name="owner" format="string" />
         <attr name="shortDescription" format="string" />

@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.gianlucaparadise.githubbrowser.R
-import com.gianlucaparadise.githubbrowser.ui.search.SearchRepositoryResultsFragment
+import com.gianlucaparadise.githubbrowser.ui.search.SearchRepoResultsFragment
 import com.gianlucaparadise.githubbrowser.ui.search.SearchUserResultsFragment
 
 class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
@@ -18,7 +18,7 @@ class SearchTabsAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
         val currentTab = tabs[position]
         return when(currentTab) {
             TabType.PEOPLE -> SearchUserResultsFragment.newInstance()
-            TabType.REPOS -> SearchRepositoryResultsFragment.newInstance()
+            TabType.REPOS -> SearchRepoResultsFragment.newInstance()
         }
     }
 

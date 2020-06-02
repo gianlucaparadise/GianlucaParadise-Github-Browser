@@ -6,7 +6,7 @@ import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.gianlucaparadise.githubbrowser.data.Repo
-import com.gianlucaparadise.githubbrowser.data.SearchRepositoryResultsDataSource
+import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.User
 import kotlinx.coroutines.Job
@@ -33,10 +33,10 @@ class SearchViewModel : ViewModel() {
         .build()
 
     //region Repos handling
-    private val reposSourceLiveData = MutableLiveData<SearchRepositoryResultsDataSource>()
+    private val reposSourceLiveData = MutableLiveData<SearchRepoResultsDataSource>()
     private val reposDataSourceFactory = object : DataSource.Factory<String, Repo>() {
         override fun create(): DataSource<String, Repo> {
-            val source = SearchRepositoryResultsDataSource(viewModelScope, searchQuery.value)
+            val source = SearchRepoResultsDataSource(viewModelScope, searchQuery.value)
             reposSourceLiveData.postValue(source)
             return source
         }
