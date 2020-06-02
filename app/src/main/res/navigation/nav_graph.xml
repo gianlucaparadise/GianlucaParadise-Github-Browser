@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/repoDetailFragment"
-        android:name="com.gianlucaparadise.githubbrowser.ui.repositorydetail.RepoDetailFragment"
+        android:name="com.gianlucaparadise.githubbrowser.ui.repodetail.RepoDetailFragment"
         tools:layout="@layout/repo_detail_fragment">
         <argument
             android:name="repo"

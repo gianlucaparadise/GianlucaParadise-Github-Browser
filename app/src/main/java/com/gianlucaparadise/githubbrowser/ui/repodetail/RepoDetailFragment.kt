@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.ui.repositorydetail
+package com.gianlucaparadise.githubbrowser.ui.repodetail
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

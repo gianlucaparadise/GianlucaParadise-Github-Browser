@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.ui.repositorydetail
+package com.gianlucaparadise.githubbrowser.ui.repodetail
 
 import androidx.lifecycle.*
 import com.gianlucaparadise.githubbrowser.data.Repo

@@ -9,14 +9,14 @@
 
         <variable
             name="viewmodel"
-            type="com.gianlucaparadise.githubbrowser.ui.repositorydetail.RepoDetailViewModel" />
+            type="com.gianlucaparadise.githubbrowser.ui.repodetail.RepoDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        tools:context=".ui.repositorydetail.RepoDetailFragment">
+        tools:context=".ui.repodetail.RepoDetailFragment">
 
         <TextView
             android:id="@+id/repo_name"
