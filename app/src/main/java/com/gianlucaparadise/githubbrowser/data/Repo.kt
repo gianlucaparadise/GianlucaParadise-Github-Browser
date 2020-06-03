@@ -1,36 +1,38 @@
 package com.gianlucaparadise.githubbrowser.data
 
+import androidx.room.*
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserReposQuery
 import com.gianlucaparadise.githubbrowser.SearchReposQuery
 import com.gianlucaparadise.githubbrowser.fragment.RepoFragment
 import java.io.Serializable
 
+@Entity
 data class Repo(
-    val id: String,
+    @PrimaryKey val id: String,
     /**
      * The name of the repo.
      */
-    val name: String,
+    @ColumnInfo(name = "name") val name: String,
     /**
      * The description of the repo.
      */
-    val description: String?,
+    @ColumnInfo(name = "description") val description: String?,
     /**
      * The primary language name of the repo's code.
      */
-    val primaryLanguageName: String?,
+    @ColumnInfo(name = "primaryLanguageName") val primaryLanguageName: String?,
     /**
      * A list of users who have starred this starrable.
      */
-    val stargazersCount: Int,
+    @ColumnInfo(name = "stargazersCount") val stargazersCount: Int,
     /**
      * The User owner of the repo.
      */
-    val owner: User?,
+    @Embedded(prefix = "owner_") val owner: User?,
     /**
      * Returns a boolean indicating whether the viewing user has starred this starrable.
      */
-    val viewerHasStarred: Boolean
+    @ColumnInfo(name = "viewerHasStarred") val viewerHasStarred: Boolean
 ) : Serializable {
     companion object {
 

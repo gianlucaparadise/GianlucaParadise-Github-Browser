@@ -1,35 +1,39 @@
 package com.gianlucaparadise.githubbrowser.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.gianlucaparadise.githubbrowser.SearchUsersQuery
 import com.gianlucaparadise.githubbrowser.fragment.UserFragment
 import java.io.Serializable
 
+@Entity
 data class User(
-    val id: String,
+    @PrimaryKey val id: String,
     /**
      * The username used to login.
      */
-    val login: String,
+    @ColumnInfo(name = "login") val login: String,
     /**
      * The user's public profile bio.
      */
-    val bio: String?,
+    @ColumnInfo(name = "bio") val bio: String?,
     /**
      * The user's public profile name.
      */
-    val name: String?,
+    @ColumnInfo(name = "name") val name: String?,
     /**
      * A URL pointing to the user's public avatar.
      */
-    val avatarUrl: Any,
+    @ColumnInfo(name = "avatarUrl") val avatarUrl: String,
     /**
      * The total count of users the given user is followed by.
      */
-    val followersCount: Int,
+    @ColumnInfo(name = "followersCount") val followersCount: Int,
     /**
      * The total count of users the given user is following.
      */
-    val followingCount: Int
+    @ColumnInfo(name = "followingCount") val followingCount: Int
 ) : Serializable {
     val displayName: String
         get() = name ?: login
@@ -43,7 +47,7 @@ data class User(
                 login = userFragment.login,
                 bio = userFragment.bio,
                 name = userFragment.name,
-                avatarUrl = userFragment.avatarUrl,
+                avatarUrl = userFragment.avatarUrl.toString(),
                 followersCount = userFragment.followers.totalCount,
                 followingCount = userFragment.following.totalCount
             )
