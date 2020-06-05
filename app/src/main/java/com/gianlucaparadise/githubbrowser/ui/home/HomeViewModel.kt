@@ -1,14 +1,12 @@
 package com.gianlucaparadise.githubbrowser.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.paging.toLiveData
+import com.gianlucaparadise.githubbrowser.data.AppDatabase
 import com.gianlucaparadise.githubbrowser.data.Repo
-import com.gianlucaparadise.githubbrowser.data.RepoDataSource
+import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
 
 class HomeViewModel : ViewModel() {
 
@@ -18,15 +16,18 @@ class HomeViewModel : ViewModel() {
         .setEnablePlaceholders(false)
         .build()
 
-    private val sourceLiveData = MutableLiveData<RepoDataSource>()
-    private val repoDataSourceFactory = object : DataSource.Factory<String, Repo>() {
-        override fun create(): DataSource<String, Repo> {
-            val source = RepoDataSource(viewModelScope)
-            sourceLiveData.postValue(source)
-            return source
-        }
-    }
+    val repos = initializedPagedListBuilder(pagingConfig).build()
 
-    val repos: LiveData<PagedList<Repo>> =
-        repoDataSourceFactory.toLiveData(pagingConfig)
+    private fun initializedPagedListBuilder(config: PagedList.Config):
+            LivePagedListBuilder<Int, Repo> {
+
+        val database = AppDatabase.instance
+
+        val dataSourceFactory =  database.repoDao().getAll()
+
+        val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, config)
+        livePagedListBuilder.setBoundaryCallback(RepoBoundaryCallback(viewModelScope, database, config))
+
+        return livePagedListBuilder
+    }
 }
