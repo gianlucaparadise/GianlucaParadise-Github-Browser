@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.gianlucaparadise.githubbrowser.data.AppDatabase
+import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
 

@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.db
 
 import androidx.room.Database
 import androidx.room.Room
