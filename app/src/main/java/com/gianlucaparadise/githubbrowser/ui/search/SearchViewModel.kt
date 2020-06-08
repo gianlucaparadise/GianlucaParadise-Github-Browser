@@ -5,10 +5,10 @@ import androidx.lifecycle.*
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.gianlucaparadise.githubbrowser.data.Repo
+import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
-import com.gianlucaparadise.githubbrowser.data.User
+import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

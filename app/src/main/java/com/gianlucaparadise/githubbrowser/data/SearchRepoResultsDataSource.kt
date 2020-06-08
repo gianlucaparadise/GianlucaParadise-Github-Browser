@@ -2,6 +2,8 @@ package com.gianlucaparadise.githubbrowser.data
 
 import com.gianlucaparadise.githubbrowser.network.BackendService
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
+import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
+import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.CoroutineScope
 
 class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = null) :

@@ -9,6 +9,7 @@ import com.gianlucaparadise.githubbrowser.*
 import com.gianlucaparadise.githubbrowser.data.*
 import com.gianlucaparadise.githubbrowser.type.AddStarInput
 import com.gianlucaparadise.githubbrowser.type.RemoveStarInput
+import com.gianlucaparadise.githubbrowser.vo.*
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

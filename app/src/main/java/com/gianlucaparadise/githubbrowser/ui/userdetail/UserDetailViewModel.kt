@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gianlucaparadise.githubbrowser.data.User
+import com.gianlucaparadise.githubbrowser.vo.User
 
 class UserDetailViewModel(inputUser: User) : ViewModel() {
 

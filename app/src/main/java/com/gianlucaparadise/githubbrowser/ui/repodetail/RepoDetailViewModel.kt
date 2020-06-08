@@ -1,7 +1,7 @@
 package com.gianlucaparadise.githubbrowser.ui.repodetail
 
 import androidx.lifecycle.*
-import com.gianlucaparadise.githubbrowser.data.Repo
+import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.network.BackendService
 import kotlinx.coroutines.launch
 

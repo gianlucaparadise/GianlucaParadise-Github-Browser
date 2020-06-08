@@ -2,7 +2,7 @@ package com.gianlucaparadise.githubbrowser.util
 
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
-import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
+import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch

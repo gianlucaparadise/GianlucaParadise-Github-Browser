@@ -1,7 +1,7 @@
 package com.gianlucaparadise.githubbrowser
 
-import com.gianlucaparadise.githubbrowser.data.PaginatedResponse
-import com.gianlucaparadise.githubbrowser.data.Repo
+import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
+import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.network.BackendService
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*

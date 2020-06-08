@@ -11,7 +11,7 @@
 
         <variable
             name="repo"
-            type="com.gianlucaparadise.githubbrowser.data.Repo" />
+            type="com.gianlucaparadise.githubbrowser.vo.Repo" />
 
         <variable
             name="showOwner"

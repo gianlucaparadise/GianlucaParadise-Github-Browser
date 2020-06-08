@@ -1,6 +1,6 @@
 package com.gianlucaparadise.githubbrowser.network
 
-import com.gianlucaparadise.githubbrowser.data.AccessTokenModel
+import com.gianlucaparadise.githubbrowser.vo.AccessTokenModel
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query

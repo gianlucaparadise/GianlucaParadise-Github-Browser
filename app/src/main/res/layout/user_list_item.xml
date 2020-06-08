@@ -11,7 +11,7 @@
 
         <variable
             name="user"
-            type="com.gianlucaparadise.githubbrowser.data.User" />
+            type="com.gianlucaparadise.githubbrowser.vo.User" />
     </data>
 
     <com.gianlucaparadise.githubbrowser.views.UserCardView

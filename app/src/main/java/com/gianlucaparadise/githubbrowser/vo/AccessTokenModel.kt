@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.vo
 
 import com.google.gson.annotations.SerializedName
 

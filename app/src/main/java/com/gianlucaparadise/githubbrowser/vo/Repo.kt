@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.vo
 
 import androidx.room.*
 import com.gianlucaparadise.githubbrowser.AuthenticatedUserReposQuery
@@ -43,7 +43,7 @@ data class Repo(
 
             repoNodes.forEach { node ->
                 val repo =
-                    Repo.fromRepoFragment(node?.fragments?.repoFragment)
+                    fromRepoFragment(node?.fragments?.repoFragment)
 
                 if (repo != null) {
                     repos.add(repo)
@@ -62,7 +62,9 @@ data class Repo(
                 description = repoFragment.description,
                 primaryLanguageName = repoFragment.primaryLanguage?.name,
                 stargazersCount = repoFragment.stargazers.totalCount,
-                owner = User.fromUserFragment(repoFragment.owner.fragments.userFragment),
+                owner = User.fromUserFragment(
+                    repoFragment.owner.fragments.userFragment
+                ),
                 viewerHasStarred = repoFragment.viewerHasStarred
             )
         }
@@ -74,7 +76,7 @@ data class Repo(
 
             searchReposNodes.forEach { node ->
                 val repo =
-                    Repo.fromRepoFragment(node?.fragments?.repoFragment)
+                    fromRepoFragment(node?.fragments?.repoFragment)
                 if (repo != null) {
                     repos.add(repo)
                 }
@@ -88,7 +90,7 @@ data class Repo(
                 endCursor = repos.pageInfo.endCursor,
                 hasNextPage = repos.pageInfo.hasNextPage,
                 totalCount = repos.totalCount,
-                nodes = Repo.fromRepoNodeList(repos.nodes)
+                nodes = fromRepoNodeList(repos.nodes)
             )
         }
 
@@ -97,7 +99,9 @@ data class Repo(
                 endCursor = repos.pageInfo.endCursor,
                 hasNextPage = repos.pageInfo.hasNextPage,
                 totalCount = repos.repositoryCount,
-                nodes = Repo.fromSearchReposNodeList(repos.nodes)
+                nodes = fromSearchReposNodeList(
+                    repos.nodes
+                )
             )
         }
     }

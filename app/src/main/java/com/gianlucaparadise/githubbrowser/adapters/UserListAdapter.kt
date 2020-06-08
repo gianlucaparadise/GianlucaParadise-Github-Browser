@@ -8,7 +8,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gianlucaparadise.githubbrowser.R
-import com.gianlucaparadise.githubbrowser.data.User
+import com.gianlucaparadise.githubbrowser.vo.User
 import com.gianlucaparadise.githubbrowser.databinding.UserListItemBinding
 
 typealias UserClickHandler = (User) -> Unit

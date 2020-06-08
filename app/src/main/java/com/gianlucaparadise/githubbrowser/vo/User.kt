@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.vo
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -59,7 +59,8 @@ data class User(
             val users = mutableListOf<User>()
 
             searchUserNodes.forEach { node ->
-                val user = User.fromUserFragment(node?.fragments?.userFragment)
+                val user =
+                    fromUserFragment(node?.fragments?.userFragment)
                 if (user != null) {
                     users.add(user)
                 }
@@ -73,7 +74,9 @@ data class User(
                 endCursor = users.pageInfo.endCursor,
                 hasNextPage = users.pageInfo.hasNextPage,
                 totalCount = users.userCount,
-                nodes = User.fromSearchUsersNodeList(users.nodes)
+                nodes = fromSearchUsersNodeList(
+                    users.nodes
+                )
             )
         }
     }

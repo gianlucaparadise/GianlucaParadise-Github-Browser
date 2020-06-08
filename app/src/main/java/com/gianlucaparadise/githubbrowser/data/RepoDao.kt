@@ -2,6 +2,7 @@ package com.gianlucaparadise.githubbrowser.data
 
 import androidx.paging.DataSource
 import androidx.room.*
+import com.gianlucaparadise.githubbrowser.vo.Repo
 
 @Dao
 interface RepoDao {

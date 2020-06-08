@@ -2,7 +2,7 @@ package com.gianlucaparadise.githubbrowser.network
 
 import android.net.Uri
 import com.gianlucaparadise.githubbrowser.BuildConfig
-import com.gianlucaparadise.githubbrowser.data.AccessTokenModel
+import com.gianlucaparadise.githubbrowser.vo.AccessTokenModel
 import com.gianlucaparadise.githubbrowser.data.SharedPreferencesManager
 import java.util.*
 

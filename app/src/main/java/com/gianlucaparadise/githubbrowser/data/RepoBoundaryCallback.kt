@@ -4,6 +4,7 @@ import android.util.Log
 import com.gianlucaparadise.githubbrowser.util.PagingRequestHelper
 import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.network.BackendService
+import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.*
 import java.lang.Exception
 import java.util.concurrent.Executors
