@@ -48,7 +48,7 @@ Models:
 
 ## Guidelines
 
-- [ ] Public Github Repository
+- [x] Public Github Repository
 - [x] Kotlin
 - [x] Coroutines or Rx
 - [ ] Dagger2
