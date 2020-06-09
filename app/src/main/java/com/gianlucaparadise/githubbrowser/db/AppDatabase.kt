@@ -7,10 +7,8 @@ import com.gianlucaparadise.githubbrowser.MainApplication
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.vo.User
 
-@Database(entities = [User::class, Repo::class], version = 1, exportSchema = false)
+@Database(entities = [Repo::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
-    abstract fun userDao(): UserDao
 
     abstract fun repoDao(): RepoDao
 

@@ -1,39 +1,35 @@
 package com.gianlucaparadise.githubbrowser.vo
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.gianlucaparadise.githubbrowser.SearchUsersQuery
 import com.gianlucaparadise.githubbrowser.fragment.UserFragment
 import java.io.Serializable
 
-@Entity
 data class User(
-    @PrimaryKey val id: String,
+    val id: String,
     /**
      * The username used to login.
      */
-    @ColumnInfo(name = "login") val login: String,
+    val login: String,
     /**
      * The user's public profile bio.
      */
-    @ColumnInfo(name = "bio") val bio: String?,
+    val bio: String?,
     /**
      * The user's public profile name.
      */
-    @ColumnInfo(name = "name") val name: String?,
+    val name: String?,
     /**
      * A URL pointing to the user's public avatar.
      */
-    @ColumnInfo(name = "avatarUrl") val avatarUrl: String,
+    val avatarUrl: String,
     /**
      * The total count of users the given user is followed by.
      */
-    @ColumnInfo(name = "followersCount") val followersCount: Int,
+    val followersCount: Int,
     /**
      * The total count of users the given user is following.
      */
-    @ColumnInfo(name = "followingCount") val followingCount: Int
+    val followingCount: Int
 ) : Serializable {
     val displayName: String
         get() = name ?: login
