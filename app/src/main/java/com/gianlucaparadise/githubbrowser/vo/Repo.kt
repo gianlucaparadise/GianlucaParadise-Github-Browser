@@ -32,11 +32,19 @@ data class Repo(
     /**
      * Returns a boolean indicating whether the viewing user has starred this starrable.
      */
-    @ColumnInfo(name = "viewerHasStarred") val viewerHasStarred: Boolean
+    @ColumnInfo(name = "viewerHasStarred") val viewerHasStarred: Boolean,
+
+    /**
+     * When this is the last item of a page, this prop contains the cursor of this item. Otherwise is null.
+     */
+    @ColumnInfo(name = "paginationCursor") var paginationCursor: String?
 ) : Serializable {
     companion object {
 
-        private fun fromRepoNodeList(repoNodes: List<AuthenticatedUserReposQuery.Node?>?): List<Repo> {
+        private fun fromRepoNodeList(
+            repoNodes: List<AuthenticatedUserReposQuery.Node?>?,
+            lastItemCursor: String?
+        ): List<Repo> {
             if (repoNodes == null) return emptyList()
 
             val repos = mutableListOf<Repo>()
@@ -49,6 +57,8 @@ data class Repo(
                     repos.add(repo)
                 }
             }
+
+            repos.lastOrNull()?.paginationCursor = lastItemCursor
 
             return repos
         }
@@ -65,22 +75,28 @@ data class Repo(
                 owner = User.fromUserFragment(
                     repoFragment.owner.fragments.userFragment
                 ),
-                viewerHasStarred = repoFragment.viewerHasStarred
+                viewerHasStarred = repoFragment.viewerHasStarred,
+                paginationCursor = null // this will be evaluated in a second place
             )
         }
 
-        private fun fromSearchReposNodeList(searchReposNodes: List<SearchReposQuery.Node?>?): List<Repo> {
+        private fun fromSearchReposNodeList(
+            searchReposNodes: List<SearchReposQuery.Node?>?,
+            lastItemCursor: String?
+        ): List<Repo> {
             if (searchReposNodes == null) return emptyList()
 
             val repos = mutableListOf<Repo>()
 
-            searchReposNodes.forEach { node ->
+            searchReposNodes.forEachIndexed { i, node ->
                 val repo =
                     fromRepoFragment(node?.fragments?.repoFragment)
                 if (repo != null) {
                     repos.add(repo)
                 }
             }
+
+            repos.lastOrNull()?.paginationCursor = lastItemCursor
 
             return repos
         }
@@ -90,7 +106,7 @@ data class Repo(
                 endCursor = repos.pageInfo.endCursor,
                 hasNextPage = repos.pageInfo.hasNextPage,
                 totalCount = repos.totalCount,
-                nodes = fromRepoNodeList(repos.nodes)
+                nodes = fromRepoNodeList(repos.nodes, repos.pageInfo.endCursor)
             )
         }
 
@@ -99,9 +115,7 @@ data class Repo(
                 endCursor = repos.pageInfo.endCursor,
                 hasNextPage = repos.pageInfo.hasNextPage,
                 totalCount = repos.repositoryCount,
-                nodes = fromSearchReposNodeList(
-                    repos.nodes
-                )
+                nodes = fromSearchReposNodeList(repos.nodes, repos.pageInfo.endCursor)
             )
         }
     }

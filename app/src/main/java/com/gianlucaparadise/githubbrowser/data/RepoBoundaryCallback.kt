@@ -24,8 +24,6 @@ class RepoBoundaryCallback(
     private val executor = Executors.newSingleThreadExecutor()
     private val helper = PagingRequestHelper(executor)
 
-    private var lastResponseKey: String? = null
-
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
         helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) { helperCallback ->
@@ -34,21 +32,19 @@ class RepoBoundaryCallback(
 
                     Log.d(
                         tag, "Loading initial, start - " +
-                                "page: $lastResponseKey " +
                                 "pagesize: ${pageConfig.pageSize} "
                     )
 
                     val response =
                         BackendService.retrieveAuthenticatedUserRepos(
-                            pageConfig.pageSize,
-                            lastResponseKey
+                            pageConfig.pageSize
                         )
-                    lastResponseKey = response.endCursor
 
                     Log.d(
                         tag, "Loading initial, response - " +
                                 "size: ${response.nodes.size} " +
-                                "first: ${response.nodes.firstOrNull()}"
+                                "first: ${response.nodes.firstOrNull()} " +
+                                "nextKey: ${response.nodes.lastOrNull()?.paginationCursor}"
                     )
 
                     val repos = response.nodes
@@ -68,33 +64,27 @@ class RepoBoundaryCallback(
     override fun onItemAtEndLoaded(itemAtEnd: Repo) {
         super.onItemAtEndLoaded(itemAtEnd)
 
-        if (lastResponseKey == null) {
-            Log.d(tag, "End Loading")
-            return
-        }
-
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) { helperCallback ->
             scope.launch(executor.asCoroutineDispatcher()) {
                 try {
 
                     Log.d(
                         tag, "Loading after, start - " +
-                                "page: $lastResponseKey " +
+                                "page: ${itemAtEnd.paginationCursor} " +
                                 "pagesize: ${pageConfig.pageSize} "
                     )
 
                     val response =
                         BackendService.retrieveAuthenticatedUserRepos(
                             pageConfig.pageSize,
-                            lastResponseKey
+                            itemAtEnd.paginationCursor
                         )
-                    lastResponseKey = response.endCursor
 
                     Log.d(
                         tag, "Loading after, response - " +
                                 "size: ${response.nodes.size} " +
                                 "first: ${response.nodes.firstOrNull()} " +
-                                "nextKey: $lastResponseKey"
+                                "nextKey: ${response.nodes.lastOrNull()?.paginationCursor}"
                     )
 
                     val repos = response.nodes
