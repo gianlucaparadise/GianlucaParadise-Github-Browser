@@ -9,6 +9,13 @@ import kotlinx.coroutines.CoroutineScope
 class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = null) :
     SearchableDataSource<Repo>(scope, searchQuery) {
 
+    companion object {
+        const val tag = "SearchRepoResultsDataSource"
+    }
+
+    override val tag: String
+        get() = SearchRepoResultsDataSource.tag
+
     override suspend fun load(
         first: Int,
         startCursor: String?,

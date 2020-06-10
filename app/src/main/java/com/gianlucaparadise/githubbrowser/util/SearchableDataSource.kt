@@ -12,9 +12,7 @@ abstract class SearchableDataSource<T>(
     var searchQuery: String? = null
 ) :
     PageKeyedDataSource<String, T>() {
-    companion object {
-        const val tag = "SearchableDataSource"
-    }
+    abstract val tag: String
 
     private val searchQueryNullable
         get() = if (searchQuery.isNullOrBlank()) null else searchQuery
