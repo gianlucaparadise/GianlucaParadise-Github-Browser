@@ -63,3 +63,11 @@ Models:
         - Apollo has been chosen because it's the best client for a GraphQL backend
     - [x] view binding: View Binding
     - [x] image loading: Picasso, Android Universal Image Loader, Fresco, Glide
+
+## Future Roadmap
+
+- [ ] Pull to refresh
+- [ ] Network Error UI
+- [ ] Fix login webview keyboard
+- [ ] Better Login flow
+- [ ] Dagger

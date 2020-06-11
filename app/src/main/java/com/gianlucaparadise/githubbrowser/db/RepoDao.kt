@@ -11,5 +11,8 @@ interface RepoDao {
     fun getAll(): DataSource.Factory<Int, Repo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(posts : List<Repo>)
+    suspend fun insert(posts : List<Repo>)
+
+    @Update
+    suspend fun update(repo: Repo)
 }

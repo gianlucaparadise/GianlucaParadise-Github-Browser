@@ -7,7 +7,8 @@ buildscript {
             apollo_version    : '2.0.3',
             nav_version       : '2.3.0-beta01',
             retrofit_version  : '2.9.0',
-            room_version      : '2.2.5'
+            room_version      : '2.2.5',
+            lifecycle         : '2.2.0'
     ]
     repositories {
         google()

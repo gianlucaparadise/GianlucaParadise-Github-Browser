@@ -7,27 +7,11 @@ import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
+import com.gianlucaparadise.githubbrowser.repository.GithubRepository
 
 class HomeViewModel : ViewModel() {
 
-    private val pagingConfig = PagedList.Config.Builder()
-        .setPageSize(15)
-        .setInitialLoadSizeHint(15)
-        .setEnablePlaceholders(false)
-        .build()
+    private val repoResult = GithubRepository.instance.retrieveAuthenticatedUserRepos(viewModelScope)
 
-    val repos = initializedPagedListBuilder(pagingConfig).build()
-
-    private fun initializedPagedListBuilder(config: PagedList.Config):
-            LivePagedListBuilder<Int, Repo> {
-
-        val database = AppDatabase.instance
-
-        val dataSourceFactory =  database.repoDao().getAll()
-
-        val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, config)
-        livePagedListBuilder.setBoundaryCallback(RepoBoundaryCallback(viewModelScope, database, config))
-
-        return livePagedListBuilder
-    }
+    val repos = repoResult.pagedList
 }
