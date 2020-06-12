@@ -41,4 +41,36 @@ class GithubRepository {
         )
     }
 
+    fun searchRepos(scope: CoroutineScope): SearchableListing<Repo> {
+
+        val dataSourceFactory = object : DataSource.Factory<String, Repo>() {
+
+            var source: SearchRepoResultsDataSource? = null
+            var query: String? = null
+
+            fun updateSearchQuery(query: String) {
+                if (query == this.query) return // Nothing changed, nothing to do
+
+                this.query = query
+                source?.invalidate() // this invalidate will re-create the datasource
+            }
+
+            override fun create(): DataSource<String, Repo> {
+                val source = SearchRepoResultsDataSource(scope, query)
+                this.source = source
+                return source
+            }
+        }
+
+        val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
+
+        val pagedList = livePagedListBuilder.build()
+
+        return SearchableListing(
+            pagedList = pagedList,
+            search = {
+                dataSourceFactory.updateSearchQuery(it)
+            }
+        )
+    }
 }

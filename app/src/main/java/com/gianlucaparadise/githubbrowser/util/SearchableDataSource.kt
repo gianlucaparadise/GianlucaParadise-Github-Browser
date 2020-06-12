@@ -9,13 +9,10 @@ import kotlinx.coroutines.launch
 
 abstract class SearchableDataSource<T>(
     private val scope: CoroutineScope,
-    var searchQuery: String? = null
+    val searchQuery: String?
 ) :
     PageKeyedDataSource<String, T>() {
     abstract val tag: String
-
-    private val searchQueryNullable
-        get() = if (searchQuery.isNullOrBlank()) null else searchQuery
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -26,13 +23,13 @@ abstract class SearchableDataSource<T>(
                 Log.d(
                     tag, "Loading initial, start - " +
                             "pagesize: ${params.requestedLoadSize} " +
-                            "query: $searchQueryNullable"
+                            "query: $searchQuery"
                 )
 
                 val response = load(
                     first = params.requestedLoadSize,
                     startCursor = null,
-                    query = searchQueryNullable
+                    query = searchQuery
                 )
 
                 Log.d(
@@ -57,13 +54,13 @@ abstract class SearchableDataSource<T>(
                     tag, "Loading after, start - " +
                             "page: ${params.key} " +
                             "pagesize: ${params.requestedLoadSize} " +
-                            "query: $searchQueryNullable"
+                            "query: $searchQuery"
                 )
 
                 val response = load(
                     first = params.requestedLoadSize,
                     startCursor = params.key,
-                    query = searchQueryNullable
+                    query = searchQuery
                 )
 
                 // When I reach the last page, I set key to null to stop paging
@@ -90,19 +87,6 @@ abstract class SearchableDataSource<T>(
         callback: LoadCallback<String, T>
     ) {
         Log.d(tag, "Load Before") // Not needed
-    }
-
-    fun updateSearchQuery(query: String) {
-        if (query == searchQuery) return // Nothing changed, nothing to do
-
-        Log.d(tag, "Changed Query: $query")
-        searchQuery = query
-        super.invalidate()
-    }
-
-    override fun invalidate() {
-        super.invalidate()
-        scope.cancel()
     }
 
     abstract suspend fun load(

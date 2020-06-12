@@ -3,11 +3,14 @@ package com.gianlucaparadise.githubbrowser.ui.search
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
+import com.gianlucaparadise.githubbrowser.db.AppDatabase
+import com.gianlucaparadise.githubbrowser.repository.GithubRepository
 import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,17 +36,12 @@ class SearchViewModel : ViewModel() {
         .build()
 
     //region Repos handling
-    private val reposSourceLiveData = MutableLiveData<SearchRepoResultsDataSource>()
-    private val reposDataSourceFactory = object : DataSource.Factory<String, Repo>() {
-        override fun create(): DataSource<String, Repo> {
-            val source = SearchRepoResultsDataSource(viewModelScope, searchQuery.value)
-            reposSourceLiveData.postValue(source)
-            return source
-        }
-    }
 
-    val repos: LiveData<PagedList<Repo>> = reposDataSourceFactory.toLiveData(pagingConfig)
-    private fun updateReposDataSource(query: String) = reposSourceLiveData.value?.updateSearchQuery(query)
+    private val repoResult = GithubRepository.instance.searchRepos(viewModelScope)
+
+    val repos = repoResult.pagedList
+    private fun updateReposDataSource(query: String) = repoResult.search(query)
+
     //endregion
 
     //region Users handling
@@ -57,7 +55,7 @@ class SearchViewModel : ViewModel() {
     }
 
     val users: LiveData<PagedList<User>> = userDataSourceFactory.toLiveData(pagingConfig)
-    private fun updateUsersDataSource(query: String) = usersSourceLiveData.value?.updateSearchQuery(query)
+    private fun updateUsersDataSource(query: String) = usersSourceLiveData.value?.invalidate()
     //endregion
 
     init {

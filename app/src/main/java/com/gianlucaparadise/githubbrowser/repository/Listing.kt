@@ -11,3 +11,9 @@ data class Listing<T>(
     val pagedList: LiveData<PagedList<T>>
 )
 
+data class SearchableListing<T> (
+    // the LiveData of paged lists for the UI to observe
+    val pagedList: LiveData<PagedList<T>>,
+    // changes the input search query of the paged list
+    val search: (query: String) -> Unit
+)
