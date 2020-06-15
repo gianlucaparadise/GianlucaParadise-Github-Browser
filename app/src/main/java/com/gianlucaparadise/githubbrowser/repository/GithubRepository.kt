@@ -5,8 +5,10 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
 import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
+import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.vo.Repo
+import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.CoroutineScope
 
 class GithubRepository {
@@ -57,6 +59,39 @@ class GithubRepository {
 
             override fun create(): DataSource<String, Repo> {
                 val source = SearchRepoResultsDataSource(scope, query)
+                this.source = source
+                return source
+            }
+        }
+
+        val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
+
+        val pagedList = livePagedListBuilder.build()
+
+        return SearchableListing(
+            pagedList = pagedList,
+            search = {
+                dataSourceFactory.updateSearchQuery(it)
+            }
+        )
+    }
+
+    fun searchUsers(scope: CoroutineScope): SearchableListing<User> {
+
+        val dataSourceFactory = object : DataSource.Factory<String, User>() {
+
+            var source: SearchUserResultsDataSource? = null
+            var query: String? = null
+
+            fun updateSearchQuery(query: String) {
+                if (query == this.query) return // Nothing changed, nothing to do
+
+                this.query = query
+                source?.invalidate() // this invalidate will re-create the datasource
+            }
+
+            override fun create(): DataSource<String, User> {
+                val source = SearchUserResultsDataSource(scope, query)
                 this.source = source
                 return source
             }

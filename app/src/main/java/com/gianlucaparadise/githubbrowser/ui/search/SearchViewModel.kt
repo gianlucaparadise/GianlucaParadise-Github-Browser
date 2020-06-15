@@ -29,33 +29,18 @@ class SearchViewModel : ViewModel() {
         waitAndSearch(query = it)
     }
 
-    private val pagingConfig = PagedList.Config.Builder()
-        .setPageSize(15)
-        .setInitialLoadSizeHint(15)
-        .setEnablePlaceholders(false)
-        .build()
-
     //region Repos handling
-
     private val repoResult = GithubRepository.instance.searchRepos(viewModelScope)
 
     val repos = repoResult.pagedList
     private fun updateReposDataSource(query: String) = repoResult.search(query)
-
     //endregion
 
     //region Users handling
-    private val usersSourceLiveData = MutableLiveData<SearchUserResultsDataSource>()
-    private val userDataSourceFactory = object : DataSource.Factory<String, User>() {
-        override fun create(): DataSource<String, User> {
-            val source = SearchUserResultsDataSource(viewModelScope, searchQuery.value)
-            usersSourceLiveData.postValue(source)
-            return source
-        }
-    }
+    private val userResult = GithubRepository.instance.searchUsers(viewModelScope)
 
-    val users: LiveData<PagedList<User>> = userDataSourceFactory.toLiveData(pagingConfig)
-    private fun updateUsersDataSource(query: String) = usersSourceLiveData.value?.invalidate()
+    val users = userResult.pagedList
+    private fun updateUsersDataSource(query: String) = userResult.search(query)
     //endregion
 
     init {
