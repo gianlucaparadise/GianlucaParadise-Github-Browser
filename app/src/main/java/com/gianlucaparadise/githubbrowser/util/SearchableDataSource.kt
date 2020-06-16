@@ -1,15 +1,15 @@
 package com.gianlucaparadise.githubbrowser.util
 
 import android.util.Log
+import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 abstract class SearchableDataSource<T>(
     private val scope: CoroutineScope,
-    val searchQuery: String?
+    private val searchQuery: String?
 ) :
     PageKeyedDataSource<String, T>() {
     abstract val tag: String
@@ -94,4 +94,26 @@ abstract class SearchableDataSource<T>(
         startCursor: String?,
         query: String?
     ): PaginatedResponse<T>
+
+    abstract class Factory<T, DATASOURCE : SearchableDataSource<T>> :
+        DataSource.Factory<String, T>() {
+
+        private var source: DATASOURCE? = null
+        private var query: String? = null
+
+        fun updateSearchQuery(query: String) {
+            if (query == this.query) return // Nothing changed, nothing to do
+
+            this.query = query
+            source?.invalidate() // this invalidate will re-create the datasource
+        }
+
+        override fun create(): DataSource<String, T> {
+            val source = create(query)
+            this.source = source
+            return source
+        }
+
+        abstract fun create(query: String?): DATASOURCE
+    }
 }

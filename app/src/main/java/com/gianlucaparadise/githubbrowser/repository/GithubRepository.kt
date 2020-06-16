@@ -1,12 +1,12 @@
 package com.gianlucaparadise.githubbrowser.repository
 
-import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
 import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
+import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.CoroutineScope
@@ -45,24 +45,10 @@ class GithubRepository {
 
     fun searchRepos(scope: CoroutineScope): SearchableListing<Repo> {
 
-        val dataSourceFactory = object : DataSource.Factory<String, Repo>() {
-
-            var source: SearchRepoResultsDataSource? = null
-            var query: String? = null
-
-            fun updateSearchQuery(query: String) {
-                if (query == this.query) return // Nothing changed, nothing to do
-
-                this.query = query
-                source?.invalidate() // this invalidate will re-create the datasource
+        val dataSourceFactory =
+            object : SearchableDataSource.Factory<Repo, SearchRepoResultsDataSource>() {
+                override fun create(query: String?) = SearchRepoResultsDataSource(scope, query)
             }
-
-            override fun create(): DataSource<String, Repo> {
-                val source = SearchRepoResultsDataSource(scope, query)
-                this.source = source
-                return source
-            }
-        }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
 
@@ -78,24 +64,10 @@ class GithubRepository {
 
     fun searchUsers(scope: CoroutineScope): SearchableListing<User> {
 
-        val dataSourceFactory = object : DataSource.Factory<String, User>() {
-
-            var source: SearchUserResultsDataSource? = null
-            var query: String? = null
-
-            fun updateSearchQuery(query: String) {
-                if (query == this.query) return // Nothing changed, nothing to do
-
-                this.query = query
-                source?.invalidate() // this invalidate will re-create the datasource
+        val dataSourceFactory =
+            object : SearchableDataSource.Factory<User, SearchUserResultsDataSource>() {
+                override fun create(query: String?) = SearchUserResultsDataSource(scope, query)
             }
-
-            override fun create(): DataSource<String, User> {
-                val source = SearchUserResultsDataSource(scope, query)
-                this.source = source
-                return source
-            }
-        }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
 
