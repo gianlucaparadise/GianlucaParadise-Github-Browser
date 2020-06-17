@@ -16,7 +16,14 @@ class SearchUserResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
     override val tag: String
         get() = SearchUserResultsDataSource.tag
 
-    override suspend fun load(
+    override suspend fun loadInitial(
+        first: Int,
+        query: String?
+    ): PaginatedResponse<User> {
+        return BackendService.searchUsers(query ?: "", first)
+    }
+
+    override suspend fun loadAfter(
         first: Int,
         startCursor: String?,
         query: String?

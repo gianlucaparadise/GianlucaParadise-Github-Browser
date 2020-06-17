@@ -26,9 +26,8 @@ abstract class SearchableDataSource<T>(
                             "query: $searchQuery"
                 )
 
-                val response = load(
+                val response = loadInitial(
                     first = params.requestedLoadSize,
-                    startCursor = null,
                     query = searchQuery
                 )
 
@@ -57,7 +56,7 @@ abstract class SearchableDataSource<T>(
                             "query: $searchQuery"
                 )
 
-                val response = load(
+                val response = loadAfter(
                     first = params.requestedLoadSize,
                     startCursor = params.key,
                     query = searchQuery
@@ -89,7 +88,12 @@ abstract class SearchableDataSource<T>(
         Log.d(tag, "Load Before") // Not needed
     }
 
-    abstract suspend fun load(
+    abstract suspend fun loadInitial(
+        first: Int,
+        query: String?
+    ): PaginatedResponse<T>
+
+    abstract suspend fun loadAfter(
         first: Int,
         startCursor: String?,
         query: String?
