@@ -8,7 +8,7 @@ import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.CoroutineScope
 
 class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = null) :
-    SearchableDataSource<Repo>(scope, searchQuery) {
+    SearchableDataSource<Repo>(scope, searchQuery, AppInMemorySnapshot.instance.repoDao) {
 
     companion object {
         const val tag = "SearchRepoResultsDataSource"
@@ -21,9 +21,7 @@ class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         first: Int,
         query: String?
     ): PaginatedResponse<Repo> {
-        val response = BackendService.searchRepos(query ?: "", first)
-        AppInMemorySnapshot.instance.repoDao.loadInitial(response.nodes)
-        return response
+        return BackendService.searchRepos(query ?: "", first)
     }
 
     override suspend fun loadAfter(
@@ -31,9 +29,7 @@ class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         startCursor: String?,
         query: String?
     ): PaginatedResponse<Repo> {
-        val response = BackendService.searchRepos(query ?: "", first, startCursor)
-        AppInMemorySnapshot.instance.repoDao.append(response.nodes)
-        return response
+        return BackendService.searchRepos(query ?: "", first, startCursor)
     }
 
 }

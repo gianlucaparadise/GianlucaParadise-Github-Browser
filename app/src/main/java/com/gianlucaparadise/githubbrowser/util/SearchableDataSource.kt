@@ -3,13 +3,15 @@ package com.gianlucaparadise.githubbrowser.util
 import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.gianlucaparadise.githubbrowser.inMemory.InMemoryDao
 import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 abstract class SearchableDataSource<T>(
     private val scope: CoroutineScope,
-    private val searchQuery: String?
+    private val searchQuery: String?,
+    private val inMemoryDao: InMemoryDao<T>? = null
 ) :
     PageKeyedDataSource<String, T>() {
     abstract val tag: String
@@ -37,6 +39,7 @@ abstract class SearchableDataSource<T>(
                             "first: ${response.nodes.firstOrNull()}"
                 )
 
+                inMemoryDao?.loadInitial(response.nodes)
                 callback.onResult(response.nodes, null, response.endCursor)
 
             } catch (e: Exception) {
@@ -72,6 +75,7 @@ abstract class SearchableDataSource<T>(
                             "nextKey: $nextKey"
                 )
 
+                inMemoryDao?.append(response.nodes)
                 callback.onResult(response.nodes, nextKey)
 
             } catch (e: Exception) {
