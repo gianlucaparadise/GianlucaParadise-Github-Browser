@@ -123,5 +123,10 @@ abstract class SearchableDataSource<T>(
         }
 
         abstract fun create(query: String?): DATASOURCE
+
+        fun updateItem(item: T) {
+            source?.inMemoryDao?.update(item)
+            source?.invalidate() // this invalidate will re-create the datasource
+        }
     }
 }

@@ -19,4 +19,10 @@ class RepoInMemoryDao: InMemoryDao<Repo> {
         _data.addAll(data)
     }
 
+    override fun update(data: Repo) {
+        val index = _data.indexOfFirst { it.id == data.id }
+        if (index < 0) return
+
+        _data[index] = data
+    }
 }

@@ -3,8 +3,8 @@ package com.gianlucaparadise.githubbrowser.ui.repodetail
 import androidx.lifecycle.*
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.network.BackendService
+import com.gianlucaparadise.githubbrowser.repository.GithubRepository
 import kotlinx.coroutines.launch
-
 
 class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
 
@@ -27,6 +27,12 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
         }
     }
 
+    private fun updateDbRepo(repo: Repo) {
+        viewModelScope.launch {
+            GithubRepository.instance.updateRepo(repo)
+        }
+    }
+
     fun onClickStar() {
         viewModelScope.launch {
             val repo = _repo.value
@@ -39,6 +45,7 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
                         viewerHasStarred = starrable.viewerHasStarred
                     )
                     updateRepo(newRepo)
+                    updateDbRepo(newRepo)
                 }
             }
         }

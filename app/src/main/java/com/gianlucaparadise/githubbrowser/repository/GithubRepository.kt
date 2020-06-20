@@ -11,6 +11,10 @@ import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.CoroutineScope
 
+/**
+ * This is a mediator object between the InMemory snapshots for the search results and
+ * the DataBase snapshot for the authenticated repos
+ */
 class GithubRepository {
 
     companion object {
@@ -24,6 +28,9 @@ class GithubRepository {
         .setInitialLoadSizeHint(15)
         .setEnablePlaceholders(false)
         .build()
+
+    private var repoDataSourceFactory: SearchableDataSource.Factory<Repo, SearchRepoResultsDataSource>? =
+        null
 
     fun retrieveAuthenticatedUserRepos(scope: CoroutineScope): Listing<Repo> {
 
@@ -54,6 +61,8 @@ class GithubRepository {
 
         val pagedList = livePagedListBuilder.build()
 
+        repoDataSourceFactory = dataSourceFactory
+
         return SearchableListing(
             pagedList = pagedList,
             search = {
@@ -79,5 +88,10 @@ class GithubRepository {
                 dataSourceFactory.updateSearchQuery(it)
             }
         )
+    }
+
+    suspend fun updateRepo(repo: Repo) {
+        AppDatabase.instance.repoDao().update(repo)
+        repoDataSourceFactory?.updateItem(repo)
     }
 }
