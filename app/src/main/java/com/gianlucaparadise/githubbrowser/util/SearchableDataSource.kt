@@ -20,6 +20,17 @@ abstract class SearchableDataSource<T>(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, T>
     ) {
+        val items = inMemoryDao?.getAll()
+        if (items?.any() == true) {
+            Log.d(
+                tag, "Loading initial, snapshot - " +
+                        "pagesize: ${items.size} " +
+                        "query: $searchQuery"
+            )
+            callback.onResult(items, null, inMemoryDao?.getNextKey())
+            return
+        }
+
         scope.launch {
             try {
                 Log.d(

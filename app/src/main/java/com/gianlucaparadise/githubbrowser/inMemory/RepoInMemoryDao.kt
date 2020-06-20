@@ -10,6 +10,9 @@ class RepoInMemoryDao: InMemoryDao<Repo> {
     private val _data = mutableListOf<Repo>()
 
     override fun getAll(): List<Repo> = data
+
+    override fun getNextKey(): String? = data.lastOrNull()?.paginationCursor
+
     override fun loadInitial(data: List<Repo>) {
         _data.clear()
         _data.addAll(data)
