@@ -2,9 +2,9 @@ package com.gianlucaparadise.githubbrowser.repository
 
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.gianlucaparadise.githubbrowser.data.RepoBoundaryCallback
-import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
-import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
+import com.gianlucaparadise.githubbrowser.datasource.RepoBoundaryCallback
+import com.gianlucaparadise.githubbrowser.datasource.SearchRepoResultsDataSource
+import com.gianlucaparadise.githubbrowser.datasource.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import com.gianlucaparadise.githubbrowser.vo.Repo

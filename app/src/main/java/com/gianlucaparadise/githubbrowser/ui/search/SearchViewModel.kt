@@ -2,16 +2,7 @@ package com.gianlucaparadise.githubbrowser.ui.search
 
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
-import com.gianlucaparadise.githubbrowser.vo.Repo
-import com.gianlucaparadise.githubbrowser.data.SearchRepoResultsDataSource
-import com.gianlucaparadise.githubbrowser.data.SearchUserResultsDataSource
-import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.repository.GithubRepository
-import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

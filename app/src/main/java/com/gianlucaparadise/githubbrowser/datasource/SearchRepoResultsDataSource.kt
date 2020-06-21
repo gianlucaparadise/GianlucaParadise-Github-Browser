@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.datasource
 
 import com.gianlucaparadise.githubbrowser.inMemory.AppInMemorySnapshot
 import com.gianlucaparadise.githubbrowser.network.BackendService

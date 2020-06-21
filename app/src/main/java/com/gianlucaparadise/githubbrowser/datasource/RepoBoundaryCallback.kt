@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.datasource
 
 import android.util.Log
 import com.gianlucaparadise.githubbrowser.util.PagingRequestHelper
