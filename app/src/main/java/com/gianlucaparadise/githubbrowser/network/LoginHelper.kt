@@ -3,7 +3,7 @@ package com.gianlucaparadise.githubbrowser.network
 import android.net.Uri
 import com.gianlucaparadise.githubbrowser.BuildConfig
 import com.gianlucaparadise.githubbrowser.vo.AccessTokenModel
-import com.gianlucaparadise.githubbrowser.data.SharedPreferencesManager
+import com.gianlucaparadise.githubbrowser.util.SharedPreferencesManager
 import java.util.*
 
 private const val GITHUB_AUTHORIZATION_ENDPOINT = "https://github.com/login/oauth/authorize"

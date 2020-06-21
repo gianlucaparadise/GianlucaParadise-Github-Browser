@@ -6,9 +6,9 @@ import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.gianlucaparadise.githubbrowser.*
-import com.gianlucaparadise.githubbrowser.data.*
 import com.gianlucaparadise.githubbrowser.type.AddStarInput
 import com.gianlucaparadise.githubbrowser.type.RemoveStarInput
+import com.gianlucaparadise.githubbrowser.util.SharedPreferencesManager
 import com.gianlucaparadise.githubbrowser.vo.*
 import okhttp3.*
 import retrofit2.Retrofit

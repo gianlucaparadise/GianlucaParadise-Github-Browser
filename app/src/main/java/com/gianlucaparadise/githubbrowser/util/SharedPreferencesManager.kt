@@ -1,4 +1,4 @@
-package com.gianlucaparadise.githubbrowser.data
+package com.gianlucaparadise.githubbrowser.util
 
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
