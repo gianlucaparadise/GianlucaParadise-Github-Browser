@@ -68,6 +68,6 @@ Models:
 
 - [ ] Pull to refresh
 - [ ] Network Error UI
-- [ ] Fix login webview keyboard
+- [x] Fix login webview keyboard
 - [ ] Better Login flow
 - [ ] Dagger
