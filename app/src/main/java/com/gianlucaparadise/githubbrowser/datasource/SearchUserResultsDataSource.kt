@@ -31,4 +31,5 @@ class SearchUserResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         return BackendService.searchUsers(query ?: "", first, startCursor)
     }
 
+    override fun getNextKey(item: User): String? = null // Users are never loaded from snapshot
 }

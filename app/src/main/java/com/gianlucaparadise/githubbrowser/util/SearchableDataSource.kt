@@ -22,12 +22,17 @@ abstract class SearchableDataSource<T>(
     ) {
         val items = inMemoryDao?.getAll()
         if (items?.any() == true) {
+            val lastItem = items.lastOrNull()
+            val nextKey = if (lastItem == null) null else getNextKey(lastItem)
+
             Log.d(
                 tag, "Loading initial, snapshot - " +
                         "pagesize: ${items.size} " +
-                        "query: $searchQuery"
+                        "query: $searchQuery " +
+                        "nextKey: $nextKey"
             )
-            callback.onResult(items, null, inMemoryDao?.getNextKey())
+
+            callback.onResult(items, null, nextKey)
             return
         }
 
@@ -113,6 +118,13 @@ abstract class SearchableDataSource<T>(
         startCursor: String?,
         query: String?
     ): PaginatedResponse<T>
+
+    /**
+     * Get pagination cursor from item
+     * When the items are loaded from snapshot, it is needed to get the next pagination cursor to
+     * retrieve the next page from backend
+     */
+    abstract fun getNextKey(item: T): String?
 
     abstract class Factory<T, DATASOURCE : SearchableDataSource<T>> :
         DataSource.Factory<String, T>() {

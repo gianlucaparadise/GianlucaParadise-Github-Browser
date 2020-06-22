@@ -67,6 +67,7 @@ Models:
 ## Future Roadmap
 
 - [ ] Pull to refresh
+- [ ] Avoid DataSourceFactory instance retain in GitHubRepository
 - [ ] Network Error UI
 - [x] Fix login webview keyboard
 - [ ] Better Login flow

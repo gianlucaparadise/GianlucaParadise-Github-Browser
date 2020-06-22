@@ -32,4 +32,5 @@ class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         return BackendService.searchRepos(query ?: "", first, startCursor)
     }
 
+    override fun getNextKey(item: Repo): String? = item.paginationCursor
 }
