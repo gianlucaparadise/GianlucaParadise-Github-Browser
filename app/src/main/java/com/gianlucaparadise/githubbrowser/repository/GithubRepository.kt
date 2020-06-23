@@ -44,7 +44,8 @@ class GithubRepository {
         val pagedList = livePagedListBuilder.build()
 
         return Listing(
-            pagedList = pagedList
+            pagedList = pagedList,
+            networkState = boundaryCallback.networkState
         )
     }
 

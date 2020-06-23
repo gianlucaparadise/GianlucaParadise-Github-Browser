@@ -5,6 +5,7 @@ import com.gianlucaparadise.githubbrowser.util.PagingRequestHelper
 import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.network.BackendService
+import com.gianlucaparadise.githubbrowser.util.createStatusLiveData
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -23,6 +24,7 @@ class RepoBoundaryCallback(
 
     private val executor = Executors.newSingleThreadExecutor()
     private val helper = PagingRequestHelper(executor)
+    val networkState = helper.createStatusLiveData()
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
