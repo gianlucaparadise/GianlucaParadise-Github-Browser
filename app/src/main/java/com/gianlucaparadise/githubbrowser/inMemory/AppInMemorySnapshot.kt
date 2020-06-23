@@ -13,7 +13,7 @@ import com.gianlucaparadise.githubbrowser.vo.Repo
 class AppInMemorySnapshot {
 
     val repoDao: InMemoryDao<Repo> by lazy {
-        RepoInMemoryDao()
+        InMemoryDao<Repo>()
     }
 
     companion object {

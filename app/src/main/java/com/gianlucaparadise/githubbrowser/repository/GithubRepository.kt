@@ -6,6 +6,7 @@ import com.gianlucaparadise.githubbrowser.datasource.RepoBoundaryCallback
 import com.gianlucaparadise.githubbrowser.datasource.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.datasource.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
+import com.gianlucaparadise.githubbrowser.inMemory.AppInMemorySnapshot
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.vo.User
@@ -28,9 +29,6 @@ class GithubRepository {
         .setInitialLoadSizeHint(15)
         .setEnablePlaceholders(false)
         .build()
-
-    private var repoDataSourceFactory: SearchableDataSource.Factory<Repo, SearchRepoResultsDataSource>? =
-        null
 
     fun retrieveAuthenticatedUserRepos(scope: CoroutineScope): Listing<Repo> {
 
@@ -61,8 +59,6 @@ class GithubRepository {
 
         val pagedList = livePagedListBuilder.build()
 
-        repoDataSourceFactory = dataSourceFactory
-
         return SearchableListing(
             pagedList = pagedList,
             search = {
@@ -92,6 +88,6 @@ class GithubRepository {
 
     suspend fun updateRepo(repo: Repo) {
         AppDatabase.instance.repoDao().update(repo)
-        repoDataSourceFactory?.updateItem(repo)
+        AppInMemorySnapshot.instance.repoDao.update(repo)
     }
 }

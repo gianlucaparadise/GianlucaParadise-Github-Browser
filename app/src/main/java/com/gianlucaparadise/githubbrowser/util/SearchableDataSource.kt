@@ -16,6 +16,13 @@ abstract class SearchableDataSource<T>(
     PageKeyedDataSource<String, T>() {
     abstract val tag: String
 
+    init {
+        inMemoryDao?.onItemUpdated = {
+            Log.d(tag, "Item Updated, invalidating DataSource")
+            invalidate() // this invalidate will re-create the datasource
+        }
+    }
+
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, T>
@@ -146,10 +153,5 @@ abstract class SearchableDataSource<T>(
         }
 
         abstract fun create(query: String?): DATASOURCE
-
-        fun updateItem(item: T) {
-            source?.inMemoryDao?.update(item)
-            source?.invalidate() // this invalidate will re-create the datasource
-        }
     }
 }

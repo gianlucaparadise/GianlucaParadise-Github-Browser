@@ -67,8 +67,10 @@ Models:
 ## Future Roadmap
 
 - [ ] Pull to refresh
-- [ ] Avoid DataSourceFactory instance retain in GitHubRepository
+- [x] Avoid DataSourceFactory instance retain in GitHubRepository
 - [ ] Network Error UI
+- [ ] Call in progress UI
+- [ ] Disable star button while call in progress
 - [x] Fix login webview keyboard
 - [ ] Better Login flow
 - [ ] Dagger

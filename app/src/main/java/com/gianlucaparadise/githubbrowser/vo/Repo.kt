@@ -39,6 +39,14 @@ data class Repo(
      */
     @ColumnInfo(name = "paginationCursor") var paginationCursor: String?
 ) : Serializable {
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is Repo) return false
+
+        return other.id == this.id
+    }
+
     companion object {
 
         private fun fromRepoNodeList(

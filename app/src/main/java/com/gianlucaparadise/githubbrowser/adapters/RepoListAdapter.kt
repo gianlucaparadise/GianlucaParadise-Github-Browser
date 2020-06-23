@@ -66,13 +66,15 @@ private class RepoDiffCallback : DiffUtil.ItemCallback<Repo>() {
         oldItem: Repo,
         newItem: Repo
     ): Boolean {
-        return oldItem.name == newItem.name && oldItem.owner?.login == newItem.owner?.login
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(
         oldItem: Repo,
         newItem: Repo
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.name == newItem.name &&
+                oldItem.owner?.login == newItem.owner?.login &&
+                oldItem.stargazersCount == newItem.stargazersCount // this is a value that the user can change
     }
 }
