@@ -17,5 +17,7 @@ data class SearchableListing<T> (
     // the LiveData of paged lists for the UI to observe
     val pagedList: LiveData<PagedList<T>>,
     // changes the input search query of the paged list
-    val search: (query: String) -> Unit
+    val search: (query: String) -> Unit,
+    // represents the network request status to show to the user
+    val networkState: LiveData<NetworkState>
 )

@@ -1,5 +1,6 @@
 package com.gianlucaparadise.githubbrowser.repository
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.gianlucaparadise.githubbrowser.datasource.RepoBoundaryCallback
@@ -64,7 +65,8 @@ class GithubRepository {
             pagedList = pagedList,
             search = {
                 dataSourceFactory.updateSearchQuery(it)
-            }
+            },
+            networkState = createStatusLiveData(dataSourceFactory)
         )
     }
 
@@ -83,8 +85,29 @@ class GithubRepository {
             pagedList = pagedList,
             search = {
                 dataSourceFactory.updateSearchQuery(it)
-            }
+            },
+            networkState = createStatusLiveData(dataSourceFactory)
         )
+    }
+
+    private fun createStatusLiveData(dataSourceFactory: SearchableDataSource.Factory<*, *>): MutableLiveData<NetworkState> {
+        val liveData = MutableLiveData<NetworkState>()
+        dataSourceFactory.networkListener = object : SearchableDataSource.NetworkListener {
+            override fun onLoading() {
+                liveData.postValue(NetworkState.LOADING)
+            }
+
+            override fun onLoaded() {
+                liveData.postValue(NetworkState.LOADED)
+            }
+
+            override fun onError(message: String, ex: Throwable) {
+                val state = NetworkState.error(message)
+                liveData.postValue(state)
+            }
+
+        }
+        return liveData
     }
 
     suspend fun updateRepo(repo: Repo) {

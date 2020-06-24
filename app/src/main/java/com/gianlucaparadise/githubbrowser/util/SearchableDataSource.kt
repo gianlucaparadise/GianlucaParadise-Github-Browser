@@ -23,6 +23,8 @@ abstract class SearchableDataSource<T>(
         }
     }
 
+    var networkListener: NetworkListener? = null
+
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, T>
@@ -45,6 +47,8 @@ abstract class SearchableDataSource<T>(
 
         scope.launch {
             try {
+                networkListener?.onLoading()
+
                 Log.d(
                     tag, "Loading initial, start - " +
                             "pagesize: ${params.requestedLoadSize} " +
@@ -65,9 +69,11 @@ abstract class SearchableDataSource<T>(
                 inMemoryDao?.loadInitial(response.nodes)
                 callback.onResult(response.nodes, null, response.endCursor)
 
+                networkListener?.onLoaded()
+
             } catch (e: Exception) {
                 Log.e(tag, "Error loadInitial", e)
-                // callback.onError(e)
+                networkListener?.onError("Error loadInitial", e)
             }
         }
     }
@@ -75,6 +81,8 @@ abstract class SearchableDataSource<T>(
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, T>) {
         scope.launch {
             try {
+                networkListener?.onLoading()
+
                 Log.d(
                     tag, "Loading after, start - " +
                             "page: ${params.key} " +
@@ -101,9 +109,11 @@ abstract class SearchableDataSource<T>(
                 inMemoryDao?.append(response.nodes)
                 callback.onResult(response.nodes, nextKey)
 
+                networkListener?.onLoaded()
+
             } catch (e: Exception) {
                 Log.e(tag, "Error loadAfter", e)
-                // callback.onError(e)
+                networkListener?.onError("Error loadAfter", e)
             }
         }
     }
@@ -133,11 +143,43 @@ abstract class SearchableDataSource<T>(
      */
     abstract fun getNextKey(item: T): String?
 
+    /**
+     * Callbacks for network state changes
+     */
+    interface NetworkListener {
+        /**
+         * Called when a network call is in progress
+         */
+        fun onLoading()
+
+        /**
+         * Called when a network call finished
+         */
+        fun onLoaded()
+
+        /**
+         * Called when a network failed
+         */
+        fun onError(message: String, ex: Throwable)
+    }
+
     abstract class Factory<T, DATASOURCE : SearchableDataSource<T>> :
         DataSource.Factory<String, T>() {
 
         private var source: DATASOURCE? = null
+            set(value) {
+                // when source changes I stop listening the old instance and start listening the new one
+                field?.networkListener = null
+                value?.networkListener = this.networkListener
+
+                field = value
+            }
+
         private var query: String? = null
+        /**
+         * Listen to network state changes
+         */
+        var networkListener: NetworkListener? = null
 
         fun updateSearchQuery(query: String) {
             if (query == this.query) return // Nothing changed, nothing to do
