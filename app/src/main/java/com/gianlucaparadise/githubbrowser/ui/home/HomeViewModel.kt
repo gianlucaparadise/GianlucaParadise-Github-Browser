@@ -9,4 +9,5 @@ class HomeViewModel : ViewModel() {
     private val repoResult = GithubRepository.instance.retrieveAuthenticatedUserRepos(viewModelScope)
 
     val repos = repoResult.pagedList
+    val networkState = repoResult.networkState
 }

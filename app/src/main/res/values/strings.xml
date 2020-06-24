@@ -4,7 +4,7 @@
     <string name="search_tab_title">Search</string>
     <string name="search_people_tab_title">People</string>
     <string name="search_repos_tab_title">Repositories</string>
-    <string name="search_bar_hint">Search...</string>
+    <string name="search_bar_hint">Search…</string>
     <string name="login_with_github">Login with Github</string>
     <string name="login_page_title">Login</string>
     <string name="login_benefits">You need to login to Github in order to use this app</string>
@@ -12,4 +12,6 @@
     <string name="owner_name_extended">Crafted with ❤️ by</string>
     <string name="followers">Followers: %s</string>
     <string name="following">Following: %s</string>
+    <string name="network_error">It seems you\'re offline!</string>
+    <string name="ok">OK!</string>
 </resources>
