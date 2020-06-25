@@ -34,6 +34,8 @@ class SearchViewModel : ViewModel() {
 
     val users = userResult.pagedList
     private fun updateUsersDataSource(query: String) = userResult.search(query)
+
+    val usersNetworkState = userResult.networkState
     //endregion
 
     init {

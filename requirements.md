@@ -68,7 +68,7 @@ Models:
 
 - [ ] Pull to refresh
 - [x] Avoid DataSourceFactory instance retain in GitHubRepository
-- [ ] Network Error UI
+- [x] Network Error UI
 - [ ] Call in progress UI
 - [ ] Disable star button while call in progress
 - [x] Fix login webview keyboard

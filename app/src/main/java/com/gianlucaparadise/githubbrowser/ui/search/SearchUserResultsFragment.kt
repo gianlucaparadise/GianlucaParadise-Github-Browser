@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.gianlucaparadise.githubbrowser.R
 
 import com.gianlucaparadise.githubbrowser.adapters.UserClickHandler
 import com.gianlucaparadise.githubbrowser.adapters.UserListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding
+import com.gianlucaparadise.githubbrowser.repository.Status
+import com.google.android.material.snackbar.Snackbar
 import java.lang.Exception
 
 class SearchUserResultsFragment : Fragment() {
@@ -48,6 +51,17 @@ class SearchUserResultsFragment : Fragment() {
             val adapter = binding.searchResultsList.adapter
             if (adapter is UserListAdapter) {
                 adapter.submitList(result)
+            }
+        })
+
+        viewModel.usersNetworkState.observe(viewLifecycleOwner, Observer { state ->
+            if (state.status == Status.FAILED) {
+                Snackbar
+                    .make(requireView(), R.string.network_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.ok) {
+                        // no-op
+                    }
+                    .show()
             }
         })
     }
