@@ -25,6 +25,8 @@ class SearchViewModel : ViewModel() {
 
     val repos = repoResult.pagedList
     private fun updateReposDataSource(query: String) = repoResult.search(query)
+
+    val reposNetworkState = repoResult.networkState
     //endregion
 
     //region Users handling

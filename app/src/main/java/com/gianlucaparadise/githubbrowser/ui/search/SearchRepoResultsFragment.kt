@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.adapters.RepoClickHandler
 
 import com.gianlucaparadise.githubbrowser.adapters.RepoListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding
+import com.gianlucaparadise.githubbrowser.repository.Status
+import com.google.android.material.snackbar.Snackbar
 import java.lang.Exception
 
 class SearchRepoResultsFragment : Fragment() {
@@ -48,6 +51,17 @@ class SearchRepoResultsFragment : Fragment() {
             val adapter = binding.searchResultsList.adapter
             if (adapter is RepoListAdapter) {
                 adapter.submitList(result)
+            }
+        })
+
+        viewModel.reposNetworkState.observe(viewLifecycleOwner, Observer { state ->
+            if (state.status == Status.FAILED) {
+                Snackbar
+                    .make(requireView(), R.string.network_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.ok) {
+                        // no-op
+                    }
+                    .show()
             }
         })
     }
