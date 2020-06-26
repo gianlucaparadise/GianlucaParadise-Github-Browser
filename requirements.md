@@ -74,3 +74,4 @@ Models:
 - [x] Fix login webview keyboard
 - [ ] Better Login flow
 - [ ] Dagger
+- [ ] Shared Element Transitions master-detail
