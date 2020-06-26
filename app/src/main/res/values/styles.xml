@@ -18,4 +18,9 @@
         <item name="colorOnBackground">@color/colorOnBackground</item>
     </style>
 
+    <style name="OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/btn_bg_color_selector</item>
+        <item name="iconTint">@color/btn_bg_color_selector</item>
+    </style>
+
 </resources>

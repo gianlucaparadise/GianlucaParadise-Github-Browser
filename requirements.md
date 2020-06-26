@@ -70,7 +70,7 @@ Models:
 - [x] Avoid DataSourceFactory instance retain in GitHubRepository
 - [x] Network Error UI
 - [ ] Call in progress UI
-- [ ] Disable star button while call in progress
+- [x] Disable star button while call in progress
 - [x] Fix login webview keyboard
 - [ ] Better Login flow
 - [ ] Dagger
