@@ -96,7 +96,7 @@ data class Repo(
 
             val repos = mutableListOf<Repo>()
 
-            searchReposNodes.forEachIndexed { i, node ->
+            searchReposNodes.forEachIndexed { _, node ->
                 val repo =
                     fromRepoFragment(node?.fragments?.repoFragment)
                 if (repo != null) {
