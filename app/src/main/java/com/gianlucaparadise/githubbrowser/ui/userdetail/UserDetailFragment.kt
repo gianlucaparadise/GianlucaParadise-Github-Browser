@@ -1,16 +1,18 @@
 package com.gianlucaparadise.githubbrowser.ui.userdetail
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 
 import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.databinding.UserDetailFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserDetailFragment : Fragment() {
 
     companion object {
@@ -20,7 +22,10 @@ class UserDetailFragment : Fragment() {
     private val args: UserDetailFragmentArgs by navArgs()
 
     private lateinit var binding: UserDetailFragmentBinding
-    private lateinit var viewModel: UserDetailViewModel
+    private val viewModel: UserDetailViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +39,7 @@ class UserDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory = UserDetailViewModel.Factory(args.user)
-        viewModel = ViewModelProviders.of(this, factory).get(UserDetailViewModel::class.java)
+        viewModel.start(args.user)
         binding.viewmodel = viewModel
     }
 

@@ -15,9 +15,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gianlucaparadise.githubbrowser.network.LoginHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_activity.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var loginHelper: LoginHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener(onDestinationChanged)
 
         // Depending on login state, I choose the start fragment
-        if (LoginHelper.isLoggedIn) {
+        if (loginHelper.isLoggedIn) {
             navGraph.startDestination = R.id.homeFragment
         } else {
             navGraph.startDestination = R.id.loginBenefitsFragment

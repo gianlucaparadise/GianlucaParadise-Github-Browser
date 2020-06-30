@@ -1,27 +1,18 @@
 package com.gianlucaparadise.githubbrowser.ui.userdetail
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gianlucaparadise.githubbrowser.vo.User
 
-class UserDetailViewModel(inputUser: User) : ViewModel() {
+class UserDetailViewModel @ViewModelInject constructor () : ViewModel() {
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
-    init {
+    fun start(inputUser: User) { // This should be a constructor parameter
         _user.value = inputUser
-    }
-
-    class Factory(
-        private val user: User
-    ) : ViewModelProvider.Factory {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return UserDetailViewModel(user) as T
-        }
     }
 }

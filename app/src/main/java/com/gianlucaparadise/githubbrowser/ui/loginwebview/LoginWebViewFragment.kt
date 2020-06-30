@@ -9,15 +9,19 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 
 import com.gianlucaparadise.githubbrowser.R
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.login_web_view_fragment.*
 
+@AndroidEntryPoint
 class LoginWebViewFragment : Fragment() {
 
-    private lateinit var viewModel: LoginWebViewViewModel
+    private val viewModel: LoginWebViewViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
 
     companion object {
         const val TAG = "LoginWebViewFragment"
@@ -41,7 +45,6 @@ class LoginWebViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(LoginWebViewViewModel::class.java)
 
         viewModel.onLoginCompleted = onLoginCompleted
         login_webview.loadUrl(viewModel.authUrl)

@@ -14,11 +14,14 @@ import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val GITHUB_API_ENDPOINT = "https://api.github.com/graphql"
 private const val GITHUB_WEBSITE_ENDPOINT = "https://github.com"
 
-object BackendService {
+@Singleton
+class BackendService @Inject constructor(val sharedPreferences: SharedPreferencesManager) {
 
     /**
      * This is the client used to interact with Github's GraphQL Backend
@@ -32,7 +35,7 @@ object BackendService {
         val okHttpClient = OkHttpClient.Builder()
             .authenticator(object : Authenticator {
                 override fun authenticate(route: Route?, response: Response): Request? {
-                    val authHeader = "Bearer ${SharedPreferencesManager.accessToken}"
+                    val authHeader = "Bearer ${sharedPreferences.accessToken}"
                     return response.request.newBuilder().header("Authorization", authHeader)
                         .build()
                 }

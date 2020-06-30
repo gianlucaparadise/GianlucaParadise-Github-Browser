@@ -1,15 +1,18 @@
 package com.gianlucaparadise.githubbrowser.ui.repodetail
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
+import com.gianlucaparadise.githubbrowser.R
 
 import com.gianlucaparadise.githubbrowser.databinding.RepoDetailFragmentBinding
 import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RepoDetailFragment : BaseMainFragment() {
 
     companion object {
@@ -19,7 +22,9 @@ class RepoDetailFragment : BaseMainFragment() {
     private val args: RepoDetailFragmentArgs by navArgs()
 
     private lateinit var binding: RepoDetailFragmentBinding
-    private lateinit var viewModel: RepoDetailViewModel
+    private val viewModel: RepoDetailViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +38,7 @@ class RepoDetailFragment : BaseMainFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory = RepoDetailViewModel.Factory(args.repo)
-        viewModel = ViewModelProviders.of(this, factory).get(RepoDetailViewModel::class.java)
+        viewModel.start(args.repo)
         binding.viewmodel = viewModel
     }
 

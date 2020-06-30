@@ -11,14 +11,4 @@ import com.gianlucaparadise.githubbrowser.vo.User
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun repoDao(): RepoDao
-
-    companion object {
-
-        val instance: AppDatabase by lazy {
-            Room.databaseBuilder(
-                MainApplication.applicationContext,
-                AppDatabase::class.java, "gituhub-data"
-            ).build()
-        }
-    }
 }

@@ -6,7 +6,7 @@ import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.CoroutineScope
 
-class SearchUserResultsDataSource(scope: CoroutineScope, searchQuery: String? = null) :
+class SearchUserResultsDataSource(scope: CoroutineScope, private val backend: BackendService, searchQuery: String? = null) :
     SearchableDataSource<User>(scope, searchQuery) {
 
     companion object {
@@ -20,7 +20,7 @@ class SearchUserResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         first: Int,
         query: String?
     ): PaginatedResponse<User> {
-        return BackendService.searchUsers(query ?: "", first)
+        return backend.searchUsers(query ?: "", first)
     }
 
     override suspend fun loadAfter(
@@ -28,7 +28,7 @@ class SearchUserResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         startCursor: String?,
         query: String?
     ): PaginatedResponse<User> {
-        return BackendService.searchUsers(query ?: "", first, startCursor)
+        return backend.searchUsers(query ?: "", first, startCursor)
     }
 
     override fun getNextKey(item: User): String? = null // Users are never loaded from snapshot

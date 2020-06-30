@@ -8,22 +8,20 @@ import com.gianlucaparadise.githubbrowser.datasource.SearchRepoResultsDataSource
 import com.gianlucaparadise.githubbrowser.datasource.SearchUserResultsDataSource
 import com.gianlucaparadise.githubbrowser.db.AppDatabase
 import com.gianlucaparadise.githubbrowser.inMemory.AppInMemorySnapshot
+import com.gianlucaparadise.githubbrowser.network.BackendService
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.vo.User
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * This is a mediator object between the InMemory snapshots for the search results and
  * the DataBase snapshot for the authenticated repos
  */
-class GithubRepository {
-
-    companion object {
-        val instance: GithubRepository by lazy {
-            GithubRepository()
-        }
-    }
+@Singleton
+class GithubRepository @Inject constructor(private val database: AppDatabase, private val backend: BackendService) {
 
     private val pagingConfig = PagedList.Config.Builder()
         .setPageSize(15)
@@ -33,13 +31,11 @@ class GithubRepository {
 
     fun retrieveAuthenticatedUserRepos(scope: CoroutineScope): Listing<Repo> {
 
-        val database = AppDatabase.instance
-
         val dataSourceFactory = database.repoDao().getAll()
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
 
-        val boundaryCallback = RepoBoundaryCallback(scope, database, pagingConfig)
+        val boundaryCallback = RepoBoundaryCallback(scope, database, backend, pagingConfig)
         livePagedListBuilder.setBoundaryCallback(boundaryCallback)
 
         val pagedList = livePagedListBuilder.build()
@@ -54,7 +50,7 @@ class GithubRepository {
 
         val dataSourceFactory =
             object : SearchableDataSource.Factory<Repo, SearchRepoResultsDataSource>() {
-                override fun create(query: String?) = SearchRepoResultsDataSource(scope, query)
+                override fun create(query: String?) = SearchRepoResultsDataSource(scope, backend, query)
             }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
@@ -74,7 +70,7 @@ class GithubRepository {
 
         val dataSourceFactory =
             object : SearchableDataSource.Factory<User, SearchUserResultsDataSource>() {
-                override fun create(query: String?) = SearchUserResultsDataSource(scope, query)
+                override fun create(query: String?) = SearchUserResultsDataSource(scope, backend, query)
             }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
@@ -111,7 +107,7 @@ class GithubRepository {
     }
 
     suspend fun updateRepo(repo: Repo) {
-        AppDatabase.instance.repoDao().update(repo)
+        database.repoDao().update(repo)
         AppInMemorySnapshot.instance.repoDao.update(repo)
     }
 }

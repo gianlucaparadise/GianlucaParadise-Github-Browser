@@ -1,18 +1,17 @@
 package com.gianlucaparadise.githubbrowser.util
 
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.gianlucaparadise.githubbrowser.MainApplication
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
+class SharedPreferencesManager @Inject constructor (@ApplicationContext private val context: Context) {
 
-object SharedPreferencesManager {
-
-    private val preferences: SharedPreferences
-
-    init {
-        val context = MainApplication.applicationContext
-        preferences = context.getSharedPreferences("private_preferences", MODE_PRIVATE)
-    }
+    private val preferences: SharedPreferences =
+        context.getSharedPreferences("private_preferences", MODE_PRIVATE)
 
     private var _accessToken: String? = null
     var accessToken: String?

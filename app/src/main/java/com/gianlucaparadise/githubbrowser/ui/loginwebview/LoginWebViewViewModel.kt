@@ -1,15 +1,16 @@
 package com.gianlucaparadise.githubbrowser.ui.loginwebview
 
 import android.net.Uri
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gianlucaparadise.githubbrowser.network.LoginHelper
 import kotlinx.coroutines.launch
 
-class LoginWebViewViewModel : ViewModel() {
+class LoginWebViewViewModel @ViewModelInject constructor(private val loginHelper: LoginHelper) : ViewModel() {
 
     private val authDescriptor: LoginHelper.AuthDescriptor =
-        LoginHelper.buildAuthorizationDescriptor()
+        loginHelper.buildAuthorizationDescriptor()
 
     /**
      * Starts the login flow and returns the auth Url for the webview
@@ -22,19 +23,19 @@ class LoginWebViewViewModel : ViewModel() {
      * When this method returns true, the webview can be stopped
      */
     fun isAppAuthorized(url: Uri?): Boolean {
-        return LoginHelper.isAppAuthorized(url, authDescriptor)
+        return loginHelper.isAppAuthorized(url, authDescriptor)
     }
 
     /**
      * After the app has been authorized, this method retrieves the access token, saves it and closes the login flow
      */
     fun completeLogin(url: Uri?) {
-        val loginDescriptor = LoginHelper.buildLoginDescriptor(url, authDescriptor)
+        val loginDescriptor = loginHelper.buildLoginDescriptor(url, authDescriptor)
             ?: throw IllegalStateException("The app is not authorized")
 
         viewModelScope.launch {
-            val accessTokenModel = LoginHelper.retrieveAccessToken(loginDescriptor)
-            LoginHelper.completeLogin(accessTokenModel)
+            val accessTokenModel = loginHelper.retrieveAccessToken(loginDescriptor)
+            loginHelper.completeLogin(accessTokenModel)
             onLoginCompleted?.invoke()
         }
     }

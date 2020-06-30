@@ -1,6 +1,5 @@
 package com.gianlucaparadise.githubbrowser.ui.search
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.gianlucaparadise.githubbrowser.R
 
 import com.gianlucaparadise.githubbrowser.adapters.UserClickHandler
@@ -15,16 +15,19 @@ import com.gianlucaparadise.githubbrowser.adapters.UserListAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchResultsFragmentBinding
 import com.gianlucaparadise.githubbrowser.repository.Status
 import com.google.android.material.snackbar.Snackbar
-import java.lang.Exception
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchUserResultsFragment : Fragment() {
 
     companion object {
         fun newInstance() = SearchUserResultsFragment()
     }
 
-    private lateinit var viewModel: SearchViewModel
     private lateinit var binding: SearchResultsFragmentBinding
+    private val viewModel: SearchViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +46,6 @@ class SearchUserResultsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // I'm using a ViewModel shared between me and the parent fragment with the SearchBar
-        viewModel = activity?.run {
-            ViewModelProviders.of(this).get(SearchViewModel::class.java)
-        } ?: throw Exception("Activity is null, can't get ViewModel")
-
         viewModel.users.observe(viewLifecycleOwner, Observer { result ->
             val adapter = binding.searchResultsList.adapter
             if (adapter is UserListAdapter) {

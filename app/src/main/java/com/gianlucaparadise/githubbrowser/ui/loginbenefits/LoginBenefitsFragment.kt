@@ -1,24 +1,27 @@
 package com.gianlucaparadise.githubbrowser.ui.loginbenefits
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.navGraphViewModels
 
 import com.gianlucaparadise.githubbrowser.R
-import com.gianlucaparadise.githubbrowser.ui.loginwebview.LoginWebViewFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.login_benefits_fragment.*
 
+@AndroidEntryPoint
 class LoginBenefitsFragment : Fragment() {
 
     companion object {
         fun newInstance() = LoginBenefitsFragment()
     }
 
-    private lateinit var viewModel: LoginBenefitsViewModel
+    private val viewModel: LoginBenefitsViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,12 +36,6 @@ class LoginBenefitsFragment : Fragment() {
         btn_login.setOnClickListener {
             it.findNavController().navigate(R.id.action_loginBenefitsFragment_to_loginWebViewFragment)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(LoginBenefitsViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

@@ -1,13 +1,16 @@
 package com.gianlucaparadise.githubbrowser.ui.search
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.gianlucaparadise.githubbrowser.repository.GithubRepository
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
+@ActivityRetainedScoped
+class SearchViewModel @ViewModelInject constructor(githubRepository: GithubRepository) : ViewModel() {
     companion object {
         const val tag = "SearchViewModel"
     }
@@ -21,7 +24,7 @@ class SearchViewModel : ViewModel() {
     }
 
     //region Repos handling
-    private val repoResult = GithubRepository.instance.searchRepos(viewModelScope)
+    private val repoResult = githubRepository.searchRepos(viewModelScope)
 
     val repos = repoResult.pagedList
     private fun updateReposDataSource(query: String) = repoResult.search(query)
@@ -30,7 +33,7 @@ class SearchViewModel : ViewModel() {
     //endregion
 
     //region Users handling
-    private val userResult = GithubRepository.instance.searchUsers(viewModelScope)
+    private val userResult = githubRepository.searchUsers(viewModelScope)
 
     val users = userResult.pagedList
     private fun updateUsersDataSource(query: String) = userResult.search(query)

@@ -1,6 +1,7 @@
 package com.gianlucaparadise.githubbrowser.ui.repodetail
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.network.BackendService
@@ -8,7 +9,7 @@ import com.gianlucaparadise.githubbrowser.repository.GithubRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
+class RepoDetailViewModel @ViewModelInject constructor (private val githubRepository: GithubRepository, private val backend: BackendService) : ViewModel() {
 
     companion object {
         const val tag = "RepoDetailViewModel"
@@ -23,9 +24,7 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
     private val _canStar = MutableLiveData<Boolean>(true)
     val canStar: LiveData<Boolean> = _canStar
 
-    init {
-        updateRepo(inputRepo)
-    }
+    fun start(repo: Repo) = updateRepo(repo) // This should be a constructor parameter
 
     private fun updateRepo(repo: Repo) {
         _repo.value = repo
@@ -38,7 +37,7 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
 
     private fun updateDbRepo(repo: Repo) {
         viewModelScope.launch {
-            GithubRepository.instance.updateRepo(repo)
+            githubRepository.updateRepo(repo)
         }
     }
 
@@ -49,7 +48,7 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
             try {
                 _canStar.value = false
 
-                val starrable = BackendService.toggleStar(repo)
+                val starrable = backend.toggleStar(repo)
                 if (starrable != null) {
                     val newRepo = repo.copy(
                         stargazersCount = starrable.stargazersCount,
@@ -65,16 +64,6 @@ class RepoDetailViewModel(inputRepo: Repo) : ViewModel() {
                 Log.e(tag, "Exception while toggling the star: $ex")
                 _canStar.value = true
             }
-        }
-    }
-
-    class Factory(
-        private val repo: Repo
-    ) : ViewModelProvider.Factory {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RepoDetailViewModel(repo) as T
         }
     }
 }

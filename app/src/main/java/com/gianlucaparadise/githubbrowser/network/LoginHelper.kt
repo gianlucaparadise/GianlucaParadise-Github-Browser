@@ -5,6 +5,8 @@ import com.gianlucaparadise.githubbrowser.BuildConfig
 import com.gianlucaparadise.githubbrowser.vo.AccessTokenModel
 import com.gianlucaparadise.githubbrowser.util.SharedPreferencesManager
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val GITHUB_AUTHORIZATION_ENDPOINT = "https://github.com/login/oauth/authorize"
 private const val GITHUB_AUTHORIZATION_CALLBACK_URL =
@@ -20,7 +22,11 @@ private const val STATE_QUERY_PARAM_NAME = "state"
  * 5. Using the `LoginDescriptor` received from Step#4, get the access token using the method `retrieveAccessToken`
  * 6. Now you can save the access token with the method `completeLogin` and use it for your API calls
  */
-object LoginHelper {
+@Singleton
+class LoginHelper @Inject constructor(
+    private val backendService: BackendService,
+    private val sharedPreferences: SharedPreferencesManager
+) {
 
     private val baseAuthUrlBuilder: Uri.Builder = Uri
         .parse(GITHUB_AUTHORIZATION_ENDPOINT)
@@ -90,26 +96,26 @@ object LoginHelper {
      * Gets the access token with the API
      */
     suspend fun retrieveAccessToken(loginDescriptor: LoginDescriptor): AccessTokenModel {
-        return BackendService.retrieveAccessToken(loginDescriptor.code, loginDescriptor.state)
+        return backendService.retrieveAccessToken(loginDescriptor.code, loginDescriptor.state)
     }
 
     /**
      * Saves the access token
      */
     fun completeLogin(accessTokenModel: AccessTokenModel) {
-        SharedPreferencesManager.accessToken = accessTokenModel.accessToken
+        sharedPreferences.accessToken = accessTokenModel.accessToken
     }
 
     /**
      * Deletes the access token
      */
     fun logout() {
-        SharedPreferencesManager.accessToken = null
+        sharedPreferences.accessToken = null
     }
 
     val isLoggedIn: Boolean
         get() {
-            return SharedPreferencesManager.accessToken != null
+            return sharedPreferences.accessToken != null
         }
 
     data class AuthDescriptor(

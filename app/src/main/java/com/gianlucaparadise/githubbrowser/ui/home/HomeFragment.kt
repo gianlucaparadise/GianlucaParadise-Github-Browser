@@ -1,10 +1,10 @@
 package com.gianlucaparadise.githubbrowser.ui.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.adapters.RepoClickHandler
 
@@ -13,14 +13,18 @@ import com.gianlucaparadise.githubbrowser.databinding.HomeFragmentBinding
 import com.gianlucaparadise.githubbrowser.repository.Status
 import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseMainFragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
     private lateinit var binding: HomeFragmentBinding
 
     override fun onCreateView(
@@ -40,7 +44,6 @@ class HomeFragment : BaseMainFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         viewModel.repos.observe(viewLifecycleOwner, Observer { result ->
             val adapter = binding.repoList.adapter

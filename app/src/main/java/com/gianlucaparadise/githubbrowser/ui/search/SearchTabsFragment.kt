@@ -1,17 +1,19 @@
 package com.gianlucaparadise.githubbrowser.ui.search
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.navGraphViewModels
+import com.gianlucaparadise.githubbrowser.R
 
 import com.gianlucaparadise.githubbrowser.adapters.SearchTabsAdapter
 import com.gianlucaparadise.githubbrowser.databinding.SearchTabsFragmentBinding
 import com.gianlucaparadise.githubbrowser.ui.base.BaseMainFragment
 import com.google.android.material.tabs.TabLayoutMediator
-import java.lang.Exception
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchTabsFragment : BaseMainFragment() {
 
     companion object {
@@ -19,7 +21,9 @@ class SearchTabsFragment : BaseMainFragment() {
     }
 
     private lateinit var binding: SearchTabsFragmentBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by navGraphViewModels(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +46,6 @@ class SearchTabsFragment : BaseMainFragment() {
         super.onActivityCreated(savedInstanceState)
 
         // I'm using a ViewModel shared between me and the child fragments with the search results
-        viewModel = activity?.run {
-            ViewModelProviders.of(this).get(SearchViewModel::class.java)
-        } ?: throw Exception("Activity is null, can't get ViewModel")
-
         binding.viewmodel = viewModel
     }
 

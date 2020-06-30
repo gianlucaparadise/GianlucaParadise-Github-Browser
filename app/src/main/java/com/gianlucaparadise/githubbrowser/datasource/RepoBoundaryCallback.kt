@@ -14,6 +14,7 @@ import java.util.concurrent.Executors
 class RepoBoundaryCallback(
     private val scope: CoroutineScope,
     private val db: AppDatabase,
+    private val backend: BackendService,
     private val pageConfig: PagedList.Config
 ) :
     PagedList.BoundaryCallback<Repo>() {
@@ -38,7 +39,7 @@ class RepoBoundaryCallback(
                     )
 
                     val response =
-                        BackendService.retrieveAuthenticatedUserRepos(
+                        backend.retrieveAuthenticatedUserRepos(
                             pageConfig.pageSize
                         )
 
@@ -77,7 +78,7 @@ class RepoBoundaryCallback(
                     )
 
                     val response =
-                        BackendService.retrieveAuthenticatedUserRepos(
+                        backend.retrieveAuthenticatedUserRepos(
                             pageConfig.pageSize,
                             itemAtEnd.paginationCursor
                         )

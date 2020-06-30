@@ -51,7 +51,7 @@ Models:
 - [x] Public Github Repository
 - [x] Kotlin
 - [x] Coroutines or Rx
-- [ ] Dagger2
+- [x] Dagger2 (Hilt)
 - [x] `minSdkVersion 21`
 - [x] No outdated libraries
 - [x] No hardcoded strings
@@ -73,5 +73,5 @@ Models:
 - [x] Disable star button while call in progress
 - [x] Fix login webview keyboard
 - [ ] Better Login flow
-- [ ] Dagger
+- [x] Dagger
 - [ ] Shared Element Transitions master-detail

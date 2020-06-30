@@ -7,7 +7,7 @@ import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.CoroutineScope
 
-class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = null) :
+class SearchRepoResultsDataSource(scope: CoroutineScope, private val backend: BackendService, searchQuery: String? = null) :
     SearchableDataSource<Repo>(scope, searchQuery, AppInMemorySnapshot.instance.repoDao) {
 
     companion object {
@@ -21,7 +21,7 @@ class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         first: Int,
         query: String?
     ): PaginatedResponse<Repo> {
-        return BackendService.searchRepos(query ?: "", first)
+        return backend.searchRepos(query ?: "", first)
     }
 
     override suspend fun loadAfter(
@@ -29,7 +29,7 @@ class SearchRepoResultsDataSource(scope: CoroutineScope, searchQuery: String? = 
         startCursor: String?,
         query: String?
     ): PaginatedResponse<Repo> {
-        return BackendService.searchRepos(query ?: "", first, startCursor)
+        return backend.searchRepos(query ?: "", first, startCursor)
     }
 
     override fun getNextKey(item: Repo): String? = item.paginationCursor
