@@ -21,7 +21,11 @@ import javax.inject.Singleton
  * the DataBase snapshot for the authenticated repos
  */
 @Singleton
-class GithubRepository @Inject constructor(private val database: AppDatabase, private val backend: BackendService) {
+class GithubRepository @Inject constructor(
+    private val database: AppDatabase,
+    private val backend: BackendService,
+    private val inMemorySnapshot: AppInMemorySnapshot
+) {
 
     private val pagingConfig = PagedList.Config.Builder()
         .setPageSize(15)
@@ -50,7 +54,8 @@ class GithubRepository @Inject constructor(private val database: AppDatabase, pr
 
         val dataSourceFactory =
             object : SearchableDataSource.Factory<Repo, SearchRepoResultsDataSource>() {
-                override fun create(query: String?) = SearchRepoResultsDataSource(scope, backend, query)
+                override fun create(query: String?) =
+                    SearchRepoResultsDataSource(scope, backend, inMemorySnapshot.repoDao, query)
             }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
@@ -70,7 +75,8 @@ class GithubRepository @Inject constructor(private val database: AppDatabase, pr
 
         val dataSourceFactory =
             object : SearchableDataSource.Factory<User, SearchUserResultsDataSource>() {
-                override fun create(query: String?) = SearchUserResultsDataSource(scope, backend, query)
+                override fun create(query: String?) =
+                    SearchUserResultsDataSource(scope, backend, query)
             }
 
         val livePagedListBuilder = LivePagedListBuilder(dataSourceFactory, pagingConfig)
@@ -108,6 +114,6 @@ class GithubRepository @Inject constructor(private val database: AppDatabase, pr
 
     suspend fun updateRepo(repo: Repo) {
         database.repoDao().update(repo)
-        AppInMemorySnapshot.instance.repoDao.update(repo)
+        inMemorySnapshot.repoDao.update(repo)
     }
 }

@@ -1,14 +1,19 @@
 package com.gianlucaparadise.githubbrowser.datasource
 
-import com.gianlucaparadise.githubbrowser.inMemory.AppInMemorySnapshot
+import com.gianlucaparadise.githubbrowser.inMemory.InMemoryDao
 import com.gianlucaparadise.githubbrowser.network.BackendService
 import com.gianlucaparadise.githubbrowser.util.SearchableDataSource
 import com.gianlucaparadise.githubbrowser.vo.PaginatedResponse
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import kotlinx.coroutines.CoroutineScope
 
-class SearchRepoResultsDataSource(scope: CoroutineScope, private val backend: BackendService, searchQuery: String? = null) :
-    SearchableDataSource<Repo>(scope, searchQuery, AppInMemorySnapshot.instance.repoDao) {
+class SearchRepoResultsDataSource(
+    scope: CoroutineScope,
+    private val backend: BackendService,
+    inMemoryRepoDao: InMemoryDao<Repo>,
+    searchQuery: String? = null
+) :
+    SearchableDataSource<Repo>(scope, searchQuery, inMemoryRepoDao) {
 
     companion object {
         const val tag = "SearchRepoResultsDataSource"

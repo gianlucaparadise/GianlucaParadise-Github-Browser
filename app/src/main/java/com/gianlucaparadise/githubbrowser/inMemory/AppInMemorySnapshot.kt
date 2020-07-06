@@ -1,6 +1,8 @@
 package com.gianlucaparadise.githubbrowser.inMemory
 
 import com.gianlucaparadise.githubbrowser.vo.Repo
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * As per Android Docs suggestion:
@@ -10,15 +12,10 @@ import com.gianlucaparadise.githubbrowser.vo.Repo
  * changes, invalidate the previous DataSource, and a new one wrapping the new state of the
  * snapshot can be created."
  */
-class AppInMemorySnapshot {
+@Singleton
+class AppInMemorySnapshot @Inject constructor() {
 
     val repoDao: InMemoryDao<Repo> by lazy {
         InMemoryDao<Repo>()
-    }
-
-    companion object {
-        val instance: AppInMemorySnapshot by lazy {
-            AppInMemorySnapshot()
-        }
     }
 }
