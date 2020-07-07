@@ -11,7 +11,7 @@ import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.vo.User
 import com.gianlucaparadise.githubbrowser.databinding.UserListItemBinding
 
-typealias UserClickHandler = (User) -> Unit
+typealias UserClickHandler = (User, holder: UserListAdapter.ViewHolder) -> Unit
 
 class UserListAdapter(private val onUserClicked: UserClickHandler?) :
     PagedListAdapter<User, UserListAdapter.ViewHolder>(UserDiffCallback()) {
@@ -29,13 +29,13 @@ class UserListAdapter(private val onUserClicked: UserClickHandler?) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { user ->
-            holder.bind(user, createOnClickListener(user))
+            holder.bind(user, createOnClickListener(user, holder))
         }
     }
 
-    private fun createOnClickListener(user: User): View.OnClickListener {
+    private fun createOnClickListener(user: User, holder: ViewHolder): View.OnClickListener {
         return View.OnClickListener {
-            onUserClicked?.invoke(user)
+            onUserClicked?.invoke(user, holder)
         }
     }
 

@@ -1,11 +1,13 @@
 package com.gianlucaparadise.githubbrowser.ui.search
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.gianlucaparadise.githubbrowser.R
@@ -27,6 +29,14 @@ class SearchUserResultsFragment : Fragment() {
     private lateinit var binding: SearchResultsFragmentBinding
     private val viewModel: SearchViewModel by navGraphViewModels(R.id.nav_graph) {
         defaultViewModelProviderFactory
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(
@@ -65,8 +75,32 @@ class SearchUserResultsFragment : Fragment() {
         })
     }
 
-    private val onUserClicked: UserClickHandler = { user ->
+    private val onUserClicked: UserClickHandler = { user, holder ->
+        val title = holder.itemView.findViewById<View>(R.id.header_title).apply {
+            transitionName = "title"
+        }
+
+        val subtitle = holder.itemView.findViewById<View>(R.id.header_subtitle).apply {
+            transitionName = "subtitle"
+        }
+
+        val avatar = holder.itemView.findViewById<View>(R.id.header_avatar).apply {
+            transitionName = "avatar"
+        }
+
+        val bio = holder.itemView.findViewById<View>(R.id.user_bio).apply {
+            transitionName = "bio"
+        }
+
+        val extras = FragmentNavigatorExtras(
+            title to title.transitionName,
+            subtitle to subtitle.transitionName,
+            avatar to avatar.transitionName,
+            bio to bio.transitionName
+        )
+
         val action = SearchTabsFragmentDirections.actionSearchFragmentToUserDetailFragment(user)
-        findNavController().navigate(action)
+
+        findNavController().navigate(action, extras)
     }
 }
