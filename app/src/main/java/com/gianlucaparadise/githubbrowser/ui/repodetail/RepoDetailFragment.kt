@@ -1,6 +1,7 @@
 package com.gianlucaparadise.githubbrowser.ui.repodetail
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,14 @@ class RepoDetailFragment : BaseMainFragment() {
     private lateinit var binding: RepoDetailFragmentBinding
     private val viewModel: RepoDetailViewModel by navGraphViewModels(R.id.nav_graph) {
         defaultViewModelProviderFactory
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(

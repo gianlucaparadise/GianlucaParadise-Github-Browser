@@ -11,7 +11,7 @@ import com.gianlucaparadise.githubbrowser.R
 import com.gianlucaparadise.githubbrowser.vo.Repo
 import com.gianlucaparadise.githubbrowser.databinding.RepoListItemBinding
 
-typealias RepoClickHandler = (Repo) -> Unit
+typealias RepoClickHandler = (Repo, RepoListAdapter.ViewHolder) -> Unit
 
 class RepoListAdapter(
     val showOwner: Boolean,
@@ -32,13 +32,13 @@ class RepoListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { repo ->
-            holder.bind(repo, showOwner, createOnClickListener(repo))
+            holder.bind(repo, showOwner, createOnClickListener(repo, holder))
         }
     }
 
-    private fun createOnClickListener(repo: Repo): View.OnClickListener {
+    private fun createOnClickListener(repo: Repo, holder: ViewHolder): View.OnClickListener {
         return View.OnClickListener {
-            onRepoClicked?.invoke(repo)
+            onRepoClicked?.invoke(repo, holder)
         }
     }
 
